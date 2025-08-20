@@ -1,159 +1,3 @@
-const canvas = document.getElementById('bgCanvas');
-const ctx = canvas.getContext('2d');
-let width = canvas.width = window.innerWidth;
-let height = canvas.height = window.innerHeight;
-const particles = [];
-
-for(let i=0;i<100;i++){
-  particles.push({
-    x: Math.random()*width,
-    y: Math.random()*height,
-    r: Math.random()*2+1,
-    dx: (Math.random()-0.5)*1,
-    dy: (Math.random()-0.5)*1
-  });
-}
-
-function animate(){
-  ctx.clearRect(0,0,width,height);
-  particles.forEach(p=>{
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle = "#00ffff";
-    ctx.fill();
-    p.x += p.dx;
-    p.y += p.dy;
-    if(p.x<0||p.x>width)p.dx*=-1;
-    if(p.y<0||p.y>height)p.dy*=-1;
-  });
-  requestAnimationFrame(animate);
-}
-animate();
-window.addEventListener('resize', ()=>{
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-});
-
-
-// 平滑滚动导航
-document.querySelectorAll('header nav a').forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(link.getAttribute('href'));
-    target.scrollIntoView({ behavior: 'smooth' });
-  });
-});
-
-// 夜间/白天模式切换
-const themeBtn = document.getElementById('themeToggle');
-themeBtn.addEventListener('click', () => {
-  document.body.classList.toggle('light-mode');
-});
-
-
-/* 基础设置 */
-body, html {
-  margin: 0;
-  padding: 0;
-  font-family: 'Roboto', sans-serif;
-  color: #f0f0f0;
-  background-color: #0a0a0a;
-  overflow-x: hidden;
-}
-
-canvas#bgCanvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: -1;
-}
-
-/* 导航 */
-header {
-  background: rgba(17,17,17,0.85);
-  padding: 15px 0;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-header h1 { margin-left: 20px; color: #00ffff; }
-header nav { margin-right: 20px; }
-header nav a { margin-left: 15px; color: #00ffff; text-decoration: none; font-weight: 500; }
-header nav button {
-  margin-left: 15px;
-  background: none;
-  border: none;
-  color: #00ffff;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-/* 英雄区 */
-.hero {
-  height: 100vh;
-  display: flex; flex-direction: column;
-  justify-content: center; align-items: center;
-  text-align: center;
-  padding-top: 60px;
-}
-.hero h2 { font-size: 2.5rem; margin-bottom: 10px; }
-.hero p { font-size: 1.2rem; margin-bottom: 20px; }
-.btn {
-  background: #00ffff;
-  color: #000;
-  padding: 12px 25px;
-  border-radius: 5px;
-  font-weight: bold;
-  transition: 0.3s;
-}
-.btn:hover { background: #00aaaa; }
-
-/* Section 样式 */
-.section { padding: 80px 0; text-align: center; }
-.skills-grid, .projects-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
-.skill {
-  background: rgba(17,17,17,0.9);
-  border: 1px solid #00ffff;
-  padding: 15px 25px;
-  border-radius: 8px;
-  transition: 0.3s;
-}
-.skill:hover { transform: scale(1.1); }
-
-.project-card {
-  perspective: 1000px;
-  width: 280px;
-  height: 180px;
-  margin: 10px;
-}
-.project-card .card-front, .project-card .card-back {
-  background: rgba(17,17,17,0.9);
-  border: 1px solid #00ffff;
-  border-radius: 10px;
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  backface-visibility: hidden;
-  position: absolute;
-  transition: transform 0.6s;
-  padding: 15px;
-  box-sizing: border-box;
-}
-.project-card .card-back { transform: rotateY(180deg); }
-.project-card:hover .card-front { transform: rotateY(180deg); }
-.project-card:hover .card-back { transform: rotateY(0deg); }
-
-/* Footer */
-footer { text-align: center; padding: 15px 0; border-top: 1px solid #00ffff; }
-
-/* 响应式 */
-@media(max-width:768px) {
-  .skills-grid, .projects-grid { flex-direction: column; }
-}
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -164,10 +8,8 @@ footer { text-align: center; padding: 15px 0; border-top: 1px solid #00ffff; }
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- 粒子背景画布 -->
   <canvas id="bgCanvas"></canvas>
 
-  <!-- 顶部导航 -->
   <header>
     <div class="container">
       <h1>HyperHax</h1>
@@ -181,14 +23,12 @@ footer { text-align: center; padding: 15px 0; border-top: 1px solid #00ffff; }
     </div>
   </header>
 
-  <!-- 首页英雄区 -->
   <section class="hero">
     <h2>顶级程序员 • AI 极客 • 技术狂人</h2>
     <p>专注高性能编程、人工智能、嵌入式系统与自动化项目。</p>
     <a href="#projects" class="btn">查看作品</a>
   </section>
 
-  <!-- 关于我 -->
   <section id="about" class="section">
     <div class="container">
       <h2>关于我</h2>
@@ -196,7 +36,6 @@ footer { text-align: center; padding: 15px 0; border-top: 1px solid #00ffff; }
     </div>
   </section>
 
-  <!-- 技能 -->
   <section id="skills" class="section">
     <div class="container">
       <h2>技能</h2>
@@ -211,7 +50,6 @@ footer { text-align: center; padding: 15px 0; border-top: 1px solid #00ffff; }
     </div>
   </section>
 
-  <!-- 项目 -->
   <section id="projects" class="section">
     <div class="container">
       <h2>项目作品</h2>
@@ -247,7 +85,6 @@ footer { text-align: center; padding: 15px 0; border-top: 1px solid #00ffff; }
     </div>
   </section>
 
-  <!-- 联系 -->
   <section id="contact" class="section">
     <div class="container">
       <h2>联系我</h2>
@@ -260,6 +97,7 @@ footer { text-align: center; padding: 15px 0; border-top: 1px solid #00ffff; }
     <p>© 2025 HyperHax. All rights reserved.</p>
   </footer>
 
+  <script src="bgParticles.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
