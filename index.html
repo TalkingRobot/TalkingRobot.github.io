@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Phoenix Resonance</title>
-  <link rel="icon" href="unnamed.png" type="unnamed.png" />
+  <link rel="icon" href="images/unnamed.png" type="images/unnamed.png" />
     <style>
         /* =========================================
            1. CSS 变量与全局重置 (支持主题切换)
@@ -212,7 +212,7 @@
         <div class="nav-wrapper">
 			
 		<div class="logo" style="display: flex; align-items: center; gap: 13px;">
-			<img src="unnamed.png" alt="Logo" style="height: 32px; width: auto;">
+			<img src="images/unnamed.png" alt="Logo" style="height: 32px; width: auto;">
 			<span class="neon-text" data-i18n="brand">Phoenix Resonance</span>
 		</div> 
 		
@@ -1976,11 +1976,11 @@
                 footer_copyright: '© 2025 Phoenix Resonance. Vůdce budoucnosti podnikové AI.',
             }
         };
-
+  
         // =============================================
         // 2. 语言管理
         // =============================================
-        let currentLang = localStorage.getItem('language') || 'zh';
+let currentLang = localStorage.getItem('language') || detectLanguage();
 
         function updateLanguage(lang) {
             if (!i18nData[lang]) return;
@@ -2022,6 +2022,40 @@
             });
         }
 
+//自动识别语言
+
+
+
+
+// 自动识别浏览器语言
+function detectLanguage() {
+    const lang = (navigator.language || navigator.userLanguage || "").toLowerCase();
+
+    if (lang.startsWith("zh-cn") || lang === "zh") return "zh";
+    if (lang.startsWith("zh-tw") || lang.startsWith("zh-hk")) return "zh-tw";
+    if (lang.startsWith("en")) return "en";
+    if (lang.startsWith("ja")) return "ja";
+    if (lang.startsWith("ko")) return "ko";
+    if (lang.startsWith("de")) return "de";
+    if (lang.startsWith("fr")) return "fr";
+    if (lang.startsWith("es")) return "es";
+    if (lang.startsWith("pt")) return "pt";
+    if (lang.startsWith("ru")) return "ru";
+    if (lang.startsWith("ar")) return "ar";
+    if (lang.startsWith("tr")) return "tr";
+    if (lang.startsWith("he")) return "he";
+    if (lang.startsWith("nl")) return "nl";
+    if (lang.startsWith("it")) return "it";
+    if (lang.startsWith("vi")) return "vi";
+    if (lang.startsWith("cs")) return "cs";
+
+    return "en";
+}
+
+
+
+
+//自动识别语言结束
         function changeLang(lang) {
             updateLanguage(lang);
             document.getElementById('langMenu').classList.remove('active');
