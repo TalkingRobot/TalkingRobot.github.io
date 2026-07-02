@@ -3,25 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>Phoenix Resonance - 企业级AGI平台</title>
+    <title>Phoenix Resonance · 企业级AGI平台</title>
     <link rel="icon" href="unnamed.png" />
+
     <style>
         /* =========================================
-           1. CSS 变量 + 移动优先重置
+           1. CSS 变量 · 固定橙色主题 (无深色模式)
            ========================================= */
         :root {
-            /* Phoenix 橙色配色体系（源自版本1） */
-            --bg-primary: #0b0d14;
-            --bg-secondary: #151823;
-            --bg-card: rgba(28, 36, 54, 0.9);
-            --text-primary: #e2e8f0;
-            --text-secondary: #94a3b8;
-            --accent-start: #f97316;
-            --accent-end: #ea580c;
-            --accent-glow: rgba(249, 115, 22, 0.15);
-            --border-color: rgba(255, 255, 255, 0.14);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            --radius: 14px;
+            --bg-primary: #f1f5f9;        /* 浅灰白底 */
+            --bg-secondary: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.92);
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+
+            /* Qwen 橙色主题 (固定) */
+            --primary: #ea580c;
+            --primary-dark: #c2410c;
+            --primary-glow: rgba(234, 88, 12, 0.12);
+            --primary-hover: #fb923c;
+
+            --radius: 12px;
             --transition: 0.25s ease;
         }
 
@@ -35,7 +39,7 @@
             background-color: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.5;
-            transition: background-color 0.3s, color 0.3s;
+            transition: none; /* 移除主题切换过渡 */
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
@@ -43,7 +47,7 @@
         img, svg { display: block; max-width: 100%; }
 
         .gradient-text {
-            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -72,7 +76,7 @@
         }
 
         /* =========================================
-           2. 导航栏 (移动优先 + 汉堡菜单)
+           2. 导航栏 (固定亮色)
            ========================================= */
         header {
             position: fixed;
@@ -80,12 +84,12 @@
             left: 0;
             width: 100%;
             z-index: 1000;
-            background: rgba(11, 13, 20, 0.85);
+            background: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border-bottom: 1px solid var(--border-color);
-            transition: background 0.3s;
         }
+
         .nav-wrapper {
             display: flex;
             justify-content: space-between;
@@ -105,6 +109,7 @@
             font-weight: 800;
             letter-spacing: -0.3px;
             flex-shrink: 0;
+            color: var(--primary);
         }
         .logo img {
             height: 28px;
@@ -114,7 +119,6 @@
             white-space: nowrap;
         }
 
-        /* 桌面导航链接 */
         .nav-links {
             display: none;
             gap: 18px;
@@ -126,34 +130,41 @@
             transition: 0.2s;
         }
         .nav-links a:hover {
-            color: var(--text-primary);
+            color: var(--primary);
         }
 
-        /* 汉堡菜单按钮 (移动端显示，简洁图标风格，源自版本1) */
         .hamburger {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            line-height: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
             background: transparent;
             border: none;
-            color: var(--text-primary);
-            padding: 6px 8px;
+            padding: 6px 4px;
             cursor: pointer;
             border-radius: 6px;
-            transition: color 0.2s, background 0.2s, transform 0.2s;
+            transition: 0.2s;
         }
         .hamburger:hover {
-            color: var(--accent-start);
             background: var(--bg-card);
         }
-        .hamburger.active {
-            color: var(--accent-start);
-            transform: rotate(90deg);
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2.5px;
+            background: var(--text-primary);
+            border-radius: 4px;
+            transition: 0.25s ease;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
         }
 
-        /* 移动端导航下拉菜单 */
         .mobile-nav {
             display: none;
             position: fixed;
@@ -186,7 +197,7 @@
             border-bottom: none;
         }
         .mobile-nav a:hover {
-            color: var(--text-primary);
+            color: var(--primary);
         }
 
         @keyframes fadeIn {
@@ -217,11 +228,10 @@
             font-weight: 500;
         }
         .lang-btn:hover {
-            border-color: var(--accent-start);
-            background: rgba(249, 115, 22, 0.08);
+            border-color: var(--primary);
+            background: var(--primary-glow);
         }
 
-        /* 语言下拉 (移动适配) */
         .lang-dropdown {
             display: none;
             position: fixed;
@@ -266,18 +276,18 @@
             text-align: left;
         }
         .lang-grid button:hover {
-            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #fff;
             font-weight: 600;
         }
         .lang-grid button.active {
-            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #fff;
             font-weight: 600;
         }
 
         /* =========================================
-           3. 核心区块 (移动优先)
+           3. 核心区块 (Qwen 橙色主题)
            ========================================= */
         .hero {
             min-height: 100vh;
@@ -298,7 +308,7 @@
             height: 80vw;
             max-width: 600px;
             max-height: 600px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
             z-index: -1;
             filter: blur(50px);
         }
@@ -335,12 +345,13 @@
             justify-content: center;
         }
         .btn-primary {
-            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #fff;
+            box-shadow: 0 4px 15px var(--primary-glow);
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.25);
+            box-shadow: 0 6px 20px var(--primary-glow);
         }
         .btn-secondary {
             background: transparent;
@@ -348,11 +359,38 @@
             color: var(--text-primary);
         }
         .btn-secondary:hover {
-            border-color: var(--accent-start);
-            color: var(--accent-start);
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
-        /* 卡片 */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 26px 22px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 28px var(--primary-glow);
+        }
+        .card-icon { font-size: 2.2rem; margin-bottom: 12px; }
+        .card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+        .card p { color: var(--text-secondary); font-size: 0.92rem; flex-grow: 1; }
+        .card-link {
+            display: inline-block;
+            margin-top: 14px;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .card-link:hover { color: var(--primary-hover); }
+
         .grid-3, .grid-2 {
             display: grid;
             gap: 20px;
@@ -360,32 +398,6 @@
         .grid-3 { grid-template-columns: 1fr; }
         .grid-2 { grid-template-columns: 1fr; }
 
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 26px 22px;
-            transition: 0.3s;
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-        }
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent-start);
-            box-shadow: 0 8px 28px rgba(249, 115, 22, 0.08);
-        }
-        .card-icon { font-size: 2.2rem; margin-bottom: 12px; }
-        .card h3 { font-size: 1.15rem; margin-bottom: 8px; }
-        .card p { color: var(--text-secondary); font-size: 0.92rem; }
-        .card-link {
-            display: inline-block;
-            margin-top: 14px;
-            color: var(--accent-start);
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* 优势列表 */
         .benefits-list {
             display: grid;
             grid-template-columns: 1fr;
@@ -400,9 +412,13 @@
             padding: 16px 18px;
             border-radius: var(--radius);
             border: 1px solid var(--border-color);
+            transition: 0.2s;
+        }
+        .benefit-item:hover {
+            border-color: var(--primary);
         }
         .benefit-icon {
-            color: var(--accent-start);
+            color: var(--primary);
             font-size: 1.2rem;
             flex-shrink: 0;
             margin-top: 2px;
@@ -417,7 +433,6 @@
             font-size: 0.88rem;
         }
 
-        /* 统计数据 */
         .stats {
             display: flex;
             justify-content: center;
@@ -425,13 +440,13 @@
             flex-wrap: wrap;
         }
         .stat-item { text-align: center; }
-        .stat-num { font-size: 2.6rem; font-weight: 800; }
+        .stat-num { font-size: 2.6rem; font-weight: 800; color: var(--primary); }
         .stat-label { color: var(--text-secondary); font-size: 0.9rem; }
 
-        /* 定价卡片 */
         .pricing-card { text-align: center; position: relative; }
         .pricing-card.featured {
-            border: 2px solid var(--accent-start);
+            border: 2px solid var(--primary);
+            background: linear-gradient(180deg, var(--primary-glow) 0%, var(--bg-card) 100%);
             transform: scale(1);
         }
         .pricing-card.featured::before {
@@ -440,7 +455,7 @@
             top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #fff;
             padding: 2px 16px;
             border-radius: 20px;
@@ -451,6 +466,7 @@
             font-size: 2.2rem;
             font-weight: 800;
             margin: 12px 0;
+            color: var(--primary);
         }
         .price span {
             font-size: 0.9rem;
@@ -458,7 +474,6 @@
             font-weight: 400;
         }
 
-        /* 协议区块 */
         .protocol-box {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -467,7 +482,7 @@
         }
         .protocol-box h3 {
             margin: 20px 0 10px;
-            color: var(--accent-start);
+            color: var(--primary);
             font-size: 1.1rem;
         }
         .protocol-box ul {
@@ -484,7 +499,6 @@
             margin-top: 8px;
         }
 
-        /* 页脚 */
         footer {
             border-top: 1px solid var(--border-color);
             padding: 32px 0;
@@ -493,9 +507,10 @@
             font-size: 0.85rem;
         }
         footer p { margin-bottom: 6px; }
+        footer .gradient-text { font-size: 1.2rem; font-weight: bold; }
 
         /* =========================================
-           4. 桌面适配 (断点)
+           4. 桌面适配
            ========================================= */
         @media (min-width: 640px) {
             .grid-3 { grid-template-columns: repeat(2, 1fr); }
@@ -517,7 +532,6 @@
         }
 
         @media (min-width: 1024px) {
-            /* 桌面端显示普通导航，隐藏汉堡 */
             .nav-links { display: flex; }
             .hamburger { display: none; }
             .mobile-nav { display: none !important; }
@@ -528,7 +542,6 @@
             .lang-grid { grid-template-columns: repeat(4, 1fr); }
         }
 
-        /* 小屏额外优化 */
         @media (max-width: 480px) {
             .hero h1 { font-size: 2rem; }
             .logo span { font-size: 1rem; }
@@ -539,10 +552,9 @@
             .lang-btn { padding: 4px 8px; font-size: 12px; }
         }
 
-        /* 滚动条 */
         .lang-dropdown::-webkit-scrollbar { width: 4px; }
         .lang-dropdown::-webkit-scrollbar-track { background: var(--bg-primary); border-radius: 4px; }
-        .lang-dropdown::-webkit-scrollbar-thumb { background: var(--accent-start); border-radius: 4px; }
+        .lang-dropdown::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -552,10 +564,10 @@
         <div class="nav-wrapper">
             <div class="logo">
                 <img src="unnamed.png" alt="Logo">
-                <span class="neon-text" data-i18n="brand">Phoenix Resonance</span>
+								<span style="color: #475569;" data-i18n="brand">Phoenix Resonance</span>
+
             </div>
 
-            <!-- 桌面导航 -->
             <nav class="nav-links">
                 <a href="#home" data-i18n="nav_home">首页</a>
                 <a href="#features" data-i18n="nav_features">特性</a>
@@ -590,12 +602,13 @@
                         </div>
                     </div>
                 </div>
-                <!-- 汉堡菜单按钮 (移动端) -->
-                <button class="hamburger" id="hamburgerBtn" aria-label="菜单" onclick="toggleMobileNav()">☰</button>
+                <!-- 主题切换按钮已移除 -->
+                <button class="hamburger" id="hamburgerBtn" aria-label="菜单" onclick="toggleMobileNav()">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
         </div>
 
-        <!-- 移动端导航下拉 -->
         <div class="mobile-nav" id="mobileNav">
             <a href="#home" data-i18n="nav_home" onclick="closeMobileNav()">首页</a>
             <a href="#features" data-i18n="nav_features" onclick="closeMobileNav()">特性</a>
@@ -633,7 +646,7 @@
     </section>
 
     <!-- 为什么选择我们 -->
-    <section style="background: var(--bg-secondary);">
+    <section>
         <div class="container">
             <h2 class="section-title" data-i18n="why_choose_title">为什么选择 Phoenix Resonance？</h2>
             <div class="benefits-list">
@@ -645,9 +658,9 @@
                 <div class="benefit-item"><span class="benefit-icon">✦</span><div><strong data-i18n="why_6_title">实时见解</strong><span data-i18n="why_6_desc">完整的可观测性，数据驱动的决策</span></div></div>
             </div>
             <div class="stats">
-                <div class="stat-item"><div class="stat-num gradient-text">100+</div><div class="stat-label" data-i18n="stat_1">全球企业</div></div>
-                <div class="stat-item"><div class="stat-num gradient-text">10M+</div><div class="stat-label" data-i18n="stat_2">日均调用</div></div>
-                <div class="stat-item"><div class="stat-num gradient-text">99.9%</div><div class="stat-label" data-i18n="stat_3">可用性</div></div>
+                <div class="stat-item"><div class="stat-num">100+</div><div class="stat-label" data-i18n="stat_1">全球企业</div></div>
+                <div class="stat-item"><div class="stat-num">10M+</div><div class="stat-label" data-i18n="stat_2">日均调用</div></div>
+                <div class="stat-item"><div class="stat-num">99.9%</div><div class="stat-label" data-i18n="stat_3">可用性</div></div>
             </div>
         </div>
     </section>
@@ -672,7 +685,7 @@
             <p class="section-subtitle" data-i18n="pricing_subtitle">—— 按需付费，无隐藏费用 ——</p>
             <div class="grid-3">
                 <div class="card pricing-card"><h3 data-i18n="price_1_name">初级版</h3><div class="price">¥1<span data-i18n="price_1_unit">/按需计费</span></div><p data-i18n="price_1_desc">适合个人开发者和初创企业</p><button class="btn btn-secondary" style="width:100%;margin-top:20px;" data-i18n="price_1_btn">选择方案</button></div>
-                <div class="card pricing-card featured"><h3 data-i18n="price_2_name">专业版</h3><div class="price gradient-text">¥10<span style="-webkit-text-fill-color:var(--text-secondary);" data-i18n="price_2_unit">/月</span></div><p data-i18n="price_2_desc">无限节点，基础集群支持，适合团队应用</p><button class="btn btn-primary" style="width:100%;margin-top:20px;" data-i18n="price_2_btn">立即升级</button></div>
+                <div class="card pricing-card featured"><h3 data-i18n="price_2_name">专业版</h3><div class="price">¥10<span style="font-size:0.9rem;color:var(--text-secondary);font-weight:400;" data-i18n="price_2_unit">/月</span></div><p data-i18n="price_2_desc">无限节点，基础集群支持，适合团队应用</p><button class="btn btn-primary" style="width:100%;margin-top:20px;" data-i18n="price_2_btn">立即升级</button></div>
                 <div class="card pricing-card"><h3 data-i18n="price_3_name">企业版</h3><div class="price" data-i18n="price_3_price">定制</div><p data-i18n="price_3_desc">私有部署、专属支持、无限扩展</p><button class="btn btn-secondary" style="width:100%;margin-top:20px;" data-i18n="price_3_btn">联系销售</button></div>
             </div>
         </div>
@@ -798,14 +811,13 @@
         });
 
         // =============================================
-        // 3. 移动端导航 (汉堡菜单)
+        // 3. 移动端导航
         // =============================================
         function toggleMobileNav() {
             const nav = document.getElementById('mobileNav');
             const btn = document.getElementById('hamburgerBtn');
-            const isOpen = nav.classList.toggle('open');
-            btn.classList.toggle('active', isOpen);
-            btn.textContent = isOpen ? '✕' : '☰';
+            nav.classList.toggle('open');
+            btn.classList.toggle('active');
         }
 
         function closeMobileNav() {
@@ -813,7 +825,6 @@
             const btn = document.getElementById('hamburgerBtn');
             nav.classList.remove('open');
             btn.classList.remove('active');
-            btn.textContent = '☰';
         }
 
         // =============================================
@@ -830,7 +841,7 @@
         });
 
         // =============================================
-        // 5. 初始化
+        // 5. 初始化 (固定亮色, 无主题切换)
         // =============================================
         updateLanguage(currentLang);
     </script>
