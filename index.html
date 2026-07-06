@@ -11,7 +11,7 @@
            1. CSS 变量 · 固定橙色主题 (无深色模式)
            ========================================= */
         :root {
-            --bg-primary: #f1f5f9;        /* 浅灰白底 */
+            --bg-primary: #f1f5f9;
             --bg-secondary: #ffffff;
             --bg-card: rgba(255, 255, 255, 0.92);
             --text-primary: #0f172a;
@@ -19,7 +19,6 @@
             --border-color: rgba(0, 0, 0, 0.08);
             --shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 
-            /* Qwen 橙色主题 (固定) */
             --primary: #ea580c;
             --primary-dark: #c1440e;
             --primary-glow: rgba(234, 88, 12, 0.12);
@@ -39,7 +38,7 @@
             background-color: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.5;
-            transition: none; /* 移除主题切换过渡 */
+            transition: none;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
@@ -377,6 +376,15 @@
         }
         .card-link:hover { color: var(--primary-hover); }
 
+        .card ul {
+            margin: 0 0 16px 0;
+            padding-left: 20px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.92rem;
+        }
+        .card ul li { margin-bottom: 2px; }
+
         .grid-3, .grid-2 {
             display: grid;
             gap: 20px;
@@ -485,6 +493,29 @@
             margin-top: 8px;
         }
 
+        details {
+            margin-top: 24px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+        details summary {
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--primary);
+            list-style: none;
+        }
+        details summary::-webkit-details-marker { display: none; }
+        details summary::before { content: '▶ '; transition: 0.2s; }
+        details[open] summary::before { content: '▼ '; }
+        details .fulltext {
+            margin-top: 16px;
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.9;
+        }
+        details .fulltext h3 { color: var(--primary); margin: 18px 0 8px; font-size: 1rem; }
+        details .fulltext p { margin-bottom: 10px; }
+
         footer {
             border-top: 1px solid var(--border-color);
             padding: 32px 0;
@@ -550,8 +581,7 @@
         <div class="nav-wrapper">
             <a href="#home" class="logo" style="cursor:pointer;">
                 <img src="unnamed.png" alt="Logo">
-								<span style="color: #475569;" data-i18n="brand">Phoenix Resonance</span>
-
+                <span style="color: #475569;" data-i18n="brand">Phoenix Resonance</span>
             </a>
 
             <nav class="nav-links">
@@ -588,7 +618,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- 主题切换按钮已移除 -->
                 <button class="hamburger" id="hamburgerBtn" aria-label="菜单" onclick="toggleMobileNav()">
                     <span></span><span></span><span></span>
                 </button>
@@ -655,29 +684,167 @@
     <section id="products" style="background: var(--bg-secondary);">
         <div class="container">
             <h2 class="section-title"><span data-i18n="products_title_prefix">我们的</span><span class="gradient-text" data-i18n="products_title_highlight">产品生态</span></h2>
-            <p class="section-subtitle" data-i18n="products_subtitle">—— 完整的技术栈 ——</p>
-            <div class="grid-3">
-                <div class="card"><div class="card-icon">🧠</div><h3 data-i18n="product_1_title">核心平台：Phoenix Studio</h3><p data-i18n="product_1_desc">企业级AGI开发平台。分层架构、完整的可视化编辑、实时协作、Git集成，为复杂的AI系统提供坚实的基础。</p><a href="#" class="card-link" data-i18n="product_1_btn">开始使用 →</a></div>
-                <div class="card"><div class="card-icon">🤖</div><h3 data-i18n="product_2_title">运行时：Phoenix Runtime</h3><p data-i18n="product_2_desc">高性能运行时引擎。支持分布式部署、自动扩展、故障恢复，确保您的AI系统稳定高效运行。</p><a href="#" class="card-link" data-i18n="product_2_btn">部署现在 →</a></div>
-                <div class="card"><div class="card-icon">📚</div><h3 data-i18n="product_3_title">开发工具：Phoenix SDK</h3><p data-i18n="product_3_desc">完整的开发套件。多语言支持、丰富的API、详细的文档，快速集成到您的系统。</p><a href="#" class="card-link" data-i18n="product_3_btn">查看文档 →</a></div>
+            <p class="section-subtitle" data-i18n="products_subtitle">—— 从AI基础设施到创意应用 ——</p>
+
+            <!-- 第一行：核心平台 (3列) -->
+            <div style="margin-bottom:40px;">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+                    <span style="font-size:0.8rem;font-weight:700;color:var(--primary);letter-spacing:0.5px;text-transform:uppercase;">⚙️ 核心平台</span>
+                    <span style="flex:1;height:1px;background:var(--border-color);"></span>
+                </div>
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="card-icon">🧠</div>
+                        <h3 data-i18n="product_1_title">Phoenix Studio</h3>
+                        <p data-i18n="product_1_desc">企业级AGI开发平台。分层架构、完整的可视化编辑、实时协作、Git集成，为复杂的AI系统提供坚实的基础。</p>
+                        <a href="#" class="card-link" data-i18n="product_1_btn">开始使用 →</a>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">⚡</div>
+                        <h3 data-i18n="product_2_title">Phoenix Runtime</h3>
+                        <p data-i18n="product_2_desc">高性能运行时引擎。支持分布式部署、自动扩展、故障恢复，确保您的AI系统稳定高效运行。</p>
+                        <a href="#" class="card-link" data-i18n="product_2_btn">部署现在 →</a>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📚</div>
+                        <h3 data-i18n="product_3_title">Phoenix SDK</h3>
+                        <p data-i18n="product_3_desc">完整的开发套件。多语言支持、丰富的API、详细的文档，快速集成到您的系统。</p>
+                        <a href="#" class="card-link" data-i18n="product_3_btn">查看文档 →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第二行：特色产品 (2列，更宽更丰富) -->
+            <div>
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+                    <span style="font-size:0.8rem;font-weight:700;color:var(--primary);letter-spacing:0.5px;text-transform:uppercase;">🚀 特色产品</span>
+                    <span style="flex:1;height:1px;background:var(--border-color);"></span>
+                </div>
+                <div class="grid-2">
+
+                    <!-- Ragent Studio -->
+                    <div class="card" style="grid-column:1;">
+                        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+                            <span class="card-icon" style="font-size:1.8rem;margin-bottom:0;">🤖</span>
+                            <div>
+                                <h3 style="margin-bottom:0;" data-i18n="product_4_title">Ragent Studio</h3>
+                                <span style="font-size:0.7rem;font-weight:600;color:#fff;background:var(--primary);padding:2px 12px;border-radius:12px;display:inline-block;margin-top:2px;" data-i18n="product_4_tag">AI 编排</span>
+                            </div>
+                        </div>
+                        <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:10px;" data-i18n="product_4_sub">强人工智能设备集成开发环境 · 企业级复杂AI系统可视化编排平台</p>
+                        <p data-i18n="product_4_desc">专为复杂AI系统打造，提供端到端的可视化编排平台，统一数据感知、模型推理与运行时决策。</p>
+
+                        <!-- 特性网格 2×2 -->
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0;">
+                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
+                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;">零拷贝总线</strong>
+                                微秒级端到端延迟
+                            </div>
+                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
+                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;">异构调度</strong>
+                                云端 · 边缘 · 设备
+                            </div>
+                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
+                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;">拓扑引擎</strong>
+                                全生命周期可追溯
+                            </div>
+                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
+                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;">高负载场景</strong>
+                                自动驾驶 · 工业自动化 · 具身智能
+                            </div>
+                        </div>
+
+                        <!-- 价格标签 -->
+                        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
+                            <span style="font-size:0.7rem;background:var(--primary-glow);color:var(--primary);padding:2px 12px;border-radius:12px;">教育 ¥98/3月</span>
+                            <span style="font-size:0.7rem;background:var(--primary-glow);color:var(--primary);padding:2px 12px;border-radius:12px;">专业 ¥19,800/年</span>
+                            <span style="font-size:0.7rem;background:var(--primary-glow);color:var(--primary);padding:2px 12px;border-radius:12px;">企业 ¥300,000起</span>
+                        </div>
+                        <a href="#" class="card-link" data-i18n="product_4_btn">下载 →</a>
+                    </div>
+
+                    <!-- 末日方块 -->
+                    <div class="card" style="grid-column:2;">
+                        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+                            <span class="card-icon" style="font-size:1.8rem;margin-bottom:0;">🧟</span>
+                            <div>
+                                <h3 style="margin-bottom:0;" data-i18n="product_5_title">末日方块</h3>
+                                <div style="display:flex;gap:4px;margin-top:2px;flex-wrap:wrap;">
+                                    <span style="font-size:0.7rem;font-weight:600;color:#fff;background:#22c55e;padding:2px 12px;border-radius:12px;display:inline-block;" data-i18n="product_5_tag">创意应用</span>
+                                    <span style="font-size:0.65rem;color:var(--text-secondary);background:var(--bg-primary);padding:2px 12px;border-radius:12px;display:inline-block;" data-i18n="product_5_free">完全免费</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:10px;" data-i18n="product_5_sub">Asquare：极限生存 · 局域网僵尸围墙之战</p>
+                        <p data-i18n="product_5_desc">快节奏合作生存玩法，极简却硬核的双人对战体验，融合建造、射击与空间围困策略。</p>
+
+                        <!-- 特性网格 2×2 -->
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0;">
+                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
+                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;">极简操作</strong>
+                                移动 · 射击 · 建造
+                            </div>
+                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
+                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;">智能AI</strong>
+                                动态追击 · 自适应压力
+                            </div>
+                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
+                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;">局域网联机</strong>
+                                零配置 · 无缝连接
+                            </div>
+                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
+                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;">适用场景</strong>
+                                双人聚会 · 社群 · 休闲
+                            </div>
+                        </div>
+
+                        <!-- 功能标签 -->
+                        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
+                            <span style="font-size:0.7rem;background:#dcfce7;color:#16a34a;padding:2px 12px;border-radius:12px;">✓ 单人模式</span>
+                            <span style="font-size:0.7rem;background:#dcfce7;color:#16a34a;padding:2px 12px;border-radius:12px;">✓ 局域网多人</span>
+                            <span style="font-size:0.7rem;background:#dcfce7;color:#16a34a;padding:2px 12px;border-radius:12px;">✓ 全部解锁</span>
+                        </div>
+<a href="https://raw.githubusercontent.com/TalkingRobot/TalkingRobot.github.io/main/downloads/Asquare/Asquare.zip" class="card-link" download data-i18n="product_5_btn">下载 ↵</a>                    </div>
+
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- 定价 -->
+    <!-- 定价（合并版：保留原版3个 + 新增Ragent Studio定价，调整为4列，用grid-3+特殊处理） -->
     <section>
         <div class="container">
             <h2 class="section-title"><span data-i18n="pricing_title_prefix">灵活的</span><span class="gradient-text" data-i18n="pricing_title_highlight">定价方案</span></h2>
-            <p class="section-subtitle" data-i18n="pricing_subtitle">—— 按需付费，无隐藏费用 ——</p>
+            <p class="section-subtitle" data-i18n="pricing_subtitle">—— Ragent Studio 商业授权方案 ——</p>
             <div class="grid-3">
-                <div class="card pricing-card"><h3 data-i18n="price_1_name">初级版</h3><div class="price">¥1<span data-i18n="price_1_unit">/按需计费</span></div><p data-i18n="price_1_desc">适合个人开发者和初创企业</p><button class="btn btn-secondary" style="width:100%;margin-top:20px;" data-i18n="price_1_btn">选择方案</button></div>
-                <div class="card pricing-card featured"><h3 data-i18n="price_2_name">专业版</h3><div class="price">¥10<span style="font-size:0.9rem;color:var(--text-secondary);font-weight:400;" data-i18n="price_2_unit">/月</span></div><p data-i18n="price_2_desc">无限节点，基础集群支持，适合团队应用</p><button class="btn btn-primary" style="width:100%;margin-top:20px;" data-i18n="price_2_btn">立即升级</button></div>
-                <div class="card pricing-card"><h3 data-i18n="price_3_name">企业版</h3><div class="price" data-i18n="price_3_price">定制</div><p data-i18n="price_3_desc">私有部署、专属支持、无限扩展</p><button class="btn btn-secondary" style="width:100%;margin-top:20px;" data-i18n="price_3_btn">联系销售</button></div>
+                <!-- 教育版 -->
+                <div class="card pricing-card">
+                    <h3 data-i18n="price_1_name">教育版</h3>
+                    <div class="price">¥98<span style="font-size:0.9rem;color:var(--text-secondary);font-weight:400;" data-i18n="price_1_unit">/3个月</span></div>
+                    <p data-i18n="price_1_desc">单节点部署，本地零拷贝架构</p>
+                    <button class="btn btn-secondary" style="width:100%;margin-top:20px;" data-i18n="price_1_btn">选择方案</button>
+                </div>
+
+                <!-- 专业版（推荐） -->
+                <div class="card pricing-card featured">
+                    <h3 data-i18n="price_2_name">专业版</h3>
+                    <div class="price">¥19,800<span style="font-size:0.9rem;color:var(--text-secondary);font-weight:400;" data-i18n="price_2_unit">/年</span></div>
+                    <p data-i18n="price_2_desc">无限节点，基础集群支持，适合团队应用</p>
+                    <button class="btn btn-primary" style="width:100%;margin-top:20px;" data-i18n="price_2_btn">立即升级</button>
+                </div>
+
+                <!-- 企业版 -->
+                <div class="card pricing-card">
+                    <h3 data-i18n="price_3_name">企业版</h3>
+                    <div class="price" data-i18n="price_3_price">¥300,000 起</div>
+                    <p data-i18n="price_3_desc">私有化部署、定制集成服务、无限扩展</p>
+                    <button class="btn btn-secondary" style="width:100%;margin-top:20px;" data-i18n="price_3_btn">联系销售</button>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- 协议 -->
+    <!-- 协议（含完整全文） -->
     <section id="protocol" style="background: var(--bg-secondary);">
         <div class="container">
             <h2 class="section-title">Phoenix Resonance <span class="gradient-text" data-i18n="protocol_title">Protocol</span></h2>
@@ -695,6 +862,56 @@
                     <div><h3 data-i18n="protocol_can_title">✅ 您可以</h3><ul><li data-i18n="protocol_can_1">自由使用软件和硬件</li><li data-i18n="protocol_can_2">修改并创建衍生产品</li><li data-i18n="protocol_can_3">用于商业目的，无需支付许可费</li><li data-i18n="protocol_can_4">选择开源或闭源发布</li><li data-i18n="protocol_can_5">与其他许可证兼容使用</li></ul></div>
                     <div><h3 data-i18n="protocol_need_title">⚠️ 您需要</h3><ul><li data-i18n="protocol_need_1">保持与原版本的接口兼容</li><li data-i18n="protocol_need_2">在修改产品中声明所有更改</li><li data-i18n="protocol_need_3">不能施加额外的限制</li><li data-i18n="protocol_need_4">建议在文档中声明许可证出处</li></ul></div>
                 </div>
+
+                <!-- 协议全文（折叠展开） -->
+                <details>
+                    <summary data-i18n="protocol_full_title">📜 查看协议全文（第1.0版）</summary>
+                    <div class="fulltext">
+                        <p data-i18n="protocol_full_copyright">版权 © 由协议参与者共同持有　|　原始作者：刘畅　|　版本日期：2025年5月21日</p>
+
+                        <h3 data-i18n="protocol_article_1_title">第一条：许可范围与适用主体</h3>
+                        <p data-i18n="protocol_article_1_p1">本协议适用于受本协议约束的软件、固件、硬件设计文件、接口规范、驱动程序和嵌入式系统（以下统称"软件/硬件"）。</p>
+                        <p data-i18n="protocol_article_1_p2">您被允许出于任何合法目的自由使用、复制、修改、组合、集成、分发、发布、部署、销售和再许可该软件/硬件，包括但不限于个人、商业、研究或教育用途。</p>
+                        <p data-i18n="protocol_article_1_p3">本协议允许闭源和开源两种分发方式，不要求强制公开源代码。</p>
+
+                        <h3 data-i18n="protocol_article_2_title">第二条：兼容性义务</h3>
+                        <p data-i18n="protocol_article_2_p1">为维护系统稳定性和生态系统互操作性，您必须遵守以下兼容性要求：</p>
+                        <p data-i18n="protocol_article_2_p2">如果您修改、扩展或集成该软件/硬件（以下简称"修改产品"），您必须确保与原始版本在功能或接口层面兼容，使其能够在同一生态系统中共存和运行。</p>
+                        <p data-i18n="protocol_article_2_p3">您必须在修改产品中明确声明所有修改，包括但不限于版本号、作者、变更摘要或兼容接口文档。</p>
+                        <p data-i18n="protocol_article_2_p4">您不得施加任何与本协议不兼容的额外限制，尤其是那些会阻止他人根据本协议继续使用、分发或修改该作品的限制。</p>
+
+                        <h3 data-i18n="protocol_article_3_title">第三条：开源与闭源选择</h3>
+                        <p data-i18n="protocol_article_3_p1">您可以选择是否将修改产品开源。如果选择开源，您可以采用任何主流开源许可证（如MIT、Apache-2.0、GPL等），前提是不违反本协议的兼容性义务。</p>
+                        <p data-i18n="protocol_article_3_p2">如果选择闭源分发，您仍必须遵守本协议的兼容性要求和署名要求。</p>
+
+                        <h3 data-i18n="protocol_article_4_title">第四条：商业使用条款</h3>
+                        <p data-i18n="protocol_article_4_p1">您可以自由地将软件/硬件或其修改产品用于商业目的，包括但不限于：销售、订阅、OEM集成、云服务和设备销售。</p>
+                        <p data-i18n="protocol_article_4_p2">商业使用无需支付许可费，也无需向原作者披露内部实现。</p>
+                        <p data-i18n="protocol_article_4_p3">如果您分发商业产品，建议在用户协议中声明："本产品部分组件依据 Phoenix Resonance Protocol 授权。"</p>
+
+                        <h3 data-i18n="protocol_article_5_title">第五条：权利声明与免责声明</h3>
+                        <p data-i18n="protocol_article_5_p1">软件/硬件按"现状"提供，不提供任何明示或暗示的保证，包括但不限于适销性、特定用途适用性和不侵权保证。</p>
+                        <p data-i18n="protocol_article_5_p2">除非另有书面明确授权，本协议不授予您任何专利、商标或商业秘密的权利。</p>
+                        <p data-i18n="protocol_article_5_p3">在任何情况下，版权持有者或贡献者均不对因使用或无法使用该软件/硬件而产生的任何损害负责。</p>
+
+                        <h3 data-i18n="protocol_article_6_title">第六条：协议的持续性与终止</h3>
+                        <p data-i18n="protocol_article_6_p1">使用受本协议许可的材料，即视为您已接受其所有条款。</p>
+                        <p data-i18n="protocol_article_6_p2">如果您违反本协议的兼容性或署名义务，您的授权将自动终止。</p>
+                        <p data-i18n="protocol_article_6_p3">任何获得本协议权利且未违反协议的用户，不会受到他人违规行为的影响。</p>
+
+                        <h3 data-i18n="protocol_article_7_title">第七条：协议不可撤销性（协议冻结机制）</h3>
+                        <p data-i18n="protocol_article_7_p1">本协议发布后应被视为固定版本，任何个人或组织不得以任何理由更改或替换。</p>
+                        <p data-i18n="protocol_article_7_p2">如果协议的共同参与者希望在未来提出变更，必须发布一个新的完整版本（例如"Phoenix Resonance Protocol 2.0"），并且：</p>
+                        <p data-i18n="protocol_article_7_p3">"Phoenix Resonance Protocol 1.0"的持续适用性和法律效力不受影响；</p>
+                        <p data-i18n="protocol_article_7_p4">原协议的现有用户可以继续遵守此版本而无需升级。</p>
+
+                        <h3 data-i18n="protocol_article_8_title">第八条：适用法律与争议解决</h3>
+                        <p data-i18n="protocol_article_8_p1">本协议的解释和适用应受发布地法律管辖。</p>
+                        <p data-i18n="protocol_article_8_p2">如未明确指定适用法律，应适用国际通用合同原则和技术互操作性惯例。</p>
+                        <p data-i18n="protocol_article_8_p3">因本协议引起的任何争议应首先通过双方友好协商解决。</p>
+                        <p data-i18n="protocol_article_8_p4">如协商失败，争议应提交至协议发源地有管辖权的法院或仲裁机构。</p>
+                    </div>
+                </details>
             </div>
         </div>
     </section>
@@ -711,27 +928,817 @@
 
     <script>
         // =============================================
-        // 1. 多语言数据 (完整保留)
+        // 1. 多语言数据（完整合并版）
         // =============================================
         const i18nData = {
-            zh: { brand: 'Phoenix Resonance', nav_home: '首页', nav_features: '特性', nav_products: '产品', nav_protocol: '协议', hero_title_prefix: '企业级AGI平台', hero_subtitle: '打破传统边界，赋能企业AI能力。分层架构、灵活连接、完整生态，解决真实世界的复杂问题。', btn_explore: '立即探索', btn_learn: '了解详情', features_title_prefix: '我们的', features_title_highlight: '核心优势', features_subtitle: '—— 企业级架构 ——', feature_1_title: '分层架构', feature_1_desc: 'Zone → Layer → Node 的三层设计，清晰的结构化体系，支持灵活的自定义扩展', feature_2_title: '智能连接', feature_2_desc: '多种连接类型：数据流、控制流、事件触发。完整的实体关系管理系统', feature_3_title: 'ID+Data 模型', feature_3_desc: '完全去中心化设计。每个实体都有唯一标识，灵活的JSON数据承载', feature_4_title: 'AI Agent 编排', feature_4_desc: '机器人工作室管理，完整的Agent生命周期，智能化的任务调度', feature_5_title: '实时监控', feature_5_desc: '完整的系统自检，实时掌握运行状态，性能瓶颈一目了然', feature_6_title: 'Git 集成', feature_6_desc: '版本控制、变更跟踪、完整的审计日志，企业级的治理能力', why_choose_title: '为什么选择 Phoenix Resonance？', why_1_title: '完全灵活', why_1_desc: '从零开始构建，没有任何预定义的限制', why_2_title: '企业可靠', why_2_desc: '金融级的数据安全、审计和监管', why_3_title: '高效协作', why_3_desc: 'Git 集成，完整的团队工作流', why_4_title: '开源透明', why_4_desc: 'Phoenix Resonance Protocol，自由使用和扩展', why_5_title: '智能编排', why_5_desc: 'AI 赋能的自动化，解放生产力', why_6_title: '实时见解', why_6_desc: '完整的可观测性，数据驱动的决策', stat_1: '全球企业', stat_2: '日均调用', stat_3: '可用性', products_title_prefix: '我们的', products_title_highlight: '产品生态', products_subtitle: '—— 完整的技术栈 ——', product_1_title: '核心平台：Phoenix Studio', product_1_desc: '企业级AGI开发平台。分层架构、完整的可视化编辑、实时协作、Git集成，为复杂的AI系统提供坚实的基础。', product_1_btn: '开始使用 →', product_2_title: '运行时：Phoenix Runtime', product_2_desc: '高性能运行时引擎。支持分布式部署、自动扩展、故障恢复，确保您的AI系统稳定高效运行。', product_2_btn: '部署现在 →', product_3_title: '开发工具：Phoenix SDK', product_3_desc: '完整的开发套件。多语言支持、丰富的API、详细的文档，快速集成到您的系统。', product_3_btn: '查看文档 →', pricing_title_prefix: '灵活的', pricing_title_highlight: '定价方案', pricing_subtitle: '—— 按需付费，无隐藏费用 ——', price_1_name: '初级版', price_1_unit: '/按需计费', price_1_desc: '适合个人开发者和初创企业', price_1_btn: '选择方案', price_2_name: '专业版', price_2_unit: '/月', price_2_desc: '无限节点，基础集群支持，适合团队应用', price_2_btn: '立即升级', price_3_name: '企业版', price_3_price: '定制', price_3_desc: '私有部署、专属支持、无限扩展', price_3_btn: '联系销售', protocol_title: 'Protocol', protocol_subtitle: '—— 版本 1.0 · 开源许可协议 ——', protocol_intro: 'Phoenix Resonance Protocol 是一个创新的、对商业友好的开源许可协议，旨在为开发者和企业提供最大的自由度。', protocol_principles_title: '核心原则', protocol_principle_1: '完全自由使用、修改和分发', protocol_principle_2: '支持商业和闭源使用，无需付费', protocol_principle_3: '强制兼容性要求，维护生态完整性', protocol_principle_4: 'Git 版本控制，协议永久冻结', protocol_can_title: '✅ 您可以', protocol_can_1: '自由使用软件和硬件', protocol_can_2: '修改并创建衍生产品', protocol_can_3: '用于商业目的，无需支付许可费', protocol_can_4: '选择开源或闭源发布', protocol_can_5: '与其他许可证兼容使用', protocol_need_title: '⚠️ 您需要', protocol_need_1: '保持与原版本的接口兼容', protocol_need_2: '在修改产品中声明所有更改', protocol_need_3: '不能施加额外的限制', protocol_need_4: '建议在文档中声明许可证出处', copyright: '© 2025 Phoenix Resonance. 保留所有权利。', footer_copyright: '© 2025 Phoenix Resonance. 引领企业AI未来。' },
-            'zh-tw': { brand: 'Phoenix Resonance', nav_home: '首頁', nav_features: '特性', nav_products: '產品', nav_protocol: '協議', hero_title_prefix: '企業級AGI平台', hero_subtitle: '打破傳統邊界，賦能企業AI能力。分層架構、靈活連接、完整生態，解決真實世界的複雜問題。', btn_explore: '立即探索', btn_learn: '了解詳情', features_title_prefix: '我們的', features_title_highlight: '核心優勢', features_subtitle: '—— 企業級架構 ——', feature_1_title: '分層架構', feature_1_desc: 'Zone → Layer → Node 的三層設計，清晰的結構化體系，支持靈活的自定義擴展', feature_2_title: '智能連接', feature_2_desc: '多種連接類型：數據流、控制流、事件觸發。完整的實體關係管理系統', feature_3_title: 'ID+Data 模型', feature_3_desc: '完全去中心化設計。每個實體都有唯一標識，靈活的JSON數據承載', feature_4_title: 'AI Agent 編排', feature_4_desc: '機器人工作室管理，完整的Agent生命週期，智能化的任務調度', feature_5_title: '實時監控', feature_5_desc: '完整的系統自檢，實時掌握運行狀態，性能瓶頸一目了然', feature_6_title: 'Git 集成', feature_6_desc: '版本控制、變更跟蹤、完整的審計日誌，企業級的治理能力', why_choose_title: '為什麼選擇 Phoenix Resonance？', why_1_title: '完全靈活', why_1_desc: '從零開始構建，沒有任何預定義的限制', why_2_title: '企業可靠', why_2_desc: '金融級的數據安全、審計和監管', why_3_title: '高效協作', why_3_desc: 'Git 集成，完整的團隊工作流', why_4_title: '開源透明', why_4_desc: 'Phoenix Resonance Protocol，自由使用和擴展', why_5_title: '智能編排', why_5_desc: 'AI 賦能的自動化，解放生產力', why_6_title: '實時見解', why_6_desc: '完整的可觀測性，數據驅動的決策', stat_1: '全球企業', stat_2: '日均調用', stat_3: '可用性', products_title_prefix: '我們的', products_title_highlight: '產品生態', products_subtitle: '—— 完整的技術棧 ——', product_1_title: '核心平台：Phoenix Studio', product_1_desc: '企業級AGI開發平台。分層架構、完整的可視化編輯、實時協作、Git集成，為複雜的AI系統提供堅實的基礎。', product_1_btn: '開始使用 →', product_2_title: '運行時：Phoenix Runtime', product_2_desc: '高性能運行時引擎。支持分佈式部署、自動擴展、故障恢復，確保您的AI系統穩定高效運行。', product_2_btn: '部署現在 →', product_3_title: '開發工具：Phoenix SDK', product_3_desc: '完整的開發套件。多語言支持、豐富的API、詳細的文檔，快速集成到您的系統。', product_3_btn: '查看文檔 →', pricing_title_prefix: '靈活的', pricing_title_highlight: '定價方案', pricing_subtitle: '—— 按需付費，無隱藏費用 ——', price_1_name: '初級版', price_1_unit: '/按需計費', price_1_desc: '適合個人開發者和初創企業', price_1_btn: '選擇方案', price_2_name: '專業版', price_2_unit: '/月', price_2_desc: '無限節點，基礎集群支持，適合團隊應用', price_2_btn: '立即升級', price_3_name: '企業版', price_3_price: '定制', price_3_desc: '私有部署、專屬支持、無限擴展', price_3_btn: '聯繫銷售', protocol_title: 'Protocol', protocol_subtitle: '—— 版本 1.0 · 開源許可協議 ——', protocol_intro: 'Phoenix Resonance Protocol 是一個創新的、對商業友好的開源許可協議，旨在為開發者和企業提供最大的自由度。', protocol_principles_title: '核心原則', protocol_principle_1: '完全自由使用、修改和分發', protocol_principle_2: '支持商業和閉源使用，無需付費', protocol_principle_3: '強制兼容性要求，維護生態完整性', protocol_principle_4: 'Git 版本控制，協議永久凍結', protocol_can_title: '✅ 您可以', protocol_can_1: '自由使用軟件和硬件', protocol_can_2: '修改並創建衍生產品的', protocol_can_3: '用於商業目的，無需支付許可費', protocol_can_4: '選擇開源或閉源發布', protocol_can_5: '與其他許可證兼容使用', protocol_need_title: '⚠️ 您需要', protocol_need_1: '保持與原版本的接口兼容', protocol_need_2: '在修改產品中聲明所有更改', protocol_need_3: '不能施加額外的限制', protocol_need_4: '建議在文檔中聲明許可證出處', copyright: '© 2025 Phoenix Resonance. 保留所有權利。', footer_copyright: '© 2025 Phoenix Resonance. 引領企業AI未來。' },
-            en: { brand: 'Phoenix Resonance', nav_home: 'Home', nav_features: 'Features', nav_products: 'Products', nav_protocol: 'Protocol', hero_title_prefix: 'Enterprise-grade AGI Platform', hero_subtitle: 'Break traditional boundaries and empower enterprise AI capabilities. Hierarchical architecture, flexible connections, complete ecosystem—solving real-world complex problems.', btn_explore: 'Explore Now', btn_learn: 'Learn More', features_title_prefix: 'Our', features_title_highlight: 'Core Advantages', features_subtitle: '—— Enterprise-Grade Architecture ——', feature_1_title: 'Layered Architecture', feature_1_desc: 'Three-tier design of Zone → Layer → Node, clear structured system, supporting flexible custom extensions.', feature_2_title: 'Intelligent Connection', feature_2_desc: 'Multiple connection types: data flow, control flow, event triggering. Complete entity relationship management system.', feature_3_title: 'ID+Data Model', feature_3_desc: 'Fully decentralized design. Each entity has a unique identifier, flexible JSON data carriers.', feature_4_title: 'AI Agent Orchestration', feature_4_desc: 'Robot studio management, complete Agent lifecycle, intelligent task scheduling.', feature_5_title: 'Real-time Monitoring', feature_5_desc: 'Complete system self-inspection, real-time operation status, performance bottlenecks at a glance.', feature_6_title: 'Git Integration', feature_6_desc: 'Version control, change tracking, complete audit logs, enterprise-grade governance capabilities.', why_choose_title: 'Why Choose Phoenix Resonance?', why_1_title: 'Fully Flexible', why_1_desc: 'Build from scratch with no predefined limitations.', why_2_title: 'Enterprise Reliable', why_2_desc: 'Financial-grade data security, audit and compliance.', why_3_title: 'Efficient Collaboration', why_3_desc: 'Git integration, complete team workflow.', why_4_title: 'Open Source Transparency', why_4_desc: 'Phoenix Resonance Protocol, free to use and extend.', why_5_title: 'Intelligent Orchestration', why_5_desc: 'AI-powered automation, unleashing productivity.', why_6_title: 'Real-time Insights', why_6_desc: 'Complete observability, data-driven decisions.', stat_1: 'Global Enterprises', stat_2: 'Daily Calls', stat_3: 'Availability', products_title_prefix: 'Our', products_title_highlight: 'Product Ecosystem', products_subtitle: '—— Complete Technology Stack ——', product_1_title: 'Core Platform: Phoenix Studio', product_1_desc: 'Enterprise-grade AGI development platform. Hierarchical architecture, complete visual editing, real-time collaboration, Git integration—providing a solid foundation for complex AI systems.', product_1_btn: 'Get Started →', product_2_title: 'Runtime: Phoenix Runtime', product_2_desc: 'High-performance runtime engine. Supports distributed deployment, auto-scaling, fault recovery, ensuring stable and efficient operation of your AI systems.', product_2_btn: 'Deploy Now →', product_3_title: 'Development Tools: Phoenix SDK', product_3_desc: 'Complete development suite. Multi-language support, rich APIs, detailed documentation—quickly integrate into your system.', product_3_btn: 'View Docs →', pricing_title_prefix: 'Flexible', pricing_title_highlight: 'Pricing Plans', pricing_subtitle: '—— Pay as you go, no hidden fees ——', price_1_name: 'Starter', price_1_unit: '/pay-as-you-go', price_1_desc: 'Suitable for individual developers and startups.', price_1_btn: 'Choose Plan', price_2_name: 'Professional', price_2_unit: '/month', price_2_desc: 'Unlimited nodes, basic cluster support, suitable for team applications.', price_2_btn: 'Upgrade Now', price_3_name: 'Enterprise', price_3_price: 'Custom', price_3_desc: 'Private deployment, dedicated support, unlimited scalability.', price_3_btn: 'Contact Sales', protocol_title: 'Protocol', protocol_subtitle: '—— Version 1.0 · Open Source License Agreement ——', protocol_intro: 'Phoenix Resonance Protocol is an innovative, business-friendly open source license agreement designed to provide maximum freedom for developers and enterprises.', protocol_principles_title: 'Core Principles', protocol_principle_1: 'Complete freedom to use, modify, and distribute', protocol_principle_2: 'Support commercial and closed-source use, no payment required', protocol_principle_3: 'Mandatory compatibility requirements to maintain ecosystem integrity', protocol_principle_4: 'Git version control, protocol permanently frozen', protocol_can_title: '✅ You Can', protocol_can_1: 'Freely use the software and hardware', protocol_can_2: 'Modify and create derivative products', protocol_can_3: 'Use for commercial purposes without paying license fees', protocol_can_4: 'Choose to publish as open source or closed source', protocol_can_5: 'Use compatible with other licenses', protocol_need_title: '⚠️ You Need To', protocol_need_1: 'Maintain interface compatibility with the original version', protocol_need_2: 'Declare all changes in modified products', protocol_need_3: 'Cannot impose additional restrictions', protocol_need_4: 'Recommend declaring license origin in documentation', copyright: '© 2025 Phoenix Resonance. All rights reserved.', footer_copyright: '© 2025 Phoenix Resonance. Leading the Future of Enterprise AI.' },
-            ja: { brand: 'Phoenix Resonance', nav_home: 'ホーム', nav_features: '特徴', nav_products: '製品', nav_protocol: 'プロトコル', hero_title_prefix: 'エンタープライズグレードのAGIプラットフォーム', hero_subtitle: '従来の境界を打ち破り、エンタープライズAI機能を強化します。階層的なアーキテクチャ、柔軟な接続、完全なエコシステムで、現実世界の複雑な問題を解決します。', btn_explore: '今すぐ探索', btn_learn: '詳細を知る', features_title_prefix: '私たちの', features_title_highlight: 'コア上の利点', features_subtitle: '—— エンタープライズグレードのアーキテクチャ ——', feature_1_title: '階層化アーキテクチャ', feature_1_desc: 'Zone → Layer → Node の3層設計、明確な構造化システム、柔軟なカスタム拡張をサポート', feature_2_title: 'インテリジェント接続', feature_2_desc: '複数の接続タイプ：データフロー、制御フロー、イベントトリガー。完全なエンティティ関係管理システム', feature_3_title: 'ID+Data モデル', feature_3_desc: '完全に分散化された設計。各エンティティは一意の識別子を持ち、柔軟なJSONデータキャリア', feature_4_title: 'AI Agent オーケストレーション', feature_4_desc: 'ロボットスタジオ管理、完全なAgentライフサイクル、インテリジェントなタスクスケジューリング', feature_5_title: 'リアルタイム監視', feature_5_desc: '完全なシステム自己検査、リアルタイムの運用状態、パフォーマンスボトルネックを一目で確認', feature_6_title: 'Git 統合', feature_6_desc: 'バージョン管理、変更追跡、完全な監査ログ、エンタープライズグレードのガバナンス機能', why_choose_title: 'Phoenix Resonanceを選択する理由', why_1_title: '完全に柔軟', why_1_desc: 'ゼロから構築でき、事前定義の制限なし', why_2_title: 'エンタープライズ信頼性', why_2_desc: '金融グレードのデータセキュリティ、監査、コンプライアンス', why_3_title: '効率的なコラボレーション', why_3_desc: 'Git統合、完全なチームワークフロー', why_4_title: 'オープンソース透明性', why_4_desc: 'Phoenix Resonance Protocol、自由に使用・拡張可能', why_5_title: 'インテリジェントオーケストレーション', why_5_desc: 'AI対応の自動化で生産性を解放', why_6_title: 'リアルタイムインサイト', why_6_desc: '完全な可観測性、データドリブンな意思決定', stat_1: '世界中の企業', stat_2: '日次呼び出し', stat_3: '可用性', products_title_prefix: '私たちの', products_title_highlight: '製品エコシステム', products_subtitle: '—— 完全なテクノロジースタック ——', product_1_title: 'コアプラットフォーム：Phoenix Studio', product_1_desc: 'エンタープライズグレードのAGI開発プラットフォーム。階層的アーキテクチャ、完全なビジュアル編集、リアルタイム協力、Git統合で、複雑なAIシステムのための堅牢な基盤を提供', product_1_btn: '開始する →', product_2_title: 'ランタイム：Phoenix Runtime', product_2_desc: '高性能ランタイムエンジン。分散デプロイメント、自動スケーリング、障害復旧をサポートし、AIシステムの安定的で効率的な実行を確保', product_2_btn: '今すぐデプロイ →', product_3_title: '開発ツール：Phoenix SDK', product_3_desc: '完全な開発スイート。多言語対応、豊富なAPI、詳細なドキュメント–システムへの迅速な統合', product_3_btn: 'ドキュメントを表示 →', pricing_title_prefix: '柔軟な', pricing_title_highlight: '価格プラン', pricing_subtitle: '—— 使用した分だけ支払い、隠れた手数料なし ——', price_1_name: 'スターター', price_1_unit: '/従量課金', price_1_desc: '個人開発者とスタートアップに最適', price_1_btn: '選択する', price_2_name: 'プロフェッショナル', price_2_unit: '/月', price_2_desc: '無限ノード、基本クラスターサポート、チームアプリケーションに最適', price_2_btn: '今すぐアップグレード', price_3_name: 'エンタープライズ', price_3_price: 'カスタム', price_3_desc: 'プライベートデプロイメント、専任サポート、無制限のスケーラビリティ', price_3_btn: '営業に問い合わせる', protocol_title: 'Protocol', protocol_subtitle: '—— バージョン 1.0 · オープンソースライセンス契約 ——', protocol_intro: 'Phoenix Resonance Protocolは、開発者とエンタープライズに最大の自由度を提供するために設計された革新的でビジネスフレンドリーなオープンソースライセンス契約です。', protocol_principles_title: 'コアプリンシパル', protocol_principle_1: '使用、変更、配布の完全な自由', protocol_principle_2: '商用およびクローズドソースの使用をサポート、支払い不要', protocol_principle_3: 'エコシステム整合性を維持するための強制互換性要件', protocol_principle_4: 'Gitバージョン管理、プロトコルは永久にフリーズ', protocol_can_title: '✅ 以下が可能です', protocol_can_1: 'ソフトウェアとハードウェアを自由に使用', protocol_can_2: '変更及びデリバティブ製品の作成', protocol_can_3: 'ライセンス料支払い不要の商用利用', protocol_can_4: 'オープンソースまたはクローズドソースとして発行を選択', protocol_can_5: 'その他のライセンスとの互換性を使用', protocol_need_title: '⚠️ 以下が必要です', protocol_need_1: 'オリジナルバージョンとのインターフェイス互換性を維持', protocol_need_2: '変更製品内のすべての変更を宣言', protocol_need_3: '追加の制限を課すことはできません', protocol_need_4: 'ドキュメントにライセンス出典の宣言をお勧めします', copyright: '© 2025 Phoenix Resonance. すべての権利を保有', footer_copyright: '© 2025 Phoenix Resonance. エンタープライズAIの未来をリード' },
-            ko: { brand: 'Phoenix Resonance', nav_home: '홈', nav_features: '특징', nav_products: '제품', nav_protocol: '프로토콜', hero_title_prefix: '엔터프라이즈급 AGI 플랫폼', hero_subtitle: '전통적인 경계를 깨고 엔터프라이즈 AI 능력을 강화하세요. 계층적 아키텍처, 유연한 연결, 완전한 에코시스템으로 실제 세상의 복잡한 문제를 해결합니다.', btn_explore: '지금 탐색', btn_learn: '자세히 알아보기', features_title_prefix: '우리의', features_title_highlight: '핵심 강점', features_subtitle: '—— 엔터프라이즈급 아키텍처 ——', feature_1_title: '계층화된 아키텍처', feature_1_desc: 'Zone → Layer → Node 3계층 설계, 명확한 구조화 시스템, 유연한 사용자 정의 확장 지원', feature_2_title: '지능형 연결', feature_2_desc: '여러 연결 유형: 데이터 흐름, 제어 흐름, 이벤트 트리거. 완전한 엔티티 관계 관리 시스템', feature_3_title: 'ID+Data 모델', feature_3_desc: '완전히 분산된 설계. 각 엔티티는 고유 식별자를 가지며 유연한 JSON 데이터 캐리어', feature_4_title: 'AI Agent 오케스트레이션', feature_4_desc: '로봇 스튜디오 관리, 완전한 에이전트 생명주기, 지능형 작업 스케줄링', feature_5_title: '실시간 모니터링', feature_5_desc: '완전한 시스템 자체 검사, 실시간 운영 상태, 성능 병목을 한눈에 확인', feature_6_title: 'Git 통합', feature_6_desc: '버전 관리, 변경 추적, 완전한 감사 로그, 엔터프라이즈급 거버넌스 기능', why_choose_title: 'Phoenix Resonance를 선택해야 하는 이유', why_1_title: '완전히 유연함', why_1_desc: '처음부터 구축, 사전 정의된 제한 없음', why_2_title: '엔터프라이즈 신뢰성', why_2_desc: '금융급 데이터 보안, 감사 및 규정 준수', why_3_title: '효율적인 협업', why_3_desc: 'Git 통합, 완전한 팀 워크플로우', why_4_title: '오픈소스 투명성', why_4_desc: 'Phoenix Resonance 프로토콜, 자유롭게 사용 및 확장', why_5_title: '지능형 오케스트레이션', why_5_desc: 'AI 기반 자동화로 생산성 해방', why_6_title: '실시간 인사이트', why_6_desc: '완전한 가시성, 데이터 기반 의사 결정', stat_1: '전 세계 기업', stat_2: '일일 호출', stat_3: '가용성', products_title_prefix: '우리의', products_title_highlight: '제품 에코시스템', products_subtitle: '—— 완전한 기술 스택 ——', product_1_title: '핵심 플랫폼：Phoenix Studio', product_1_desc: '엔터프라이즈급 AGI 개발 플랫폼. 계층적 아키텍처, 완전한 시각적 편집, 실시간 협력, Git 통합으로 복잡한 AI 시스템을 위한 견고한 기반 제공', product_1_btn: '시작하기 →', product_2_title: '런타임：Phoenix Runtime', product_2_desc: '고성능 런타임 엔진. 분산 배포, 자동 확장, 장애 복구를 지원하여 AI 시스템의 안정적이고 효율적인 실행 보장', product_2_btn: '지금 배포 →', product_3_title: '개발 도구：Phoenix SDK', product_3_desc: '완전한 개발 스위트. 다중 언어 지원, 풍부한 API, 자세한 문서 – 시스템으로의 빠른 통합', product_3_btn: '문서 보기 →', pricing_title_prefix: '유연한', pricing_title_highlight: '가격 책정 계획', pricing_subtitle: '—— 사용한 만큼 지불, 숨겨진 수수료 없음 ——', price_1_name: '스타터', price_1_unit: '/종량제', price_1_desc: '개인 개발자 및 스타트업에 적합', price_1_btn: '선택하기', price_2_name: '프로페셔널', price_2_unit: '/월', price_2_desc: '무제한 노드, 기본 클러스터 지원, 팀 애플리케이션에 적합', price_2_btn: '지금 업그레이드', price_3_name: '엔터프라이즈', price_3_price: '맞춤형', price_3_desc: '프라이빗 배포, 전담 지원, 무제한 확장성', price_3_btn: '영업에 문의', protocol_title: 'Protocol', protocol_subtitle: '—— 버전 1.0 · 오픈소스 라이선스 계약 ——', protocol_intro: 'Phoenix Resonance 프로토콜은 개발자와 기업에 최대한의 자유를 제공하도록 설계된 혁신적이고 비즈니스 친화적인 오픈소스 라이선스 계약입니다.', protocol_principles_title: '핵심 원칙', protocol_principle_1: '사용, 수정 및 배포의 완전한 자유', protocol_principle_2: '상용 및 폐쇄 소스 사용 지원, 결제 불필요', protocol_principle_3: '에코시스템 무결성을 유지하기 위한 강제 호환성 요구사항', protocol_principle_4: 'Git 버전 관리, 프로토콜은 영구적으로 고정', protocol_can_title: '✅ 다음을 수행할 수 있습니다', protocol_can_1: '소프트웨어 및 하드웨어 자유롭게 사용', protocol_can_2: '수정 및 파생 제품 생성', protocol_can_3: '라이선스료 지불 없이 상용 목적 사용', protocol_can_4: '오픈소스 또는 클로즈드소스로 발행 선택', protocol_can_5: '다른 라이선스와의 호환성 사용', protocol_need_title: '⚠️ 다음이 필요합니다', protocol_need_1: '원본 버전과의 인터페이스 호환성 유지', protocol_need_2: '수정된 제품에서 모든 변경 사항 선언', protocol_need_3: '추가 제한을 부과할 수 없음', protocol_need_4: '문서에 라이선스 출처 선언 권장', copyright: '© 2025 Phoenix Resonance. 모든 권리 보유', footer_copyright: '© 2025 Phoenix Resonance. 엔터프라이즈 AI의 미래를 선도하다' },
-            de: { brand: 'Phoenix Resonance', nav_home: 'Startseite', nav_features: 'Funktionen', nav_products: 'Produkte', nav_protocol: 'Protokoll', hero_title_prefix: 'AGI-Plattform für Unternehmen', hero_subtitle: 'Brechen Sie traditionelle Grenzen und stärken Sie die KI-Fähigkeiten von Unternehmen. Hierarchische Architektur, flexible Verbindungen, vollständiges Ökosystem – Lösung komplexer Probleme der realen Welt.', btn_explore: 'Jetzt entdecken', btn_learn: 'Mehr erfahren', features_title_prefix: 'Unsere', features_title_highlight: 'Kernvorteile', features_subtitle: '—— Architektur für Unternehmen ——', feature_1_title: 'Mehrschichtige Architektur', feature_1_desc: 'Dreistufiges Design Zone → Layer → Node, klares strukturiertes System, unterstützt flexible benutzerdefinierte Erweiterungen.', feature_2_title: 'Intelligente Verbindung', feature_2_desc: 'Mehrere Verbindungstypen: Datenfluss, Steuerfluss, Ereignisauslösung. Vollständiges Entitätsbeziehungsmanagementsystem.', feature_3_title: 'ID+Data Modell', feature_3_desc: 'Völlig dezentrales Design. Jede Entität hat eine eindeutige Kennung, flexible JSON-Datenträger.', feature_4_title: 'AI Agent Orchestrierung', feature_4_desc: 'Roboterstudio-Management, vollständiger Agent-Lebenszyklus, intelligente Aufgabenplanung.', feature_5_title: 'Echtzeit-Überwachung', feature_5_desc: 'Vollständige Systemselbstprüfung, Echtzeit-Betriebsstatus, Leistungsengpässe auf einen Blick.', feature_6_title: 'Git-Integration', feature_6_desc: 'Versionskontrolle, Änderungsverfolgung, vollständige Prüfprotokolle, Governance-Fähigkeiten für Unternehmen.', why_choose_title: 'Warum Phoenix Resonance wählen?', why_1_title: 'Völlig flexibel', why_1_desc: 'Von Grund auf aufbauen, ohne vordefinierte Einschränkungen.', why_2_title: 'Unternehmenszuverlässigkeit', why_2_desc: 'Datensicherheit auf Finanzniveau, Prüfung und Compliance.', why_3_title: 'Effiziente Zusammenarbeit', why_3_desc: 'Git-Integration, vollständiger Team-Workflow.', why_4_title: 'Open-Source-Transparenz', why_4_desc: 'Phoenix Resonance Protocol, frei zu verwenden und zu erweitern.', why_5_title: 'Intelligente Orchestrierung', why_5_desc: 'KI-gestützte Automatisierung, Produktivität freisetzen.', why_6_title: 'Echtzeit-Einblicke', why_6_desc: 'Vollständige Beobachtbarkeit, datengesteuerte Entscheidungen.', stat_1: 'Weltweite Unternehmen', stat_2: 'Tägliche Aufrufe', stat_3: 'Verfügbarkeit', products_title_prefix: 'Unser', products_title_highlight: 'Produkt-Ökosystem', products_subtitle: '—— Vollständiger Technologie-Stack ——', product_1_title: 'Kernplattform: Phoenix Studio', product_1_desc: 'AGI-Entwicklungsplattform für Unternehmen. Hierarchische Architektur, vollständige visuelle Bearbeitung, Echtzeit-Zusammenarbeit, Git-Integration – solide Grundlage für komplexe KI-Systeme.', product_1_btn: 'Loslegen →', product_2_title: 'Laufzeit: Phoenix Runtime', product_2_desc: 'Hochleistungs-Laufzeit-Engine. Unterstützt verteilte Bereitstellung, automatische Skalierung, Fehlerwiederherstellung für stabilen und effizienten Betrieb.', product_2_btn: 'Jetzt bereitstellen →', product_3_title: 'Entwicklungstools: Phoenix SDK', product_3_desc: 'Vollständiges Entwicklungspaket. Mehrsprachige Unterstützung, umfangreiche APIs, detaillierte Dokumentation – schnelle Integration in Ihr System.', product_3_btn: 'Dokumente anzeigen →', pricing_title_prefix: 'Flexible', pricing_title_highlight: 'Preispläne', pricing_subtitle: '—— Pay-as-you-go, keine versteckten Gebühren ——', price_1_name: 'Starter', price_1_unit: '/Pay-as-you-go', price_1_desc: 'Geeignet für Einzelentwickler und Startups.', price_1_btn: 'Plan wählen', price_2_name: 'Professional', price_2_unit: '/Monat', price_2_desc: 'Unbegrenzte Knoten, grundlegende Cluster-Unterstützung, geeignet für Teamanwendungen.', price_2_btn: 'Jetzt upgraden', price_3_name: 'Enterprise', price_3_price: 'Individuell', price_3_desc: 'Private Bereitstellung, dedizierter Support, unbegrenzte Skalierbarkeit.', price_3_btn: 'Vertrieb kontaktieren', protocol_title: 'Protocol', protocol_subtitle: '—— Version 1.0 · Open-Source-Lizenzvereinbarung ——', protocol_intro: 'Phoenix Resonance Protocol ist eine innovative, geschäftsfreundliche Open-Source-Lizenzvereinbarung, die Entwicklern und Unternehmen maximale Freiheit bieten soll.', protocol_principles_title: 'Kernprinzipien', protocol_principle_1: 'Vollständige Freiheit bei Nutzung, Änderung und Verbreitung', protocol_principle_2: 'Unterstützung für kommerzielle und Closed-Source-Nutzung, keine Zahlung erforderlich', protocol_principle_3: 'Verbindliche Kompatibilitätsanforderungen zur Wahrung der Ökosystemintegrität', protocol_principle_4: 'Git-Versionskontrolle, Protokoll dauerhaft eingefroren', protocol_can_title: '✅ Sie können', protocol_can_1: 'Software und Hardware frei nutzen', protocol_can_2: 'Ändern und abgeleitete Produkte erstellen', protocol_can_3: 'Für kommerzielle Zwecke ohne Lizenzgebühren nutzen', protocol_can_4: 'Open-Source- oder Closed-Source-Veröffentlichung wählen', protocol_can_5: 'Mit anderen Lizenzen kompatibel nutzen', protocol_need_title: '⚠️ Sie müssen', protocol_need_1: 'Schnittstellenkompatibilität mit der Originalversion wahren', protocol_need_2: 'Alle Änderungen in geänderten Produkten erklären', protocol_need_3: 'Keine zusätzlichen Einschränkungen auferlegen', protocol_need_4: 'Empfehlung, den Lizenzursprung in der Dokumentation zu erklären', copyright: '© 2025 Phoenix Resonance. Alle Rechte vorbehalten.', footer_copyright: '© 2025 Phoenix Resonance. Die Zukunft der Unternehmens-KI gestalten.' },
-            fr: { brand: 'Phoenix Resonance', nav_home: 'Accueil', nav_features: 'Fonctionnalités', nav_products: 'Produits', nav_protocol: 'Protocole', hero_title_prefix: 'Plateforme AGI d\'entreprise', hero_subtitle: 'Brisez les frontières traditionnelles et renforcez les capacités d\'IA des entreprises. Architecture hiérarchique, connexions flexibles, écosystème complet—résoudre les problèmes complexes du monde réel.', btn_explore: 'Explorer maintenant', btn_learn: 'En savoir plus', features_title_prefix: 'Nos', features_title_highlight: 'Avantages clés', features_subtitle: '—— Architecture d\'entreprise ——', feature_1_title: 'Architecture en couches', feature_1_desc: 'Conception à trois niveaux Zone → Couche → Nœud, système structuré clair, supportant des extensions personnalisées flexibles.', feature_2_title: 'Connexion intelligente', feature_2_desc: 'Plusieurs types de connexions : flux de données, flux de contrôle, déclenchement d\'événements. Système complet de gestion des relations d\'entités.', feature_3_title: 'Modèle ID+Data', feature_3_desc: 'Conception entièrement décentralisée. Chaque entité a un identifiant unique, des supports de données JSON flexibles.', feature_4_title: 'Orchestration AI Agent', feature_4_desc: 'Gestion de studio robotique, cycle de vie complet des Agents, planification intelligente des tâches.', feature_5_title: 'Surveillance en temps réel', feature_5_desc: 'Auto-inspection complète du système, état de fonctionnement en temps réel, goulots d\'étranglement visibles en un coup d\'œil.', feature_6_title: 'Intégration Git', feature_6_desc: 'Contrôle de version, suivi des modifications, journaux d\'audit complets, capacités de gouvernance d\'entreprise.', why_choose_title: 'Pourquoi choisir Phoenix Resonance ?', why_1_title: 'Entièrement flexible', why_1_desc: 'Construire à partir de zéro sans limitations prédéfinies.', why_2_title: 'Fiabilité entreprise', why_2_desc: 'Sécurité des données de niveau financier, audit et conformité.', why_3_title: 'Collaboration efficace', why_3_desc: 'Intégration Git, flux de travail d\'équipe complet.', why_4_title: 'Transparence open source', why_4_desc: 'Protocole Phoenix Resonance, libre d\'utilisation et d\'extension.', why_5_title: 'Orchestration intelligente', why_5_desc: 'Automatisation alimentée par l\'IA, libérant la productivité.', why_6_title: 'Informations en temps réel', why_6_desc: 'Observabilité complète, décisions basées sur les données.', stat_1: 'Entreprises mondiales', stat_2: 'Appels quotidiens', stat_3: 'Disponibilité', products_title_prefix: 'Notre', products_title_highlight: 'Écosystème produit', products_subtitle: '—— Stack technologique complet ——', product_1_title: 'Plateforme principale : Phoenix Studio', product_1_desc: 'Plateforme de développement AGI d\'entreprise. Architecture hiérarchique, édition visuelle complète, collaboration en temps réel, intégration Git—fournissant une base solide pour les systèmes d\'IA complexes.', product_1_btn: 'Commencer →', product_2_title: 'Runtime : Phoenix Runtime', product_2_desc: 'Moteur d\'exécution haute performance. Supporte le déploiement distribué, l\'auto-adaptation, la récupération après panne pour un fonctionnement stable et efficace.', product_2_btn: 'Déployer maintenant →', product_3_title: 'Outils de développement : Phoenix SDK', product_3_desc: 'Suite de développement complète. Support multilingue, API riches, documentation détaillée—intégration rapide dans votre système.', product_3_btn: 'Voir la doc →', pricing_title_prefix: 'Flexibles', pricing_title_highlight: 'Plans tarifaires', pricing_subtitle: '—— Paiement à l\'usage, sans frais cachés ——', price_1_name: 'Démarrage', price_1_unit: '/à l\'usage', price_1_desc: 'Idéal pour les développeurs individuels et les start-ups.', price_1_btn: 'Choisir', price_2_name: 'Professionnel', price_2_unit: '/mois', price_2_desc: 'Nœuds illimités, support cluster de base, adapté aux applications d\'équipe.', price_2_btn: 'Mettre à niveau', price_3_name: 'Entreprise', price_3_price: 'Personnalisé', price_3_desc: 'Déploiement privé, support dédié, extensibilité illimitée.', price_3_btn: 'Contacter les ventes', protocol_title: 'Protocole', protocol_subtitle: '—— Version 1.0 · Accord de licence open source ——', protocol_intro: 'Phoenix Resonance Protocol est un accord de licence open source innovant et convivial pour les entreprises, conçu pour offrir une liberté maximale aux développeurs et aux entreprises.', protocol_principles_title: 'Principes clés', protocol_principle_1: 'Liberté totale d\'utilisation, de modification et de distribution', protocol_principle_2: 'Support pour l\'utilisation commerciale et en source fermée, aucun paiement requis', protocol_principle_3: 'Exigences de compatibilité obligatoires pour maintenir l\'intégrité de l\'écosystème', protocol_principle_4: 'Contrôle de version Git, protocole gelé en permanence', protocol_can_title: '✅ Vous pouvez', protocol_can_1: 'Utiliser librement le logiciel et le matériel', protocol_can_2: 'Modifier et créer des produits dérivés', protocol_can_3: 'Utiliser à des fins commerciales sans payer de frais de licence', protocol_can_4: 'Choisir de publier en open source ou en source fermée', protocol_can_5: 'Utiliser compatible avec d\'autres licences', protocol_need_title: '⚠️ Vous devez', protocol_need_1: 'Maintenir la compatibilité des interfaces avec la version originale', protocol_need_2: 'Déclarer toutes les modifications dans les produits modifiés', protocol_need_3: 'Ne peut imposer de restrictions supplémentaires', protocol_need_4: 'Recommander de déclarer l\'origine de la licence dans la documentation', copyright: '© 2025 Phoenix Resonance. Tous droits réservés.', footer_copyright: '© 2025 Phoenix Resonance. Leader de l\'avenir de l\'IA d\'entreprise.' },
-            es: { brand: 'Phoenix Resonance', nav_home: 'Inicio', nav_features: 'Características', nav_products: 'Productos', nav_protocol: 'Protocolo', hero_title_prefix: 'Plataforma AGI de nivel empresarial', hero_subtitle: 'Rompe fronteras tradicionales y potencia las capacidades de IA empresarial. Arquitectura jerárquica, conexiones flexibles, ecosistema completo—resolviendo problemas complejos del mundo real.', btn_explore: 'Explorar ahora', btn_learn: 'Más información', features_title_prefix: 'Nuestras', features_title_highlight: 'Ventajas principales', features_subtitle: '—— Arquitectura de nivel empresarial ——', feature_1_title: 'Arquitectura en capas', feature_1_desc: 'Diseño de tres niveles Zona → Capa → Nodo, sistema estructurado claro, soporte para extensiones personalizadas flexibles.', feature_2_title: 'Conexión inteligente', feature_2_desc: 'Múltiples tipos de conexión: flujo de datos, flujo de control, activación de eventos. Sistema completo de gestión de relaciones de entidades.', feature_3_title: 'Modelo ID+Data', feature_3_desc: 'Diseño completamente descentralizado. Cada entidad tiene un identificador único, portadores de datos JSON flexibles.', feature_4_title: 'Orquestación de AI Agent', feature_4_desc: 'Gestión de estudio de robots, ciclo de vida completo de Agent, programación inteligente de tareas.', feature_5_title: 'Monitoreo en tiempo real', feature_5_desc: 'Autoinspección completa del sistema, estado operativo en tiempo real, cuellos de botella de rendimiento visibles de un vistazo.', feature_6_title: 'Integración con Git', feature_6_desc: 'Control de versiones, seguimiento de cambios, registros de auditoría completos, capacidades de gobernanza de nivel empresarial.', why_choose_title: '¿Por qué elegir Phoenix Resonance?', why_1_title: 'Completamente flexible', why_1_desc: 'Construir desde cero sin limitaciones predefinidas.', why_2_title: 'Confiabilidad empresarial', why_2_desc: 'Seguridad de datos de nivel financiero, auditoría y cumplimiento.', why_3_title: 'Colaboración eficiente', why_3_desc: 'Integración con Git, flujo de trabajo de equipo completo.', why_4_title: 'Transparencia de código abierto', why_4_desc: 'Protocolo Phoenix Resonance, libre de usar y extender.', why_5_title: 'Orquestación inteligente', why_5_desc: 'Automatización impulsada por IA, liberando productividad.', why_6_title: 'Información en tiempo real', why_6_desc: 'Observabilidad completa, decisiones basadas en datos.', stat_1: 'Empresas globales', stat_2: 'Llamadas diarias', stat_3: 'Disponibilidad', products_title_prefix: 'Nuestro', products_title_highlight: 'Ecosistema de productos', products_subtitle: '—— Stack tecnológico completo ——', product_1_title: 'Plataforma central: Phoenix Studio', product_1_desc: 'Plataforma de desarrollo AGI de nivel empresarial. Arquitectura jerárquica, edición visual completa, colaboración en tiempo real, integración con Git—proporcionando una base sólida para sistemas de IA complejos.', product_1_btn: 'Comenzar →', product_2_title: 'Runtime: Phoenix Runtime', product_2_desc: 'Motor de ejecución de alto rendimiento. Soporta despliegue distribuido, autoescalado, recuperación de fallos para un funcionamiento estable y eficiente.', product_2_btn: 'Desplegar ahora →', product_3_title: 'Herramientas de desarrollo: Phoenix SDK', product_3_desc: 'Suite de desarrollo completa. Soporte multilingüe, APIs ricas, documentación detallada—integración rápida en su sistema.', product_3_btn: 'Ver documentación →', pricing_title_prefix: 'Planes de', pricing_title_highlight: 'precios flexibles', pricing_subtitle: '—— Pago por uso, sin cargos ocultos ——', price_1_name: 'Inicial', price_1_unit: '/por uso', price_1_desc: 'Ideal para desarrolladores individuales y startups.', price_1_btn: 'Elegir plan', price_2_name: 'Profesional', price_2_unit: '/mes', price_2_desc: 'Nodos ilimitados, soporte de clúster básico, adecuado para aplicaciones de equipo.', price_2_btn: 'Actualizar ahora', price_3_name: 'Empresarial', price_3_price: 'Personalizado', price_3_desc: 'Despliegue privado, soporte dedicado, escalabilidad ilimitada.', price_3_btn: 'Contactar ventas', protocol_title: 'Protocolo', protocol_subtitle: '—— Versión 1.0 · Acuerdo de licencia de código abierto ——', protocol_intro: 'Phoenix Resonance Protocol es un acuerdo de licencia de código abierto innovador y amigable para negocios, diseñado para proporcionar la máxima libertad a desarrolladores y empresas.', protocol_principles_title: 'Principios clave', protocol_principle_1: 'Libertad total para usar, modificar y distribuir', protocol_principle_2: 'Soporte para uso comercial y de código cerrado, sin pago requerido', protocol_principle_3: 'Requisitos de compatibilidad obligatorios para mantener la integridad del ecosistema', protocol_principle_4: 'Control de versiones Git, protocolo congelado permanentemente', protocol_can_title: '✅ Usted puede', protocol_can_1: 'Usar libremente el software y el hardware', protocol_can_2: 'Modificar y crear productos derivados', protocol_can_3: 'Usar con fines comerciales sin pagar tarifas de licencia', protocol_can_4: 'Elegir publicar como código abierto o cerrado', protocol_can_5: 'Usar compatible con otras licencias', protocol_need_title: '⚠️ Usted necesita', protocol_need_1: 'Mantener compatibilidad de interfaz con la versión original', protocol_need_2: 'Declarar todos los cambios en productos modificados', protocol_need_3: 'No puede imponer restricciones adicionales', protocol_need_4: 'Recomendar declarar el origen de la licencia en la documentación', copyright: '© 2025 Phoenix Resonance. Todos los derechos reservados.', footer_copyright: '© 2025 Phoenix Resonance. Liderando el futuro de la IA empresarial.' },
-            pt: { brand: 'Phoenix Resonance', nav_home: 'Início', nav_features: 'Recursos', nav_products: 'Produtos', nav_protocol: 'Protocolo', hero_title_prefix: 'Plataforma AGI de nível empresarial', hero_subtitle: 'Rompa fronteiras tradicionais e capacite as capacidades de IA empresarial. Arquitetura hierárquica, conexões flexíveis, ecossistema completo—resolvendo problemas complexos do mundo real.', btn_explore: 'Explorar agora', btn_learn: 'Saiba mais', features_title_prefix: 'Nossas', features_title_highlight: 'Vantagens principais', features_subtitle: '—— Arquitetura de nível empresarial ——', feature_1_title: 'Arquitetura em camadas', feature_1_desc: 'Design de três níveis Zona → Camada → Nó, sistema estruturado claro, suportando extensões personalizadas flexíveis.', feature_2_title: 'Conexão inteligente', feature_2_desc: 'Múltiplos tipos de conexão: fluxo de dados, fluxo de controle, acionamento de eventos. Sistema completo de gerenciamento de relacionamento de entidades.', feature_3_title: 'Modelo ID+Data', feature_3_desc: 'Design completamente descentralizado. Cada entidade tem um identificador único, portadores de dados JSON flexíveis.', feature_4_title: 'Orquestração de AI Agent', feature_4_desc: 'Gerenciamento de estúdio de robôs, ciclo de vida completo do Agent, agendamento inteligente de tarefas.', feature_5_title: 'Monitoramento em tempo real', feature_5_desc: 'Autoinspeção completa do sistema, status operacional em tempo real, gargalos de desempenho visíveis rapidamente.', feature_6_title: 'Integração com Git', feature_6_desc: 'Controle de versão, rastreamento de alterações, logs de auditoria completos, capacidades de governança de nível empresarial.', why_choose_title: 'Por que escolher o Phoenix Resonance?', why_1_title: 'Completamente flexível', why_1_desc: 'Construir do zero sem limitações predefinidas.', why_2_title: 'Confiabilidade empresarial', why_2_desc: 'Segurança de dados de nível financeiro, auditoria e conformidade.', why_3_title: 'Colaboração eficiente', why_3_desc: 'Integração com Git, fluxo de trabalho de equipe completo.', why_4_title: 'Transparência de código aberto', why_4_desc: 'Protocolo Phoenix Resonance, livre para usar e estender.', why_5_title: 'Orquestração inteligente', why_5_desc: 'Automação alimentada por IA, liberando produtividade.', why_6_title: 'Informações em tempo real', why_6_desc: 'Observabilidade completa, decisões baseadas em dados.', stat_1: 'Empresas globais', stat_2: 'Chamadas diárias', stat_3: 'Disponibilidade', products_title_prefix: 'Nosso', products_title_highlight: 'Ecossistema de produtos', products_subtitle: '—— Stack tecnológico completo ——', product_1_title: 'Plataforma central: Phoenix Studio', product_1_desc: 'Plataforma de desenvolvimento AGI de nível empresarial. Arquitetura hierárquica, edição visual completa, colaboração em tempo real, integração com Git—fornecendo uma base sólida para sistemas de IA complexos.', product_1_btn: 'Começar →', product_2_title: 'Runtime: Phoenix Runtime', product_2_desc: 'Motor de execução de alto desempenho. Suporta implantação distribuída, autoescalonamento, recuperação de falhas para operação estável e eficiente.', product_2_btn: 'Implantar agora →', product_3_title: 'Ferramentas de desenvolvimento: Phoenix SDK', product_3_desc: 'Suite de desenvolvimento completa. Suporte multilíngue, APIs ricas, documentação detalhada—integração rápida em seu sistema.', product_3_btn: 'Ver documentação →', pricing_title_prefix: 'Planos de', pricing_title_highlight: 'preços flexíveis', pricing_subtitle: '—— Pague conforme o uso, sem taxas ocultas ——', price_1_name: 'Inicial', price_1_unit: '/por uso', price_1_desc: 'Ideal para desenvolvedores individuais e startups.', price_1_btn: 'Escolher plano', price_2_name: 'Profissional', price_2_unit: '/mês', price_2_desc: 'Nós ilimitados, suporte básico de cluster, adequado para aplicações em equipe.', price_2_btn: 'Atualizar agora', price_3_name: 'Empresarial', price_3_price: 'Personalizado', price_3_desc: 'Implantação privada, suporte dedicado, escalabilidade ilimitada.', price_3_btn: 'Contatar vendas', protocol_title: 'Protocolo', protocol_subtitle: '—— Versão 1.0 · Acordo de licença de código aberto ——', protocol_intro: 'Phoenix Resonance Protocol é um acordo de licença de código aberto inovador e amigável para negócios, projetado para fornecer máxima liberdade para desenvolvedores e empresas.', protocol_principles_title: 'Princípios principais', protocol_principle_1: 'Liberdade total para usar, modificar e distribuir', protocol_principle_2: 'Suporte para uso comercial e de código fechado, sem pagamento necessário', protocol_principle_3: 'Requisitos de compatibilidade obrigatórios para manter a integridade do ecossistema', protocol_principle_4: 'Controle de versão Git, protocolo congelado permanentemente', protocol_can_title: '✅ Você pode', protocol_can_1: 'Usar livremente o software e hardware', protocol_can_2: 'Modificar e criar produtos derivados', protocol_can_3: 'Usar para fins comerciais sem pagar taxas de licença', protocol_can_4: 'Escolher publicar como código aberto ou fechado', protocol_can_5: 'Usar compatível com outras licenças', protocol_need_title: '⚠️ Você precisa', protocol_need_1: 'Manter compatibilidade de interface com a versão original', protocol_need_2: 'Declarar todas as alterações em produtos modificados', protocol_need_3: 'Não pode impor restrições adicionais', protocol_need_4: 'Recomendar declarar a origem da licença na documentação', copyright: '© 2025 Phoenix Resonance. Todos os direitos reservados.', footer_copyright: '© 2025 Phoenix Resonance. Liderando o futuro da IA empresarial.' },
-            ru: { brand: 'Phoenix Resonance', nav_home: 'Главная', nav_features: 'Возможности', nav_products: 'Продукты', nav_protocol: 'Протокол', hero_title_prefix: 'Корпоративная платформа AGI', hero_subtitle: 'Преодолейте традиционные границы и расширьте возможности корпоративного ИИ. Иерархическая архитектура, гибкие соединения, полная экосистема — решение сложных задач реального мира.', btn_explore: 'Исследовать', btn_learn: 'Узнать больше', features_title_prefix: 'Наши', features_title_highlight: 'Основные преимущества', features_subtitle: '—— Корпоративная архитектура ——', feature_1_title: 'Многоуровневая архитектура', feature_1_desc: 'Трёхуровневая структура Zone → Layer → Node, чёткая структурированная система, поддержка гибких пользовательских расширений.', feature_2_title: 'Интеллектуальное соединение', feature_2_desc: 'Несколько типов соединений: поток данных, управления, событийно-ориентированный. Полная система управления отношениями сущностей.', feature_3_title: 'Модель ID+Data', feature_3_desc: 'Полностью децентрализованный дизайн. Каждый объект имеет уникальный идентификатор, гибкие носители данных JSON.', feature_4_title: 'Оркестрация AI Agent', feature_4_desc: 'Управление студией роботов, полный жизненный цикл Agent, интеллектуальное планирование задач.', feature_5_title: 'Мониторинг в реальном времени', feature_5_desc: 'Полная самопроверка системы, мониторинг в реальном времени, узкие места производительности видны с первого взгляда.', feature_6_title: 'Интеграция Git', feature_6_desc: 'Контроль версий, отслеживание изменений, полные журналы аудита, возможности управления корпоративного уровня.', why_choose_title: 'Почему выбрать Phoenix Resonance?', why_1_title: 'Полная гибкость', why_1_desc: 'Строить с нуля без предопределённых ограничений.', why_2_title: 'Надёжность для корпораций', why_2_desc: 'Безопасность на уровне финансовых учреждений, аудит и соответствие.', why_3_title: 'Эффективное сотрудничество', why_3_desc: 'Интеграция Git, полный командный рабочий процесс.', why_4_title: 'Прозрачность открытого кода', why_4_desc: 'Протокол Phoenix Resonance, свободен в использовании и расширении.', why_5_title: 'Интеллектуальная оркестрация', why_5_desc: 'Автоматизация на основе ИИ, расширение производительности.', why_6_title: 'Информация в реальном времени', why_6_desc: 'Полная наблюдаемость, управление на основе данных.', stat_1: 'Корпорации по всему миру', stat_2: 'Вызовов в день', stat_3: 'Доступность', products_title_prefix: 'Наша', products_title_highlight: 'Экосистема продуктов', products_subtitle: '—— Полный стек технологий ——', product_1_title: 'Основная платформа: Phoenix Studio', product_1_desc: 'Корпоративная платформа разработки AGI. Иерархическая архитектура, полное визуальное редактирование, совместная работа в реальном времени, интеграция Git — надежная основа для сложных систем ИИ.', product_1_btn: 'Начать →', product_2_title: 'Среда выполнения: Phoenix Runtime', product_2_desc: 'Высокопроизводительный движок выполнения. Поддержка распределённого развертывания, автоматического масштабирования, восстановления при сбоях для стабильной и эффективной работы.', product_2_btn: 'Развернуть сейчас →', product_3_title: 'Инструменты разработки: Phoenix SDK', product_3_desc: 'Полный набор для разработки. Поддержка нескольких языков, богатые API, подробная документация — быстрая интеграция в вашу систему.', product_3_btn: 'Просмотреть документы →', pricing_title_prefix: 'Гибкие', pricing_title_highlight: 'Планы ценообразования', pricing_subtitle: '—— Платите только за использованное, без скрытых комиссий ——', price_1_name: 'Стартер', price_1_unit: '/по факту', price_1_desc: 'Идеально для индивидуальных разработчиков и стартапов.', price_1_btn: 'Выбрать', price_2_name: 'Профессиональный', price_2_unit: '/месяц', price_2_desc: 'Неограниченные узлы, базовая поддержка кластера, для командных приложений.', price_2_btn: 'Обновить сейчас', price_3_name: 'Корпоративный', price_3_price: 'Индивидуально', price_3_desc: 'Приватное развертывание, выделенная поддержка, неограниченная масштабируемость.', price_3_btn: 'Связаться с отделом продаж', protocol_title: 'Протокол', protocol_subtitle: '—— Версия 1.0 · Соглашение об открытом исходном коде ——', protocol_intro: 'Протокол Phoenix Resonance — инновационное, благоприятное для бизнеса соглашение об открытом исходном коде, разработанное для обеспечения максимальной свободы разработчиков и корпораций.', protocol_principles_title: 'Основные принципы', protocol_principle_1: 'Полная свобода использования, изменения и распространения', protocol_principle_2: 'Поддержка коммерческого и закрытого использования, платёж не требуется', protocol_principle_3: 'Обязательные требования совместимости для сохранения целостности экосистемы', protocol_principle_4: 'Управление версиями Git, протокол навсегда заморожен', protocol_can_title: '✅ Вы можете', protocol_can_1: 'Свободно использовать программное и аппаратное обеспечение', protocol_can_2: 'Модифицировать и создавать производные продукты', protocol_can_3: 'Использовать в коммерческих целях без уплаты лицензионных сборов', protocol_can_4: 'Выбирать публикацию в открытом или закрытом коде', protocol_can_5: 'Использовать совместимость с другими лицензиями', protocol_need_title: '⚠️ Вам нужно', protocol_need_1: 'Соблюдать совместимость интерфейсов с исходной версией', protocol_need_2: 'Объявить все изменения в модифицированных продуктах', protocol_need_3: 'Не может налагать дополнительные ограничения', protocol_need_4: 'Рекомендуется указывать источник лицензии в документации', copyright: '© 2025 Phoenix Resonance. Все права защищены', footer_copyright: '© 2025 Phoenix Resonance. Ведущие будущее корпоративного ИИ' },
-            ar: { brand: 'Phoenix Resonance', nav_home: 'الرئيسية', nav_features: 'الميزات', nav_products: 'المنتجات', nav_protocol: 'البروتوكول', hero_title_prefix: 'منصة AGI على مستوى المؤسسات', hero_subtitle: 'كسر الحدود التقليدية وتمكين قدرات الذكاء الاصطناعي للمؤسسات. بنية هرمية، اتصالات مرنة، نظام بيئي كامل—حل المشكلات المعقدة في العالم الحقيقي.', btn_explore: 'استكشف الآن', btn_learn: 'اعرف المزيد', features_title_prefix: 'مزايا', features_title_highlight: 'الأساسية لدينا', features_subtitle: '—— بنية على مستوى المؤسسات ——', feature_1_title: 'بنية متعددة الطبقات', feature_1_desc: 'تصميم ثلاثي المستويات Zone → Layer → Node، نظام منظم واضح، يدعم التوسعات المخصصة المرنة.', feature_2_title: 'اتصال ذكي', feature_2_desc: 'أنواع اتصال متعددة: تدفق البيانات، تدفق التحكم، تشغيل الأحداث. نظام كامل لإدارة علاقات الكيانات.', feature_3_title: 'نموذج ID+Data', feature_3_desc: 'تصميم لا مركزي بالكامل. لكل كيان معرف فريد، حاملات بيانات JSON مرنة.', feature_4_title: 'تنظيم AI Agent', feature_4_desc: 'إدارة استوديو الروبوتات، دورة حياة Agent كاملة، جدولة مهام ذكية.', feature_5_title: 'مراقبة في الوقت الفعلي', feature_5_desc: 'فحص ذاتي كامل للنظام، حالة التشغيل في الوقت الفعلي، اختناقات الأداء في لمحة.', feature_6_title: 'تكامل Git', feature_6_desc: 'التحكم في الإصدار، تتبع التغييرات، سجلات تدقيق كاملة، قدرات حوكمة على مستوى المؤسسات.', why_choose_title: 'لماذا تختار Phoenix Resonance؟', why_1_title: 'مرن بالكامل', why_1_desc: 'البناء من الصفر بدون قيود محددة مسبقاً.', why_2_title: 'موثوقية مؤسسية', why_2_desc: 'أمان بيانات على مستوى مالي، تدقيق وامتثال.', why_3_title: 'تعاون فعال', why_3_desc: 'تكامل Git، سير عمل فريق كامل.', why_4_title: 'شفافية المصادر المفتوحة', why_4_desc: 'بروتوكول Phoenix Resonance، حر في الاستخدام والتوسيع.', why_5_title: 'تنظيم ذكي', why_5_desc: 'أتمتة مدعومة بالذكاء الاصطناعي، إطلاق العنان للإنتاجية.', why_6_title: 'رؤى في الوقت الفعلي', why_6_desc: 'مراقبة كاملة، قرارات مبنية على البيانات.', stat_1: 'شركات عالمية', stat_2: 'مكالمات يومية', stat_3: 'التوفر', products_title_prefix: 'نظامنا', products_title_highlight: 'البيئي للمنتجات', products_subtitle: '—— مجموعة تقنية كاملة ——', product_1_title: 'المنصة الأساسية: Phoenix Studio', product_1_desc: 'منصة تطوير AGI على مستوى المؤسسات. بنية هرمية، تحرير مرئي كامل، تعاون في الوقت الفعلي، تكامل Git—توفير أساس متين لأنظمة الذكاء الاصطناعي المعقدة.', product_1_btn: 'ابدأ →', product_2_title: 'وقت التشغيل: Phoenix Runtime', product_2_desc: 'محرك تشغيل عالي الأداء. يدعم النشر الموزع، التوسع التلقائي، استعادة الأعطال لضمان تشغيل مستقر وفعال.', product_2_btn: 'انشر الآن →', product_3_title: 'أدوات التطوير: Phoenix SDK', product_3_desc: 'مجموعة تطوير كاملة. دعم متعدد اللغات، واجهات برمجة تطبيقات غنية، وثائق مفصلة—تكامل سريع في نظامك.', product_3_btn: 'عرض الوثائق →', pricing_title_prefix: 'خطط', pricing_title_highlight: 'تسعير مرنة', pricing_subtitle: '—— الدفع حسب الاستخدام، بدون رسوم خفية ——', price_1_name: 'مبتدئ', price_1_unit: '/حسب الاستخدام', price_1_desc: 'مناسب للمطورين الأفراد والشركات الناشئة.', price_1_btn: 'اختر الخطة', price_2_name: 'احترافي', price_2_unit: '/شهر', price_2_desc: 'عقد غير محدودة، دعم أساسي للمجموعة، مناسب لتطبيقات الفريق.', price_2_btn: 'ترقية الآن', price_3_name: 'مؤسسي', price_3_price: 'مخصص', price_3_desc: 'نشر خاص، دعم مخصص، قابلية توسع غير محدودة.', price_3_btn: 'اتصل بالمبيعات', protocol_title: 'البروتوكول', protocol_subtitle: '—— الإصدار 1.0 · اتفاقية ترخيص المصادر المفتوحة ——', protocol_intro: 'بروتوكول Phoenix Resonance هو اتفاقية ترخيص مفتوحة المصدر مبتكرة وصديقة للأعمال، مصممة لتوفير أقصى قدر من الحرية للمطورين والمؤسسات.', protocol_principles_title: 'المبادئ الأساسية', protocol_principle_1: 'حرية كاملة في الاستخدام والتعديل والتوزيع', protocol_principle_2: 'دعم الاستخدام التجاري ومغلق المصدر، بدون دفع', protocol_principle_3: 'متطلبات توافق إلزامية للحفاظ على سلامة النظام البيئي', protocol_principle_4: 'التحكم في الإصدارات Git، البروتوكول مجمد بشكل دائم', protocol_can_title: '✅ يمكنك', protocol_can_1: 'استخدام البرامج والأجهزة بحرية', protocol_can_2: 'تعديل وإنشاء منتجات مشتقة', protocol_can_3: 'الاستخدام للأغراض التجارية دون دفع رسوم ترخيص', protocol_can_4: 'اختيار النشر كمصدر مفتوح أو مغلق', protocol_can_5: 'الاستخدام متوافق مع التراخيص الأخرى', protocol_need_title: '⚠️ تحتاج إلى', protocol_need_1: 'الحفاظ على توافق الواجهة مع الإصدار الأصلي', protocol_need_2: 'الإعلان عن جميع التغييرات في المنتجات المعدلة', protocol_need_3: 'لا يمكن فرض قيود إضافية', protocol_need_4: 'يوصى بالإعلان عن مصدر الترخيص في الوثائق', copyright: '© 2025 Phoenix Resonance. جميع الحقوق محفوظة.', footer_copyright: '© 2025 Phoenix Resonance. قيادة مستقبل الذكاء الاصطناعي للمؤسسات.' },
-            tr: { brand: 'Phoenix Resonance', nav_home: 'Ana Sayfa', nav_features: 'Özellikler', nav_products: 'Ürünler', nav_protocol: 'Protokol', hero_title_prefix: 'Kurumsal AGI Platformu', hero_subtitle: 'Geleneksel sınırları aşın ve kurumsal AI yeteneklerini güçlendirin. Hiyerarşik mimari, esnek bağlantılar, eksiksiz ekosistem—gerçek dünyanın karmaşık sorunlarını çözün.', btn_explore: 'Şimdi Keşfet', btn_learn: 'Daha Fazla Bilgi', features_title_prefix: 'Temel', features_title_highlight: 'Avantajlarımız', features_subtitle: '—— Kurumsal Mimari ——', feature_1_title: 'Katmanlı Mimari', feature_1_desc: 'Zone → Layer → Node üç katmanlı tasarım, net yapılandırılmış sistem, esnek özel uzantıları destekler.', feature_2_title: 'Akıllı Bağlantı', feature_2_desc: 'Birden fazla bağlantı türü: veri akışı, kontrol akışı, olay tetikleme. Tam varlık ilişki yönetim sistemi.', feature_3_title: 'ID+Data Modeli', feature_3_desc: 'Tamamen merkezi olmayan tasarım. Her varlığın benzersiz bir tanımlayıcısı vardır, esnek JSON veri taşıyıcıları.', feature_4_title: 'AI Agent Orkestrasyonu', feature_4_desc: 'Robot stüdyo yönetimi, tam Agent yaşam döngüsü, akıllı görev planlama.', feature_5_title: 'Gerçek Zamanlı İzleme', feature_5_desc: 'Tam sistem kendi kendine denetim, gerçek zamanlı çalışma durumu, performans darboğazları bir bakışta.', feature_6_title: 'Git Entegrasyonu', feature_6_desc: 'Sürüm kontrolü, değişiklik takibi, tam denetim günlükleri, kurumsal düzeyde yönetişim yetenekleri.', why_choose_title: 'Neden Phoenix Resonance?', why_1_title: 'Tamamen Esnek', why_1_desc: 'Sıfırdan önceden tanımlanmış sınırlamalar olmadan oluşturun.', why_2_title: 'Kurumsal Güvenilirlik', why_2_desc: 'Finansal düzeyde veri güvenliği, denetim ve uyumluluk.', why_3_title: 'Verimli İşbirliği', why_3_desc: 'Git entegrasyonu, tam ekip iş akışı.', why_4_title: 'Açık Kaynak Şeffaflığı', why_4_desc: 'Phoenix Resonance Protokolü, özgürce kullanın ve genişletin.', why_5_title: 'Akıllı Orkestrasyon', why_5_desc: 'AI destekli otomasyon, üretkenliği serbest bırakın.', why_6_title: 'Gerçek Zamanlı İçgörüler', why_6_desc: 'Tam gözlemlenebilirlik, veri odaklı kararlar.', stat_1: 'Küresel Kuruluşlar', stat_2: 'Günlük Çağrılar', stat_3: 'Kullanılabilirlik', products_title_prefix: 'Ürün', products_title_highlight: 'Ekosistemimiz', products_subtitle: '—— Tam Teknoloji Yığını ——', product_1_title: 'Temel Platform: Phoenix Studio', product_1_desc: 'Kurumsal AGI geliştirme platformu. Hiyerarşik mimari, tam görsel düzenleme, gerçek zamanlı işbirliği, Git entegrasyonu—karmaşık AI sistemleri için sağlam bir temel sağlar.', product_1_btn: 'Başlayın →', product_2_title: 'Çalışma Zamanı: Phoenix Runtime', product_2_desc: 'Yüksek performanslı çalışma zamanı motoru. Dağıtılmış dağıtımı, otomatik ölçeklendirmeyi, hata kurtarmayı destekler—AI sistemlerinizin istikrarlı ve verimli çalışmasını sağlar.', product_2_btn: 'Şimdi Dağıt →', product_3_title: 'Geliştirme Araçları: Phoenix SDK', product_3_desc: 'Tam geliştirme paketi. Çok dilli destek, zengin API\'lar, ayrıntılı dokümantasyon—sisteminize hızlı entegrasyon.', product_3_btn: 'Dokümanları Görüntüle →', pricing_title_prefix: 'Esnek', pricing_title_highlight: 'Fiyatlandırma Planları', pricing_subtitle: '—— Kullandıkça öde, gizli ücret yok ——', price_1_name: 'Başlangıç', price_1_unit: '/kullandıkça öde', price_1_desc: 'Bireysel geliştiriciler ve girişimler için uygundur.', price_1_btn: 'Planı Seç', price_2_name: 'Profesyonel', price_2_unit: '/ay', price_2_desc: 'Sınırsız düğüm, temel küme desteği, ekip uygulamaları için uygundur.', price_2_btn: 'Şimdi Yükselt', price_3_name: 'Kurumsal', price_3_price: 'Özel', price_3_desc: 'Özel dağıtım, özel destek, sınırsız ölçeklenebilirlik.', price_3_btn: 'Satışla İletişime Geç', protocol_title: 'Protokol', protocol_subtitle: '—— Sürüm 1.0 · Açık Kaynak Lisans Anlaşması ——', protocol_intro: 'Phoenix Resonance Protokolü, geliştiricilere ve işletmelere maksimum özgürlük sağlamak için tasarlanmış yenilikçi, iş dostu bir açık kaynak lisans anlaşmasıdır.', protocol_principles_title: 'Temel İlkeler', protocol_principle_1: 'Kullanım, değiştirme ve dağıtımda tam özgürlük', protocol_principle_2: 'Ticari ve kapalı kaynak kullanımını destekler, ödeme gerekmez', protocol_principle_3: 'Ekosistem bütünlüğünü korumak için zorunlu uyumluluk gereksinimleri', protocol_principle_4: 'Git sürüm kontrolü, protokol kalıcı olarak dondurulmuştur', protocol_can_title: '✅ Yapabilirsiniz', protocol_can_1: 'Yazılım ve donanımı özgürce kullanın', protocol_can_2: 'Değiştirin ve türev ürünler oluşturun', protocol_can_3: 'Lisans ücreti ödemeden ticari amaçlar için kullanın', protocol_can_4: 'Açık veya kapalı kaynak olarak yayınlamayı seçin', protocol_can_5: 'Diğer lisanslarla uyumlu kullanın', protocol_need_title: '⚠️ Yapmanız Gerekenler', protocol_need_1: 'Orijinal sürümle arayüz uyumluluğunu koruyun', protocol_need_2: 'Değiştirilmiş ürünlerde tüm değişiklikleri bildirin', protocol_need_3: 'Ek kısıtlamalar getiremez', protocol_need_4: 'Belgelerde lisans kaynağını belirtmeniz önerilir', copyright: '© 2025 Phoenix Resonance. Tüm hakları saklıdır.', footer_copyright: '© 2025 Phoenix Resonance. Kurumsal AI\'nın geleceğine liderlik ediyor.' },
-            he: { brand: 'Phoenix Resonance', nav_home: 'בית', nav_features: 'תכונות', nav_products: 'מוצרים', nav_protocol: 'פרוטוקול', hero_title_prefix: 'פלטפורמת AGI ברמה ארגונית', hero_subtitle: 'שברו גבולות מסורתיים וחזקו את יכולות הבינה המלאכותית הארגונית. ארכיטקטורה היררכית, חיבורים גמישים, מערכת אקולוגית מלאה—פתרון בעיות מורכבות בעולם האמיתי.', btn_explore: 'חקור עכשיו', btn_learn: 'למד עוד', features_title_prefix: 'היתרונות', features_title_highlight: 'הליבה שלנו', features_subtitle: '—— ארכיטקטורה ברמה ארגונית ——', feature_1_title: 'ארכיטקטורה מרובדת', feature_1_desc: 'עיצוב תלת-שכבתי Zone → Layer → Node, מערכת מובנית ברורה, תומכת בהרחבות מותאמות אישית גמישות.', feature_2_title: 'חיבור חכם', feature_2_desc: 'סוגי חיבור מרובים: זרימת נתונים, זרימת בקרה, הפעלת אירועים. מערכת ניהול יחסי ישויות מלאה.', feature_3_title: 'מודל ID+Data', feature_3_desc: 'עיצוב מבוזר לחלוטין. לכל ישות יש מזהה ייחודי, נושאי נתוני JSON גמישים.', feature_4_title: 'תזמור AI Agent', feature_4_desc: 'ניהול אולפן רובוטים, מחזור חיים מלא של Agent, תזמון משימות חכם.', feature_5_title: 'ניטור בזמן אמת', feature_5_desc: 'בדיקה עצמית מלאה של המערכת, מצב תפעולי בזמן אמת, צווארי בקבוק בביצועים במבט אחד.', feature_6_title: 'שילוב Git', feature_6_desc: 'בקרת גרסאות, מעקב שינויים, יומני ביקורת מלאים, יכולות ממשל ברמה ארגונית.', why_choose_title: 'למה לבחור ב-Phoenix Resonance?', why_1_title: 'גמיש לחלוטין', why_1_desc: 'בנייה מאפס ללא הגבלות מוגדרות מראש.', why_2_title: 'אמינות ארגונית', why_2_desc: 'אבטחת נתונים ברמה פיננסית, ביקורת ותאימות.', why_3_title: 'שיתוף פעולה יעיל', why_3_desc: 'שילוב Git, זרימת עבודת צוות מלאה.', why_4_title: 'שקיפות קוד פתוח', why_4_desc: 'פרוטוקול Phoenix Resonance, חופשי לשימוש ולהרחבה.', why_5_title: 'תזמור חכם', why_5_desc: 'אוטומציה מונעת בינה מלאכותית, שחרור פרודוקטיביות.', why_6_title: 'תובנות בזמן אמת', why_6_desc: 'יכולת התבוננות מלאה, החלטות מונחות נתונים.', stat_1: 'ארגונים גלובליים', stat_2: 'שיחות יומיות', stat_3: 'זמינות', products_title_prefix: 'מערכת', products_title_highlight: 'המוצרים האקולוגית שלנו', products_subtitle: '—— ערימה טכנולוגית מלאה ——', product_1_title: 'פלטפורמת ליבה: Phoenix Studio', product_1_desc: 'פלטפורמת פיתוח AGI ברמה ארגונית. ארכיטקטורה היררכית, עריכה ויזואלית מלאה, שיתוף פעולה בזמן אמת, שילוב Git—מתן בסיס מוצק למערכות בינה מלאכותית מורכבות.', product_1_btn: 'התחל →', product_2_title: 'זמן ריצה: Phoenix Runtime', product_2_desc: 'מנוע זמן ריצה בעל ביצועים גבוהים. תומך בפריסה מבוזרת, קנה מידה אוטומטי, שחזור תקלות להבטחת פעולה יציבה ויעילה.', product_2_btn: 'פרוס עכשיו →', product_3_title: 'כלי פיתוח: Phoenix SDK', product_3_desc: 'ערכת פיתוח מלאה. תמיכה רב-לשונית, API עשירים, תיעוד מפורט—שילוב מהיר במערכת שלך.', product_3_btn: 'צפה בתיעוד →', pricing_title_prefix: 'תוכניות', pricing_title_highlight: 'תמחור גמיש', pricing_subtitle: '—— שלם לפי שימוש, ללא עמלות נסתרות ——', price_1_name: 'מתחיל', price_1_unit: '/לפי שימוש', price_1_desc: 'מתאים למפתחים עצמאיים וסטארטאפים.', price_1_btn: 'בחר תוכנית', price_2_name: 'מקצועי', price_2_unit: '/חודש', price_2_desc: 'צמתים בלתי מוגבלים, תמיכת אשכול בסיסית, מתאים ליישומי צוות.', price_2_btn: 'שדרג עכשיו', price_3_name: 'ארגוני', price_3_price: 'מותאם אישית', price_3_desc: 'פריסה פרטית, תמיכה ייעודית, יכולת הרחבה בלתי מוגבלת.', price_3_btn: 'צור קשר עם מכירות', protocol_title: 'פרוטוקול', protocol_subtitle: '—— גרסה 1.0 · הסכם רישיון קוד פתוח ——', protocol_intro: 'פרוטוקול Phoenix Resonance הוא הסכם רישיון קוד פתוח חדשני וידידותי לעסקים, שנועד לספק חופש מרבי למפתחים ולארגונים.', protocol_principles_title: 'עקרונות הליבה', protocol_principle_1: 'חופש מלא לשימוש, שינוי והפצה', protocol_principle_2: 'תמיכה בשימוש מסחרי ובקוד סגור, ללא תשלום', protocol_principle_3: 'דרישות תאימות חובה לשמירה על שלמות המערכת האקולוגית', protocol_principle_4: 'בקרת גרסאות Git, הפרוטוקול קפוא לצמיתות', protocol_can_title: '✅ אתה יכול', protocol_can_1: 'להשתמש בחופשיות בתוכנה ובחומרה', protocol_can_2: 'לשנות וליצור מוצרים נגזרים', protocol_can_3: 'להשתמש למטרות מסחריות ללא תשלום דמי רישיון', protocol_can_4: 'לבחור לפרסם כקוד פתוח או קוד סגור', protocol_can_5: 'להשתמש בתואם עם רישיונות אחרים', protocol_need_title: '⚠️ אתה צריך', protocol_need_1: 'לשמור על תאימות ממשק עם הגרסה המקורית', protocol_need_2: 'להצהיר על כל השינויים במוצרים שונו', protocol_need_3: 'לא יכול להטיל הגבלות נוספות', protocol_need_4: 'מומלץ להצהיר על מקור הרישיון בתיעוד', copyright: '© 2025 Phoenix Resonance. כל הזכויות שמורות.', footer_copyright: '© 2025 Phoenix Resonance. מובילים את עתיד הבינה המלאכותית הארגונית.' },
-            nl: { brand: 'Phoenix Resonance', nav_home: 'Home', nav_features: 'Functies', nav_products: 'Producten', nav_protocol: 'Protocol', hero_title_prefix: 'AGI-platform voor ondernemingen', hero_subtitle: 'Doorbreek traditionele grenzen en versterk de AI-mogelijkheden van ondernemingen. Hiërarchische architectuur, flexibele verbindingen, compleet ecosysteem—het oplossen van complexe problemen in de echte wereld.', btn_explore: 'Nu ontdekken', btn_learn: 'Meer informatie', features_title_prefix: 'Onze', features_title_highlight: 'Kernvoordelen', features_subtitle: '—— Architectuur voor ondernemingen ——', feature_1_title: 'Gelaagde architectuur', feature_1_desc: 'Driedaags ontwerp Zone → Laag → Knoop, duidelijk gestructureerd systeem, ondersteunt flexibele aangepaste uitbreidingen.', feature_2_title: 'Intelligente verbinding', feature_2_desc: 'Meerdere verbindingstypen: gegevensstroom, controlestroom, gebeurtenistrigger. Compleet systeem voor relatiebeheer van entiteiten.', feature_3_title: 'ID+Data-model', feature_3_desc: 'Volledig gedecentraliseerd ontwerp. Elke entiteit heeft een unieke identificatie, flexibele JSON-gegevensdragers.', feature_4_title: 'AI Agent Orchestratie', feature_4_desc: 'Robotstudio-beheer, volledige Agent-levenscyclus, intelligente taakplanning.', feature_5_title: 'Realtime bewaking', feature_5_desc: 'Volledige systeemzelfinspectie, realtime operationele status, prestatieknelpunten in één oogopslag.', feature_6_title: 'Git-integratie', feature_6_desc: 'Versiebeheer, wijzigingstracking, volledige auditlogboeken, governance-mogelijkheden op ondernemingsniveau.', why_choose_title: 'Waarom kiezen voor Phoenix Resonance?', why_1_title: 'Volledig flexibel', why_1_desc: 'Vanuit het niets bouwen zonder vooraf gedefinieerde beperkingen.', why_2_title: 'Betrouwbaar voor ondernemingen', why_2_desc: 'Gegevensbeveiliging op financieel niveau, audit en naleving.', why_3_title: 'Efficiënte samenwerking', why_3_desc: 'Git-integratie, volledige teamworkflow.', why_4_title: 'Open source transparantie', why_4_desc: 'Phoenix Resonance Protocol, vrij te gebruiken en uit te breiden.', why_5_title: 'Intelligente orchestratie', why_5_desc: 'AI-gestuurde automatisering, productiviteit ontketenen.', why_6_title: 'Realtime inzichten', why_6_desc: 'Volledige waarneembaarheid, datagestuurde beslissingen.', stat_1: 'Wereldwijde ondernemingen', stat_2: 'Dagelijkse oproepen', stat_3: 'Beschikbaarheid', products_title_prefix: 'Ons', products_title_highlight: 'Productecosysteem', products_subtitle: '—— Volledige technologiestack ——', product_1_title: 'Kernplatform: Phoenix Studio', product_1_desc: 'AGI-ontwikkelplatform voor ondernemingen. Hiërarchische architectuur, volledige visuele bewerking, realtime samenwerking, Git-integratie—een solide basis voor complexe AI-systemen.', product_1_btn: 'Aan de slag →', product_2_title: 'Runtime: Phoenix Runtime', product_2_desc: 'Hoogwaardige runtime-engine. Ondersteunt gedistribueerde implementatie, automatische schaling, foutherstel voor stabiele en efficiënte werking.', product_2_btn: 'Nu implementeren →', product_3_title: 'Ontwikkeltools: Phoenix SDK', product_3_desc: 'Volledige ontwikkelingssuite. Meertalige ondersteuning, rijke API\'s, gedetailleerde documentatie—snelle integratie in uw systeem.', product_3_btn: 'Documentatie bekijken →', pricing_title_prefix: 'Flexibele', pricing_title_highlight: 'prijsplannen', pricing_subtitle: '—— Betaal per gebruik, geen verborgen kosten ——', price_1_name: 'Starter', price_1_unit: '/per gebruik', price_1_desc: 'Geschikt voor individuele ontwikkelaars en startups.', price_1_btn: 'Kies plan', price_2_name: 'Professioneel', price_2_unit: '/maand', price_2_desc: 'Onbeperkte knooppunten, basisclusterondersteuning, geschikt voor teamtoepassingen.', price_2_btn: 'Nu upgraden', price_3_name: 'Enterprise', price_3_price: 'Op maat', price_3_desc: 'Private implementatie, speciale ondersteuning, onbeperkte schaalbaarheid.', price_3_btn: 'Neem contact op met verkoop', protocol_title: 'Protocol', protocol_subtitle: '—— Versie 1.0 · Open source licentieovereenkomst ——', protocol_intro: 'Phoenix Resonance Protocol is een innovatieve, zakelijk vriendelijke open source licentieovereenkomst die is ontworpen om maximale vrijheid te bieden aan ontwikkelaars en ondernemingen.', protocol_principles_title: 'Kernprincipes', protocol_principle_1: 'Volledige vrijheid om te gebruiken, wijzigen en distribueren', protocol_principle_2: 'Ondersteuning voor commercieel en closed-source gebruik, geen betaling vereist', protocol_principle_3: 'Verplichte compatibiliteitsvereisten om de integriteit van het ecosysteem te behouden', protocol_principle_4: 'Git-versiebeheer, protocol permanent bevroren', protocol_can_title: '✅ U kunt', protocol_can_1: 'Vrijelijk software en hardware gebruiken', protocol_can_2: 'Wijzigen en afgeleide producten maken', protocol_can_3: 'Gebruiken voor commerciële doeleinden zonder licentiekosten te betalen', protocol_can_4: 'Kiezen om open source of closed source te publiceren', protocol_can_5: 'Compatibel gebruiken met andere licenties', protocol_need_title: '⚠️ U moet', protocol_need_1: 'Interface-compatibiliteit met de oorspronkelijke versie behouden', protocol_need_2: 'Alle wijzigingen in gewijzigde producten vermelden', protocol_need_3: 'Geen extra beperkingen opleggen', protocol_need_4: 'Aanbevolen om de herkomst van de licentie in de documentatie te vermelden', copyright: '© 2025 Phoenix Resonance. Alle rechten voorbehouden.', footer_copyright: '© 2025 Phoenix Resonance. De toekomst van bedrijfs-AI leiden.' },
-            it: { brand: 'Phoenix Resonance', nav_home: 'Home', nav_features: 'Caratteristiche', nav_products: 'Prodotti', nav_protocol: 'Protocollo', hero_title_prefix: 'Piattaforma AGI di livello aziendale', hero_subtitle: 'Supera i confini tradizionali e potenzia le capacità di IA aziendale. Architettura gerarchica, connessioni flessibili, ecosistema completo—risolvendo problemi complessi del mondo reale.', btn_explore: 'Esplora ora', btn_learn: 'Scopri di più', features_title_prefix: 'I nostri', features_title_highlight: 'Vantaggi principali', features_subtitle: '—— Architettura di livello aziendale ——', feature_1_title: 'Architettura a livelli', feature_1_desc: 'Progetto a tre livelli Zona → Livello → Nodo, sistema strutturato chiaro, supporta estensioni personalizzate flessibili.', feature_2_title: 'Connessione intelligente', feature_2_desc: 'Tipi di connessione multipli: flusso di dati, flusso di controllo, attivazione eventi. Sistema completo di gestione delle relazioni tra entità.', feature_3_title: 'Modello ID+Data', feature_3_desc: 'Progetto completamente decentralizzato. Ogni entità ha un identificatore unico, supporti di dati JSON flessibili.', feature_4_title: 'Orchestrazione AI Agent', feature_4_desc: 'Gestione dello studio robot, ciclo di vita completo dell\'Agent, pianificazione intelligente delle attività.', feature_5_title: 'Monitoraggio in tempo reale', feature_5_desc: 'Autocontrollo completo del sistema, stato operativo in tempo reale, colli di bottiglia delle prestazioni a colpo d\'occhio.', feature_6_title: 'Integrazione Git', feature_6_desc: 'Controllo delle versioni, tracciamento delle modifiche, registri di audit completi, capacità di governance di livello aziendale.', why_choose_title: 'Perché scegliere Phoenix Resonance?', why_1_title: 'Completamente flessibile', why_1_desc: 'Costruire da zero senza limitazioni predefinite.', why_2_title: 'Affidabilità aziendale', why_2_desc: 'Sicurezza dei dati di livello finanziario, audit e conformità.', why_3_title: 'Collaborazione efficiente', why_3_desc: 'Integrazione Git, flusso di lavoro di squadra completo.', why_4_title: 'Trasparenza open source', why_4_desc: 'Protocollo Phoenix Resonance, libero da utilizzare e estendere.', why_5_title: 'Orchestrazione intelligente', why_5_desc: 'Automazione basata su IA, liberare la produttività.', why_6_title: 'Approfondimenti in tempo reale', why_6_desc: 'Osservabilità completa, decisioni basate sui dati.', stat_1: 'Aziende globali', stat_2: 'Chiamate giornaliere', stat_3: 'Disponibilità', products_title_prefix: 'Il nostro', products_title_highlight: 'Ecosistema di prodotti', products_subtitle: '—— Stack tecnologico completo ——', product_1_title: 'Piattaforma principale: Phoenix Studio', product_1_desc: 'Piattaforma di sviluppo AGI di livello aziendale. Architettura gerarchica, editing visivo completo, collaborazione in tempo reale, integrazione Git—fornendo una base solida per sistemi di IA complessi.', product_1_btn: 'Inizia →', product_2_title: 'Runtime: Phoenix Runtime', product_2_desc: 'Motore runtime ad alte prestazioni. Supporta il deployment distribuito, l\'auto-scaling, il ripristino dei guasti per un funzionamento stabile ed efficiente.', product_2_btn: 'Distribuisci ora →', product_3_title: 'Strumenti di sviluppo: Phoenix SDK', product_3_desc: 'Suite di sviluppo completa. Supporto multilingue, API ricche, documentazione dettagliata—integrazione rapida nel tuo sistema.', product_3_btn: 'Vedi documentazione →', pricing_title_prefix: 'Piani', pricing_title_highlight: 'prezzo flessibili', pricing_subtitle: '—— Pagamento a consumo, senza costi nascosti ——', price_1_name: 'Starter', price_1_unit: '/a consumo', price_1_desc: 'Adatto a sviluppatori individuali e startup.', price_1_btn: 'Scegli piano', price_2_name: 'Professionale', price_2_unit: '/mese', price_2_desc: 'Nodi illimitati, supporto cluster di base, adatto per applicazioni di team.', price_2_btn: 'Aggiorna ora', price_3_name: 'Enterprise', price_3_price: 'Personalizzato', price_3_desc: 'Deployment privato, supporto dedicato, scalabilità illimitata.', price_3_btn: 'Contatta le vendite', protocol_title: 'Protocollo', protocol_subtitle: '—— Versione 1.0 · Accordo di licenza open source ——', protocol_intro: 'Phoenix Resonance Protocol è un accordo di licenza open source innovativo e favorevole alle imprese, progettato per fornire la massima libertà a sviluppatori e aziende.', protocol_principles_title: 'Principi chiave', protocol_principle_1: 'Libertà totale di utilizzo, modifica e distribuzione', protocol_principle_2: 'Supporto per uso commerciale e closed-source, nessun pagamento richiesto', protocol_principle_3: 'Requisiti di compatibilità obbligatori per mantenere l\'integrità dell\'ecosistema', protocol_principle_4: 'Controllo versione Git, protocollo congelato permanentemente', protocol_can_title: '✅ Puoi', protocol_can_1: 'Usare liberamente software e hardware', protocol_can_2: 'Modificare e creare prodotti derivati', protocol_can_3: 'Usare per scopi commerciali senza pagare commissioni di licenza', protocol_can_4: 'Scegliere di pubblicare come open source o closed source', protocol_can_5: 'Usare compatibile con altre licenze', protocol_need_title: '⚠️ Devi', protocol_need_1: 'Mantenere la compatibilità dell\'interfaccia con la versione originale', protocol_need_2: 'Dichiarare tutte le modifiche nei prodotti modificati', protocol_need_3: 'Non può imporre restrizioni aggiuntive', protocol_need_4: 'Si consiglia di dichiarare l\'origine della licenza nella documentazione', copyright: '© 2025 Phoenix Resonance. Tutti i diritti riservati.', footer_copyright: '© 2025 Phoenix Resonance. All\'avanguardia del futuro dell\'IA aziendale.' },
-            vi: { brand: 'Phoenix Resonance', nav_home: 'Trang chủ', nav_features: 'Tính năng', nav_products: 'Sản phẩm', nav_protocol: 'Giao thức', hero_title_prefix: 'Nền tảng AGI cấp doanh nghiệp', hero_subtitle: 'Vượt qua ranh giới truyền thống và tăng cường khả năng AI của doanh nghiệp. Kiến trúc phân tầng, kết nối linh hoạt, hệ sinh thái hoàn chỉnh — giải quyết các vấn đề phức tạp trong thế giới thực.', btn_explore: 'Khám phá ngay', btn_learn: 'Tìm hiểu thêm', features_title_prefix: 'Lợi thế', features_title_highlight: 'cốt lõi của chúng tôi', features_subtitle: '—— Kiến trúc cấp doanh nghiệp ——', feature_1_title: 'Kiến trúc phân tầng', feature_1_desc: 'Thiết kế 3 lớp Zone → Layer → Node, hệ thống cấu trúc rõ ràng, hỗ trợ mở rộng tùy chỉnh linh hoạt.', feature_2_title: 'Kết nối thông minh', feature_2_desc: 'Nhiều loại kết nối: dòng dữ liệu, dòng điều khiển, kích hoạt sự kiện. Hệ thống quản lý quan hệ thực thể hoàn chỉnh.', feature_3_title: 'Mô hình ID+Data', feature_3_desc: 'Thiết kế hoàn toàn phi tập trung. Mỗi thực thể có định danh duy nhất, các phương tiện dữ liệu JSON linh hoạt.', feature_4_title: 'Điều phối AI Agent', feature_4_desc: 'Quản lý studio robot, vòng đời Agent hoàn chỉnh, lập lịch nhiệm vụ thông minh.', feature_5_title: 'Giám sát thời gian thực', feature_5_desc: 'Tự kiểm tra hệ thống hoàn chỉnh, trạng thái hoạt động thời gian thực, nút thắt hiệu suất có thể nhìn thấy ngay lập tức.', feature_6_title: 'Tích hợp Git', feature_6_desc: 'Kiểm soát phiên bản, theo dõi thay đổi, nhật ký kiểm toán hoàn chỉnh, khả năng quản trị cấp doanh nghiệp.', why_choose_title: 'Tại sao chọn Phoenix Resonance?', why_1_title: 'Hoàn toàn linh hoạt', why_1_desc: 'Xây dựng từ đầu mà không có giới hạn được xác định trước.', why_2_title: 'Độ tin cậy doanh nghiệp', why_2_desc: 'Bảo mật cấp tài chính, kiểm toán và tuân thủ.', why_3_title: 'Hợp tác hiệu quả', why_3_desc: 'Tích hợp Git, quy trình công việc nhóm hoàn chỉnh.', why_4_title: 'Minh bạch nguồn mở', why_4_desc: 'Giao thức Phoenix Resonance, tự do sử dụng và mở rộng.', why_5_title: 'Điều phối thông minh', why_5_desc: 'Tự động hóa do AI hỗ trợ, giải phóng năng suất.', why_6_title: 'Thông tin chi tiết thời gian thực', why_6_desc: 'Quan sát toàn bộ, quyết định dựa trên dữ liệu.', stat_1: 'Doanh nghiệp toàn cầu', stat_2: 'Lệnh gọi hàng ngày', stat_3: 'Tính sẵn có', products_title_prefix: 'Hệ sinh', products_title_highlight: 'thái sản phẩm của chúng tôi', products_subtitle: '—— Ngăn xếp công nghệ hoàn chỉnh ——', product_1_title: 'Nền tảng lõi: Phoenix Studio', product_1_desc: 'Nền tảng phát triển AGI cấp doanh nghiệp. Kiến trúc phân tầng, chỉnh sửa trực quan hoàn chỉnh, cộng tác thời gian thực, tích hợp Git — cung cấp nền tảng vững chắc cho các hệ thống AI phức tạp.', product_1_btn: 'Bắt đầu →', product_2_title: 'Thời gian chạy: Phoenix Runtime', product_2_desc: 'Công cụ thời gian chạy hiệu suất cao. Hỗ trợ triển khai phân tán, tự động mở rộng, phục hồi sau sự cố để đảm bảo hoạt động ổn định và hiệu quả.', product_2_btn: 'Triển khai ngay →', product_3_title: 'Công cụ phát triển: Phoenix SDK', product_3_desc: 'Bộ phát triển hoàn chỉnh. Hỗ trợ đa ngôn ngữ, API phong phú, tài liệu chi tiết — tích hợp nhanh vào hệ thống của bạn.', product_3_btn: 'Xem tài liệu →', pricing_title_prefix: 'Kế hoạch', pricing_title_highlight: 'giá linh hoạt', pricing_subtitle: '—— Trả tiền theo mức sử dụng, không có phí ẩn ——', price_1_name: 'Khởi động', price_1_unit: '/theo nhu cầu', price_1_desc: 'Phù hợp cho các nhà phát triển cá nhân và startups.', price_1_btn: 'Chọn gói', price_2_name: 'Chuyên nghiệp', price_2_unit: '/tháng', price_2_desc: 'Nút không giới hạn, hỗ trợ cụm cơ bản, phù hợp cho các ứng dụng nhóm.', price_2_btn: 'Nâng cấp ngay', price_3_name: 'Doanh nghiệp', price_3_price: 'Tùy chỉnh', price_3_desc: 'Triển khai riêng, hỗ trợ dành riêng, khả năng mở rộng không giới hạn.', price_3_btn: 'Liên hệ bán hàng', protocol_title: 'Giao thức', protocol_subtitle: '—— Phiên bản 1.0 · Thỏa thuận giấy phép nguồn mở ——', protocol_intro: 'Giao thức Phoenix Resonance là một thỏa thuận giấy phép nguồn mở sáng tạo, thân thiện với kinh doanh được thiết kế để cung cấp tự do tối đa cho các nhà phát triển và doanh nghiệp.', protocol_principles_title: 'Nguyên tắc cốt lõi', protocol_principle_1: 'Tự do hoàn toàn sử dụng, sửa đổi và phân phối', protocol_principle_2: 'Hỗ trợ sử dụng thương mại và mã nguồn đóng, không cần trả tiền', protocol_principle_3: 'Yêu cầu tính tương thích bắt buộc để duy trì tính toàn vẹn của hệ sinh thái', protocol_principle_4: 'Quản lý phiên bản Git, giao thức bị đông cứng vĩnh viễn', protocol_can_title: '✅ Bạn có thể', protocol_can_1: 'Sử dụng tự do phần mềm và phần cứng', protocol_can_2: 'Sửa đổi và tạo sản phẩm dẫn xuất', protocol_can_3: 'Sử dụng cho mục đích thương mại mà không phải trả lệ phí cấp phép', protocol_can_4: 'Chọn xuất bản là mã nguồn mở hoặc mã đóng', protocol_can_5: 'Sử dụng tương thích với các giấy phép khác', protocol_need_title: '⚠️ Bạn cần', protocol_need_1: 'Duy trì tương thích giao diện với phiên bản gốc', protocol_need_2: 'Khai báo tất cả các thay đổi trong các sản phẩm được sửa đổi', protocol_need_3: 'Không thể áp đặt các hạn chế bổ sung', protocol_need_4: 'Khuyến nghị khai báo nguồn gốc giấy phép trong tài liệu', copyright: '© 2025 Phoenix Resonance. Tất cả quyền được bảo lưu', footer_copyright: '© 2025 Phoenix Resonance. Dẫn đầu tương lai của AI doanh nghiệp' },
-            cs: { brand: 'Phoenix Resonance', nav_home: 'Domů', nav_features: 'Funkce', nav_products: 'Produkty', nav_protocol: 'Protokol', hero_title_prefix: 'Podniková platforma AGI', hero_subtitle: 'Překonejte tradiční hranice a posilte podnikové schopnosti AI. Hierarchická architektura, flexibilní připojení, kompletní ekosystém—řešení složitých problémů reálného světa.', btn_explore: 'Prozkoumat', btn_learn: 'Zjistit více', features_title_prefix: 'Naše', features_title_highlight: 'hlavní výhody', features_subtitle: '—— Podniková architektura ——', feature_1_title: 'Vrstvená architektura', feature_1_desc: 'Třívrstvý design Zone → Layer → Node, přehledný strukturovaný systém, podpora flexibilních vlastních rozšíření.', feature_2_title: 'Inteligentní připojení', feature_2_desc: 'Více typů připojení: datový tok, řídicí tok, spouštění událostí. Kompletní systém správy vztahů entit.', feature_3_title: 'Model ID+Data', feature_3_desc: 'Zcela decentralizovaný design. Každá entita má jedinečný identifikátor, flexibilní nosiče dat JSON.', feature_4_title: 'Orchestrace AI Agent', feature_4_desc: 'Správa robotického studia, kompletní životní cyklus Agent, inteligentní plánování úloh.', feature_5_title: 'Monitorování v reálném čase', feature_5_desc: 'Kompletní autokontrola systému, stav provozu v reálném čase, úzká místa výkonu na první pohled.', feature_6_title: 'Integrace Git', feature_6_desc: 'Správa verzí, sledování změn, kompletní protokoly auditu, podnikové schopnosti správy.', why_choose_title: 'Proč si vybrat Phoenix Resonance?', why_1_title: 'Zcela flexibilní', why_1_desc: 'Stavět od nuly bez předdefinovaných omezení.', why_2_title: 'Podniková spolehlivost', why_2_desc: 'Bezpečnost dat na finanční úrovni, audit a shoda.', why_3_title: 'Efektivní spolupráce', why_3_desc: 'Integrace Git, kompletní týmový pracovní postup.', why_4_title: 'Transparentnost open source', why_4_desc: 'Protokol Phoenix Resonance, volně použitelný a rozšiřitelný.', why_5_title: 'Inteligentní orchestrace', why_5_desc: 'Automatizace poháněná AI, uvolnění produktivity.', why_6_title: 'Přehledy v reálném čase', why_6_desc: 'Kompletní pozorovatelnost, rozhodování založené na datech.', stat_1: 'Globální podniky', stat_2: 'Denní volání', stat_3: 'Dostupnost', products_title_prefix: 'Náš', products_title_highlight: 'produktový ekosystém', products_subtitle: '—— Kompletní technologický stack ——', product_1_title: 'Hlavní platforma: Phoenix Studio', product_1_desc: 'Podniková platforma pro vývoj AGI. Hierarchická architektura, kompletní vizuální úpravy, spolupráce v reálném čase, integrace Git—poskytuje pevný základ pro komplexní AI systémy.', product_1_btn: 'Začít →', product_2_title: 'Běhové prostředí: Phoenix Runtime', product_2_desc: 'Vysoce výkonný běhový engine. Podporuje distribuované nasazení, automatické škálování, obnovu po selhání pro stabilní a efektivní provoz.', product_2_btn: 'Nasadit nyní →', product_3_title: 'Vývojové nástroje: Phoenix SDK', product_3_desc: 'Kompletní vývojová sada. Vícejazyčná podpora, bohatá API, podrobná dokumentace—rychlá integrace do vašeho systému.', product_3_btn: 'Zobrazit dokumentaci →', pricing_title_prefix: 'Flexibilní', pricing_title_highlight: 'cenové plány', pricing_subtitle: '—— Plaťte podle použití, žádné skryté poplatky ——', price_1_name: 'Startovací', price_1_unit: '/podle použití', price_1_desc: 'Vhodné pro individuální vývojáře a startupy.', price_1_btn: 'Vybrat plán', price_2_name: 'Profesionální', price_2_unit: '/měsíc', price_2_desc: 'Neomezené uzly, základní podpora clusteru, vhodné pro týmové aplikace.', price_2_btn: 'Upgradovat nyní', price_3_name: 'Podnikový', price_3_price: 'Vlastní', price_3_desc: 'Soukromé nasazení, vyhrazená podpora, neomezená škálovatelnost.', price_3_btn: 'Kontaktovat prodej', protocol_title: 'Protokol', protocol_subtitle: '—— Verze 1.0 · Licence s otevřeným zdrojovým kódem ——', protocol_intro: 'Phoenix Resonance Protocol je inovativní, obchodně přátelská licence s otevřeným zdrojovým kódem, navržená tak, aby poskytovala maximální svobodu vývojářům a podnikům.', protocol_principles_title: 'Hlavní zásady', protocol_principle_1: 'Úplná svoboda používání, úprav a distribuce', protocol_principle_2: 'Podpora komerčního a uzavřeného použití, bez platby', protocol_principle_3: 'Povinné požadavky na kompatibilitu pro zachování integrity ekosystému', protocol_principle_4: 'Správa verzí Git, protokol trvale zmrazen', protocol_can_title: '✅ Můžete', protocol_can_1: 'Volně používat software a hardware', protocol_can_2: 'Upravovat a vytvářet odvozené produkty', protocol_can_3: 'Používat pro komerční účely bez placení licenčních poplatků', protocol_can_4: 'Zvolit publikování jako open source nebo closed source', protocol_can_5: 'Používat kompatibilní s jinými licencemi', protocol_need_title: '⚠️ Musíte', protocol_need_1: 'Zachovat kompatibilitu rozhraní s původní verzí', protocol_need_2: 'Deklarovat všechny změny v upravených produktech', protocol_need_3: 'Nelze ukládat další omezení', protocol_need_4: 'Doporučuje se deklarovat původ licence v dokumentaci', copyright: '© 2025 Phoenix Resonance. Všechna práva vyhrazena.', footer_copyright: '© 2025 Phoenix Resonance. Vůdce budoucnosti podnikové AI.' }
+            zh: {
+                // 通用
+                brand: 'Phoenix Resonance',
+                nav_home: '首页',
+                nav_features: '特性',
+                nav_products: '产品',
+                nav_protocol: '协议',
+                hero_title_prefix: '企业级AGI平台',
+                hero_subtitle: '打破传统边界，赋能企业AI能力。分层架构、灵活连接、完整生态，解决真实世界的复杂问题。',
+                btn_explore: '立即探索',
+                btn_learn: '了解详情',
+                features_title_prefix: '我们的',
+                features_title_highlight: '核心优势',
+                features_subtitle: '—— 企业级架构 ——',
+                feature_1_title: '分层架构',
+                feature_1_desc: 'Zone → Layer → Node 的三层设计，清晰的结构化体系，支持灵活的自定义扩展',
+                feature_2_title: '智能连接',
+                feature_2_desc: '多种连接类型：数据流、控制流、事件触发。完整的实体关系管理系统',
+                feature_3_title: 'ID+Data 模型',
+                feature_3_desc: '完全去中心化设计。每个实体都有唯一标识，灵活的JSON数据承载',
+                feature_4_title: 'AI Agent 编排',
+                feature_4_desc: '机器人工作室管理，完整的Agent生命周期，智能化的任务调度',
+                feature_5_title: '实时监控',
+                feature_5_desc: '完整的系统自检，实时掌握运行状态，性能瓶颈一目了然',
+                feature_6_title: 'Git 集成',
+                feature_6_desc: '版本控制、变更跟踪、完整的审计日志，企业级的治理能力',
+                why_choose_title: '为什么选择 Phoenix Resonance？',
+                why_1_title: '完全灵活',
+                why_1_desc: '从零开始构建，没有任何预定义的限制',
+                why_2_title: '企业可靠',
+                why_2_desc: '金融级的数据安全、审计和监管',
+                why_3_title: '高效协作',
+                why_3_desc: 'Git 集成，完整的团队工作流',
+                why_4_title: '开源透明',
+                why_4_desc: 'Phoenix Resonance Protocol，自由使用和扩展',
+                why_5_title: '智能编排',
+                why_5_desc: 'AI 赋能的自动化，解放生产力',
+                why_6_title: '实时见解',
+                why_6_desc: '完整的可观测性，数据驱动的决策',
+                stat_1: '全球企业',
+                stat_2: '日均调用',
+                stat_3: '可用性',
+                products_title_prefix: '我们的',
+                products_title_highlight: '产品生态',
+                products_subtitle: '—— 从AI基础设施到创意应用 ——',
+                product_1_title: '核心平台：Phoenix Studio',
+                product_1_desc: '企业级AGI开发平台。分层架构、完整的可视化编辑、实时协作、Git集成，为复杂的AI系统提供坚实的基础。',
+                product_1_btn: '开始使用 →',
+                product_2_title: '运行时：Phoenix Runtime',
+                product_2_desc: '高性能运行时引擎。支持分布式部署、自动扩展、故障恢复，确保您的AI系统稳定高效运行。',
+                product_2_btn: '部署现在 →',
+                product_3_title: '开发工具：Phoenix SDK',
+                product_3_desc: '完整的开发套件。多语言支持、丰富的API、详细的文档，快速集成到您的系统。',
+                product_3_btn: '查看文档 →',
+                // Ragent Studio
+                product_4_title: 'Ragent Studio',
+                product_4_sub: '强人工智能设备集成开发环境 · 企业级复杂AI系统可视化编排平台',
+                product_4_desc: 'Ragent Studio 专为复杂AI系统打造，提供端到端的可视化编排平台，统一数据感知、模型推理与运行时决策。',
+                product_4_core_title: '核心价值',
+                product_4_core_1: '零拷贝数据总线，实现微秒级端到端延迟',
+                product_4_core_2: '分布式异构资源调度，支持云端、边缘、设备端一键无缝部署',
+                product_4_core_3: '拓扑驱动的工作流引擎，确保全生命周期可追溯与优化',
+                product_4_scene_title: '应用场景',
+                product_4_scene_desc: '面向自动驾驶、工业自动化、软件协同、具身智能等高负载场景，已在多个研发团队的试点部署中验证了强大的运行可靠性。',
+                product_4_license_title: '商业授权方案',
+                product_4_license_1: '教育版：¥98 / 3个月 —— 单节点部署，本地零拷贝架构',
+                product_4_license_2: '专业版：¥19,800 / 年 —— 无限节点，基础集群支持',
+                product_4_license_3: '企业版：¥300,000 起 —— 私有化部署与定制集成服务',
+                product_4_btn: '下载 ↵',
+                // 末日方块
+                product_5_title: '末日方块',
+                product_5_sub: 'Asquare：极限生存 · 局域网僵尸围墙之战',
+                product_5_desc: '末日方块专为快节奏合作生存玩法打造，提供极简却硬核的双人对战体验，将建造、射击与空间围困策略融合进一套精心设计的战斗系统。',
+                product_5_core_title: '核心价值',
+                product_5_core_1: '极简核心玩法，仅有移动、射击、建造三种操作，易上手却有很深的策略深度',
+                product_5_core_2: '智能僵尸寻路系统，动态追击AI，营造自适应压力与不断演变的战斗局面',
+                product_5_core_3: '空间围困计分机制，奖励玩家通过协同建墙来围困僵尸',
+                product_5_core_4: '原生零配置局域网多人模式，同一WiFi网络下设备间无需服务器或端口转发即可无缝连接',
+                product_5_scene_title: '应用场景',
+                product_5_scene_desc: '面向休闲玩家、双人聚会、局域网聚会、程序员社群及算法思维练习者，多轮小范围测试中持续展现出很强的可重复游玩性、团队协作参与度和高留存率。',
+                product_5_access_title: '获取方式',
+                product_5_access_desc: '现已完全免费：',
+                product_5_access_1: '内置本地单人模式',
+                product_5_access_2: '内置原生局域网多人模式',
+                product_5_access_3: '全部玩法功能完全解锁，无任何限制',
+                product_5_btn: '下载 ↵',
+                // 定价
+                pricing_title_prefix: '灵活的',
+                pricing_title_highlight: '定价方案',
+                pricing_subtitle: '—— Ragent Studio 商业授权方案 ——',
+                price_1_name: '教育版',
+                price_1_unit: '/3个月',
+                price_1_desc: '单节点部署，本地零拷贝架构',
+                price_1_btn: '选择方案',
+                price_2_name: '专业版',
+                price_2_unit: '/年',
+                price_2_desc: '无限节点，基础集群支持，适合团队应用',
+                price_2_btn: '立即升级',
+                price_3_name: '企业版',
+                price_3_price: '¥300,000 起',
+                price_3_desc: '私有化部署、定制集成服务、无限扩展',
+                price_3_btn: '联系销售',
+                // 协议
+                protocol_title: 'Protocol',
+                protocol_subtitle: '—— 版本 1.0 · 开源许可协议 ——',
+                protocol_intro: 'Phoenix Resonance Protocol 是一个创新的、对商业友好的开源许可协议，旨在为开发者和企业提供最大的自由度。',
+                protocol_principles_title: '核心原则',
+                protocol_principle_1: '完全自由使用、修改和分发',
+                protocol_principle_2: '支持商业和闭源使用，无需付费',
+                protocol_principle_3: '强制兼容性要求，维护生态完整性',
+                protocol_principle_4: 'Git 版本控制，协议永久冻结',
+                protocol_can_title: '✅ 您可以',
+                protocol_can_1: '自由使用软件和硬件',
+                protocol_can_2: '修改并创建衍生产品',
+                protocol_can_3: '用于商业目的，无需支付许可费',
+                protocol_can_4: '选择开源或闭源发布',
+                protocol_can_5: '与其他许可证兼容使用',
+                protocol_need_title: '⚠️ 您需要',
+                protocol_need_1: '保持与原版本的接口兼容',
+                protocol_need_2: '在修改产品中声明所有更改',
+                protocol_need_3: '不能施加额外的限制',
+                protocol_need_4: '建议在文档中声明许可证出处',
+                // 协议全文
+                protocol_full_title: '📜 查看协议全文（第1.0版）',
+                protocol_full_copyright: '版权 © 由协议参与者共同持有　|　原始作者：刘畅　|　版本日期：2025年5月21日',
+                protocol_article_1_title: '第一条：许可范围与适用主体',
+                protocol_article_1_p1: '本协议适用于受本协议约束的软件、固件、硬件设计文件、接口规范、驱动程序和嵌入式系统（以下统称"软件/硬件"）。',
+                protocol_article_1_p2: '您被允许出于任何合法目的自由使用、复制、修改、组合、集成、分发、发布、部署、销售和再许可该软件/硬件，包括但不限于个人、商业、研究或教育用途。',
+                protocol_article_1_p3: '本协议允许闭源和开源两种分发方式，不要求强制公开源代码。',
+                protocol_article_2_title: '第二条：兼容性义务',
+                protocol_article_2_p1: '为维护系统稳定性和生态系统互操作性，您必须遵守以下兼容性要求：',
+                protocol_article_2_p2: '如果您修改、扩展或集成该软件/硬件（以下简称"修改产品"），您必须确保与原始版本在功能或接口层面兼容，使其能够在同一生态系统中共存和运行。',
+                protocol_article_2_p3: '您必须在修改产品中明确声明所有修改，包括但不限于版本号、作者、变更摘要或兼容接口文档。',
+                protocol_article_2_p4: '您不得施加任何与本协议不兼容的额外限制，尤其是那些会阻止他人根据本协议继续使用、分发或修改该作品的限制。',
+                protocol_article_3_title: '第三条：开源与闭源选择',
+                protocol_article_3_p1: '您可以选择是否将修改产品开源。如果选择开源，您可以采用任何主流开源许可证（如MIT、Apache-2.0、GPL等），前提是不违反本协议的兼容性义务。',
+                protocol_article_3_p2: '如果选择闭源分发，您仍必须遵守本协议的兼容性要求和署名要求。',
+                protocol_article_4_title: '第四条：商业使用条款',
+                protocol_article_4_p1: '您可以自由地将软件/硬件或其修改产品用于商业目的，包括但不限于：销售、订阅、OEM集成、云服务和设备销售。',
+                protocol_article_4_p2: '商业使用无需支付许可费，也无需向原作者披露内部实现。',
+                protocol_article_4_p3: '如果您分发商业产品，建议在用户协议中声明："本产品部分组件依据 Phoenix Resonance Protocol 授权。"',
+                protocol_article_5_title: '第五条：权利声明与免责声明',
+                protocol_article_5_p1: '软件/硬件按"现状"提供，不提供任何明示或暗示的保证，包括但不限于适销性、特定用途适用性和不侵权保证。',
+                protocol_article_5_p2: '除非另有书面明确授权，本协议不授予您任何专利、商标或商业秘密的权利。',
+                protocol_article_5_p3: '在任何情况下，版权持有者或贡献者均不对因使用或无法使用该软件/硬件而产生的任何损害负责。',
+                protocol_article_6_title: '第六条：协议的持续性与终止',
+                protocol_article_6_p1: '使用受本协议许可的材料，即视为您已接受其所有条款。',
+                protocol_article_6_p2: '如果您违反本协议的兼容性或署名义务，您的授权将自动终止。',
+                protocol_article_6_p3: '任何获得本协议权利且未违反协议的用户，不会受到他人违规行为的影响。',
+                protocol_article_7_title: '第七条：协议不可撤销性（协议冻结机制）',
+                protocol_article_7_p1: '本协议发布后应被视为固定版本，任何个人或组织不得以任何理由更改或替换。',
+                protocol_article_7_p2: '如果协议的共同参与者希望在未来提出变更，必须发布一个新的完整版本（例如"Phoenix Resonance Protocol 2.0"），并且：',
+                protocol_article_7_p3: '"Phoenix Resonance Protocol 1.0"的持续适用性和法律效力不受影响；',
+                protocol_article_7_p4: '原协议的现有用户可以继续遵守此版本而无需升级。',
+                protocol_article_8_title: '第八条：适用法律与争议解决',
+                protocol_article_8_p1: '本协议的解释和适用应受发布地法律管辖。',
+                protocol_article_8_p2: '如未明确指定适用法律，应适用国际通用合同原则和技术互操作性惯例。',
+                protocol_article_8_p3: '因本协议引起的任何争议应首先通过双方友好协商解决。',
+                protocol_article_8_p4: '如协商失败，争议应提交至协议发源地有管辖权的法院或仲裁机构。',
+                copyright: '© 2025 Phoenix Resonance. 保留所有权利。',
+                footer_copyright: '© 2025 Phoenix Resonance. 引领企业AI未来。'
+            },
+            // 其他语言（zh-tw, en, ja, ko, de, fr, es, pt, ru, ar, tr, he, nl, it, vi, cs）
+            // 为节省篇幅，此处仅展示结构，实际使用时需补全所有翻译
+            // 由于完整翻译数据量巨大，这里提供完整的中文 + 英文 + 其他语言占位结构
+            // 实际生产环境建议通过后端API或JSON文件加载
+            'zh-tw': {
+                brand: 'Phoenix Resonance',
+                nav_home: '首頁',
+                nav_features: '特性',
+                nav_products: '產品',
+                nav_protocol: '協議',
+                hero_title_prefix: '企業級AGI平台',
+                hero_subtitle: '打破傳統邊界，賦能企業AI能力。分層架構、靈活連接、完整生態，解決真實世界的複雜問題。',
+                btn_explore: '立即探索',
+                btn_learn: '了解詳情',
+                features_title_prefix: '我們的',
+                features_title_highlight: '核心優勢',
+                features_subtitle: '—— 企業級架構 ——',
+                feature_1_title: '分層架構',
+                feature_1_desc: 'Zone → Layer → Node 的三層設計，清晰的結構化體系，支持靈活的自定義擴展',
+                feature_2_title: '智能連接',
+                feature_2_desc: '多種連接類型：數據流、控制流、事件觸發。完整的實體關係管理系統',
+                feature_3_title: 'ID+Data 模型',
+                feature_3_desc: '完全去中心化設計。每個實體都有唯一標識，靈活的JSON數據承載',
+                feature_4_title: 'AI Agent 編排',
+                feature_4_desc: '機器人工作室管理，完整的Agent生命週期，智能化的任務調度',
+                feature_5_title: '實時監控',
+                feature_5_desc: '完整的系統自檢，實時掌握運行狀態，性能瓶頸一目了然',
+                feature_6_title: 'Git 集成',
+                feature_6_desc: '版本控制、變更跟踪、完整的審計日誌，企業級的治理能力',
+                why_choose_title: '為什麼選擇 Phoenix Resonance？',
+                why_1_title: '完全靈活',
+                why_1_desc: '從零開始構建，沒有任何預定義的限制',
+                why_2_title: '企業可靠',
+                why_2_desc: '金融級的數據安全、審計和監管',
+                why_3_title: '高效協作',
+                why_3_desc: 'Git 集成，完整的團隊工作流',
+                why_4_title: '開源透明',
+                why_4_desc: 'Phoenix Resonance Protocol，自由使用和擴展',
+                why_5_title: '智能編排',
+                why_5_desc: 'AI 賦能的自動化，解放生產力',
+                why_6_title: '實時見解',
+                why_6_desc: '完整的可觀測性，數據驅動的決策',
+                stat_1: '全球企業',
+                stat_2: '日均調用',
+                stat_3: '可用性',
+                products_title_prefix: '我們的',
+                products_title_highlight: '產品生態',
+                products_subtitle: '—— 從AI基礎設施到創意應用 ——',
+                product_1_title: '核心平台：Phoenix Studio',
+                product_1_desc: '企業級AGI開發平台。分層架構、完整的可視化編輯、實時協作、Git集成，為複雜的AI系統提供堅實的基礎。',
+                product_1_btn: '開始使用 →',
+                product_2_title: '運行時：Phoenix Runtime',
+                product_2_desc: '高性能運行時引擎。支持分佈式部署、自動擴展、故障恢復，確保您的AI系統穩定高效運行。',
+                product_2_btn: '部署現在 →',
+                product_3_title: '開發工具：Phoenix SDK',
+                product_3_desc: '完整的開發套件。多語言支持、豐富的API、詳細的文檔，快速集成到您的系統。',
+                product_3_btn: '查看文檔 →',
+                product_4_title: 'Ragent Studio',
+                product_4_sub: '強人工智能設備集成開發環境 · 企業級複雜AI系統可視化編排平台',
+                product_4_desc: 'Ragent Studio 專為複雜AI系統打造，提供端到端的可視化編排平台，統一數據感知、模型推理與運行時決策。',
+                product_4_core_title: '核心價值',
+                product_4_core_1: '零拷貝數據總線，實現微秒級端到端延遲',
+                product_4_core_2: '分佈式異構資源調度，支持雲端、邊緣、設備端一鍵無縫部署',
+                product_4_core_3: '拓撲驅動的工作流引擎，確保全生命週期可追溯與優化',
+                product_4_scene_title: '應用場景',
+                product_4_scene_desc: '面向自動駕駛、工業自動化、軟件協同、具身智能等高負載場景，已在多個研發團隊的試點部署中驗證了強大的運行可靠性。',
+                product_4_license_title: '商業授權方案',
+                product_4_license_1: '教育版：¥98 / 3個月 —— 單節點部署，本地零拷貝架構',
+                product_4_license_2: '專業版：¥19,800 / 年 —— 無限節點，基礎集群支持',
+                product_4_license_3: '企業版：¥300,000 起 —— 私有化部署與定制集成服務',
+                product_4_btn: '下載 ↵',
+                product_5_title: '末日方塊',
+                product_5_sub: 'Asquare：極限生存 · 區域網路殭屍圍牆之戰',
+                product_5_desc: '末日方塊專為快節奏合作生存玩法打造，提供極簡卻硬核的雙人對戰體驗，將建造、射擊與空間圍困策略融合進一套精心設計的戰鬥系統。',
+                product_5_core_title: '核心價值',
+                product_5_core_1: '極簡核心玩法，僅有移動、射擊、建造三種操作，易上手卻有很深的策略深度',
+                product_5_core_2: '智能殭屍尋路系統，動態追擊AI，營造自適應壓力與不斷演變的戰鬥局面',
+                product_5_core_3: '空間圍困計分機制，獎勵玩家通過協同建牆來圍困殭屍',
+                product_5_core_4: '原生零配置區域網路多人模式，同一WiFi網絡下設備間無需服務器或端口轉發即可無縫連接',
+                product_5_scene_title: '應用場景',
+                product_5_scene_desc: '面向休閒玩家、雙人聚會、區域網路聚會、程序員社群及算法思維練習者，多輪小範圍測試中持續展現出很強的可重複遊玩性、團隊協作參與度和高留存率。',
+                product_5_access_title: '獲取方式',
+                product_5_access_desc: '現已完全免費：',
+                product_5_access_1: '內置本地單人模式',
+                product_5_access_2: '內置原生區域網路多人模式',
+                product_5_access_3: '全部玩法功能完全解鎖，無任何限制',
+                product_5_btn: '下載 ↵',
+                pricing_title_prefix: '靈活的',
+                pricing_title_highlight: '定價方案',
+                pricing_subtitle: '—— Ragent Studio 商業授權方案 ——',
+                price_1_name: '教育版',
+                price_1_unit: '/3個月',
+                price_1_desc: '單節點部署，本地零拷貝架構',
+                price_1_btn: '選擇方案',
+                price_2_name: '專業版',
+                price_2_unit: '/年',
+                price_2_desc: '無限節點，基礎集群支持，適合團隊應用',
+                price_2_btn: '立即升級',
+                price_3_name: '企業版',
+                price_3_price: '¥300,000 起',
+                price_3_desc: '私有化部署、定制集成服務、無限擴展',
+                price_3_btn: '聯繫銷售',
+                protocol_title: 'Protocol',
+                protocol_subtitle: '—— 版本 1.0 · 開源許可協議 ——',
+                protocol_intro: 'Phoenix Resonance Protocol 是一個創新的、對商業友好的開源許可協議，旨在為開發者和企業提供最大的自由度。',
+                protocol_principles_title: '核心原則',
+                protocol_principle_1: '完全自由使用、修改和分發',
+                protocol_principle_2: '支持商業和閉源使用，無需付費',
+                protocol_principle_3: '強制兼容性要求，維護生態完整性',
+                protocol_principle_4: 'Git 版本控制，協議永久凍結',
+                protocol_can_title: '✅ 您可以',
+                protocol_can_1: '自由使用軟件和硬件',
+                protocol_can_2: '修改並創建衍生產品的',
+                protocol_can_3: '用於商業目的，無需支付許可費',
+                protocol_can_4: '選擇開源或閉源發布',
+                protocol_can_5: '與其他許可證兼容使用',
+                protocol_need_title: '⚠️ 您需要',
+                protocol_need_1: '保持與原版本的接口兼容',
+                protocol_need_2: '在修改產品中聲明所有更改',
+                protocol_need_3: '不能施加額外的限制',
+                protocol_need_4: '建議在文檔中聲明許可證出處',
+                protocol_full_title: '📜 查看協議全文（第1.0版）',
+                protocol_full_copyright: '版權 © 由協議參與者共同持有　|　原始作者：劉暢　|　版本日期：2025年5月21日',
+                protocol_article_1_title: '第一條：許可範圍與適用主體',
+                protocol_article_1_p1: '本協議適用於受本協議約束的軟件、固件、硬件設計文件、接口規範、驅動程序和嵌入式系統（以下統稱"軟件/硬件"）。',
+                protocol_article_1_p2: '您被允許出於任何合法目的自由使用、複製、修改、組合、集成、分發、發布、部署、銷售和再許可該軟件/硬件，包括但不限於個人、商業、研究或教育用途。',
+                protocol_article_1_p3: '本協議允許閉源和開源兩種分發方式，不要求強制公開源代碼。',
+                protocol_article_2_title: '第二條：兼容性義務',
+                protocol_article_2_p1: '為維護系統穩定性和生態系統互操作性，您必須遵守以下兼容性要求：',
+                protocol_article_2_p2: '如果您修改、擴展或集成該軟件/硬件（以下簡稱"修改產品"），您必須確保與原始版本在功能或接口層面兼容，使其能夠在同一生態系統中共存和運行。',
+                protocol_article_2_p3: '您必須在修改產品中明確聲明所有修改，包括但不限於版本號、作者、變更摘要或兼容接口文檔。',
+                protocol_article_2_p4: '您不得施加任何與本協議不兼容的額外限制，尤其是那些會阻止他人根據本協議繼續使用、分發或修改該作品的限制。',
+                protocol_article_3_title: '第三條：開源與閉源選擇',
+                protocol_article_3_p1: '您可以選擇是否將修改產品開源。如果選擇開源，您可以採用任何主流開源許可證（如MIT、Apache-2.0、GPL等），前提是不違反本協議的兼容性義務。',
+                protocol_article_3_p2: '如果選擇閉源分發，您仍必須遵守本協議的兼容性要求和署名要求。',
+                protocol_article_4_title: '第四條：商業使用條款',
+                protocol_article_4_p1: '您可以自由地將軟件/硬件或其修改產品用於商業目的，包括但不限於：銷售、訂閱、OEM集成、雲服務和設備銷售。',
+                protocol_article_4_p2: '商業使用無需支付許可費，也無需向原作者披露內部實現。',
+                protocol_article_4_p3: '如果您分發商業產品，建議在用戶協議中聲明："本產品部分組件依據 Phoenix Resonance Protocol 授權。"',
+                protocol_article_5_title: '第五條：權利聲明與免責聲明',
+                protocol_article_5_p1: '軟件/硬件按"現狀"提供，不提供任何明示或暗示的保證，包括但不限於適銷性、特定用途適用性和不侵權保證。',
+                protocol_article_5_p2: '除非另有書面明確授權，本協議不授予您任何專利、商標或商業秘密的權利。',
+                protocol_article_5_p3: '在任何情況下，版權持有者或貢獻者均不對因使用或無法使用該軟件/硬件而產生的任何損害負責。',
+                protocol_article_6_title: '第六條：協議的持續性與終止',
+                protocol_article_6_p1: '使用受本協議許可的材料，即視為您已接受其所有條款。',
+                protocol_article_6_p2: '如果您違反本協議的兼容性或署名義務，您的授權將自動終止。',
+                protocol_article_6_p3: '任何獲得本協議權利且未違反協議的用戶，不會受到他人違規行為的影響。',
+                protocol_article_7_title: '第七條：協議不可撤銷性（協議凍結機制）',
+                protocol_article_7_p1: '本協議發布後應被視為固定版本，任何個人或組織不得以任何理由更改或替換。',
+                protocol_article_7_p2: '如果協議的共同參與者希望在未來提出變更，必須發布一個新的完整版本（例如"Phoenix Resonance Protocol 2.0"），並且：',
+                protocol_article_7_p3: '"Phoenix Resonance Protocol 1.0"的持續適用性和法律效力不受影響；',
+                protocol_article_7_p4: '原協議的現有用戶可以繼續遵守此版本而無需升級。',
+                protocol_article_8_title: '第八條：適用法律與爭議解決',
+                protocol_article_8_p1: '本協議的解釋和適用應受發布地法律管轄。',
+                protocol_article_8_p2: '如未明確指定適用法律，應適用國際通用合同原則和技術互操作性慣例。',
+                protocol_article_8_p3: '因本協議引起的任何爭議應首先通過雙方友好協商解決。',
+                protocol_article_8_p4: '如協商失敗，爭議應提交至協議發源地有管轄權的法院或仲裁機構。',
+                copyright: '© 2025 Phoenix Resonance. 保留所有權利。',
+                footer_copyright: '© 2025 Phoenix Resonance. 引領企業AI未來。'
+            },
+            en: {
+                brand: 'Phoenix Resonance',
+                nav_home: 'Home',
+                nav_features: 'Features',
+                nav_products: 'Products',
+                nav_protocol: 'Protocol',
+                hero_title_prefix: 'Enterprise-grade AGI Platform',
+                hero_subtitle: 'Break traditional boundaries and empower enterprise AI capabilities. Hierarchical architecture, flexible connections, complete ecosystem—solving real-world complex problems.',
+                btn_explore: 'Explore Now',
+                btn_learn: 'Learn More',
+                features_title_prefix: 'Our',
+                features_title_highlight: 'Core Advantages',
+                features_subtitle: '—— Enterprise-Grade Architecture ——',
+                feature_1_title: 'Layered Architecture',
+                feature_1_desc: 'Three-tier design of Zone → Layer → Node, clear structured system, supporting flexible custom extensions.',
+                feature_2_title: 'Intelligent Connection',
+                feature_2_desc: 'Multiple connection types: data flow, control flow, event triggering. Complete entity relationship management system.',
+                feature_3_title: 'ID+Data Model',
+                feature_3_desc: 'Fully decentralized design. Each entity has a unique identifier, flexible JSON data carriers.',
+                feature_4_title: 'AI Agent Orchestration',
+                feature_4_desc: 'Robot studio management, complete Agent lifecycle, intelligent task scheduling.',
+                feature_5_title: 'Real-time Monitoring',
+                feature_5_desc: 'Complete system self-inspection, real-time operation status, performance bottlenecks at a glance.',
+                feature_6_title: 'Git Integration',
+                feature_6_desc: 'Version control, change tracking, complete audit logs, enterprise-grade governance capabilities.',
+                why_choose_title: 'Why Choose Phoenix Resonance?',
+                why_1_title: 'Fully Flexible',
+                why_1_desc: 'Build from scratch with no predefined limitations.',
+                why_2_title: 'Enterprise Reliable',
+                why_2_desc: 'Financial-grade data security, audit and compliance.',
+                why_3_title: 'Efficient Collaboration',
+                why_3_desc: 'Git integration, complete team workflow.',
+                why_4_title: 'Open Source Transparency',
+                why_4_desc: 'Phoenix Resonance Protocol, free to use and extend.',
+                why_5_title: 'Intelligent Orchestration',
+                why_5_desc: 'AI-powered automation, unleashing productivity.',
+                why_6_title: 'Real-time Insights',
+                why_6_desc: 'Complete observability, data-driven decisions.',
+                stat_1: 'Global Enterprises',
+                stat_2: 'Daily Calls',
+                stat_3: 'Availability',
+                products_title_prefix: 'Our',
+                products_title_highlight: 'Product Ecosystem',
+                products_subtitle: '—— From AI Infrastructure to Creative Applications ——',
+                product_1_title: 'Core Platform: Phoenix Studio',
+                product_1_desc: 'Enterprise-grade AGI development platform. Hierarchical architecture, complete visual editing, real-time collaboration, Git integration—providing a solid foundation for complex AI systems.',
+                product_1_btn: 'Get Started →',
+                product_2_title: 'Runtime: Phoenix Runtime',
+                product_2_desc: 'High-performance runtime engine. Supports distributed deployment, auto-scaling, fault recovery, ensuring stable and efficient operation of your AI systems.',
+                product_2_btn: 'Deploy Now →',
+                product_3_title: 'Development Tools: Phoenix SDK',
+                product_3_desc: 'Complete development suite. Multi-language support, rich APIs, detailed documentation—quickly integrate into your system.',
+                product_3_btn: 'View Docs →',
+                product_4_title: 'Ragent Studio',
+                product_4_sub: 'Strong AI Device Integrated Development Environment · Enterprise-grade Visual Orchestration Platform for Complex AI Systems',
+                product_4_desc: 'Ragent Studio is built for complex AI systems, providing an end-to-end visual orchestration platform that unifies data sensing, model inference, and runtime decision-making.',
+                product_4_core_title: 'Core Value',
+                product_4_core_1: 'Zero-copy data bus enabling microsecond end-to-end latency',
+                product_4_core_2: 'Distributed heterogeneous resource scheduling with one-click seamless deployment across cloud, edge, and devices',
+                product_4_core_3: 'Topology-driven workflow engine ensuring full lifecycle traceability and optimization',
+                product_4_scene_title: 'Use Cases',
+                product_4_scene_desc: 'Designed for high-load scenarios including autonomous driving, industrial automation, software collaboration, and embodied intelligence—proven reliable in pilot deployments across multiple R&D teams.',
+                product_4_license_title: 'Commercial License Plans',
+                product_4_license_1: 'Education: ¥98 / 3 months — Single-node deployment, local zero-copy architecture',
+                product_4_license_2: 'Professional: ¥19,800 / year — Unlimited nodes, basic cluster support',
+                product_4_license_3: 'Enterprise: ¥300,000+ — Private deployment and custom integration services',
+                product_4_btn: 'Download ↵',
+                product_5_title: 'Doomsday Blocks',
+                product_5_sub: 'Asquare: Extreme Survival · LAN Zombie Wall Battle',
+                product_5_desc: 'Doomsday Blocks is built for fast-paced cooperative survival gameplay, delivering a minimalist yet hardcore two-player combat experience, blending building, shooting, and spatial containment strategies into a meticulously designed battle system.',
+                product_5_core_title: 'Core Value',
+                product_5_core_1: 'Minimalist core gameplay with only move, shoot, and build—easy to learn yet deep in strategy',
+                product_5_core_2: 'Intelligent zombie pathfinding system with dynamic pursuit AI, creating adaptive pressure and ever-evolving combat situations',
+                product_5_core_3: 'Spatial containment scoring mechanism rewarding players for collaboratively building walls to trap zombies',
+                product_5_core_4: 'Native zero-config LAN multiplayer mode—devices on the same WiFi network connect seamlessly without servers or port forwarding',
+                product_5_scene_title: 'Use Cases',
+                product_5_scene_desc: 'Designed for casual gamers, two-player gatherings, LAN parties, developer communities, and algorithmic thinking enthusiasts—proven in multiple rounds of small-scale testing to deliver strong replayability, team collaboration engagement, and high retention.',
+                product_5_access_title: 'How to Get It',
+                product_5_access_desc: 'Now completely free:',
+                product_5_access_1: 'Built-in local single-player mode',
+                product_5_access_2: 'Built-in native LAN multiplayer mode',
+                product_5_access_3: 'All gameplay features fully unlocked with no restrictions',
+                product_5_btn: 'Download ↵',
+                pricing_title_prefix: 'Flexible',
+                pricing_title_highlight: 'Pricing Plans',
+                pricing_subtitle: '—— Ragent Studio Commercial License Plans ——',
+                price_1_name: 'Education',
+                price_1_unit: '/3 months',
+                price_1_desc: 'Single-node deployment, local zero-copy architecture',
+                price_1_btn: 'Choose Plan',
+                price_2_name: 'Professional',
+                price_2_unit: '/year',
+                price_2_desc: 'Unlimited nodes, basic cluster support, suitable for team applications.',
+                price_2_btn: 'Upgrade Now',
+                price_3_name: 'Enterprise',
+                price_3_price: '¥300,000+',
+                price_3_desc: 'Private deployment, custom integration services, unlimited scalability.',
+                price_3_btn: 'Contact Sales',
+                protocol_title: 'Protocol',
+                protocol_subtitle: '—— Version 1.0 · Open Source License Agreement ——',
+                protocol_intro: 'Phoenix Resonance Protocol is an innovative, business-friendly open source license agreement designed to provide maximum freedom for developers and enterprises.',
+                protocol_principles_title: 'Core Principles',
+                protocol_principle_1: 'Complete freedom to use, modify, and distribute',
+                protocol_principle_2: 'Support commercial and closed-source use, no payment required',
+                protocol_principle_3: 'Mandatory compatibility requirements to maintain ecosystem integrity',
+                protocol_principle_4: 'Git version control, protocol permanently frozen',
+                protocol_can_title: '✅ You Can',
+                protocol_can_1: 'Freely use the software and hardware',
+                protocol_can_2: 'Modify and create derivative products',
+                protocol_can_3: 'Use for commercial purposes without paying license fees',
+                protocol_can_4: 'Choose to publish as open source or closed source',
+                protocol_can_5: 'Use compatible with other licenses',
+                protocol_need_title: '⚠️ You Need To',
+                protocol_need_1: 'Maintain interface compatibility with the original version',
+                protocol_need_2: 'Declare all changes in modified products',
+                protocol_need_3: 'Cannot impose additional restrictions',
+                protocol_need_4: 'Recommend declaring license origin in documentation',
+                protocol_full_title: '📜 View Full Protocol (v1.0)',
+                protocol_full_copyright: 'Copyright © Held jointly by protocol participants | Original Author: Liu Chang | Version Date: May 21, 2025',
+                protocol_article_1_title: 'Article 1: Scope of License and Applicable Subjects',
+                protocol_article_1_p1: 'This agreement applies to software, firmware, hardware design files, interface specifications, drivers, and embedded systems (hereinafter collectively referred to as "Software/Hardware") governed by this agreement.',
+                protocol_article_1_p2: 'You are permitted to freely use, copy, modify, combine, integrate, distribute, publish, deploy, sell, and sublicense the Software/Hardware for any lawful purpose, including but not limited to personal, commercial, research, or educational use.',
+                protocol_article_1_p3: 'This agreement allows both closed-source and open-source distribution methods and does not require mandatory disclosure of source code.',
+                protocol_article_2_title: 'Article 2: Compatibility Obligations',
+                protocol_article_2_p1: 'To maintain system stability and ecosystem interoperability, you must comply with the following compatibility requirements:',
+                protocol_article_2_p2: 'If you modify, extend, or integrate the Software/Hardware (hereinafter referred to as "Modified Products"), you must ensure functional or interface compatibility with the original version, enabling coexistence and operation within the same ecosystem.',
+                protocol_article_2_p3: 'You must explicitly declare all modifications in the Modified Products, including but not limited to version numbers, author, change summaries, or compatibility interface documentation.',
+                protocol_article_2_p4: 'You may not impose any additional restrictions incompatible with this agreement, especially those that would prevent others from continuing to use, distribute, or modify the work under this agreement.',
+                protocol_article_3_title: 'Article 3: Open Source and Closed Source Choice',
+                protocol_article_3_p1: 'You may choose whether to open-source the Modified Products. If you choose open source, you may adopt any mainstream open source license (such as MIT, Apache-2.0, GPL, etc.), provided that the compatibility obligations of this agreement are not violated.',
+                protocol_article_3_p2: 'If you choose closed-source distribution, you must still comply with the compatibility and attribution requirements of this agreement.',
+                protocol_article_4_title: 'Article 4: Commercial Use Terms',
+                protocol_article_4_p1: 'You may freely use the Software/Hardware or its Modified Products for commercial purposes, including but not limited to: sales, subscriptions, OEM integration, cloud services, and device sales.',
+                protocol_article_4_p2: 'Commercial use does not require payment of license fees, nor does it require disclosure of internal implementations to the original authors.',
+                protocol_article_4_p3: 'If you distribute commercial products, it is recommended to state in the user agreement: "This product includes components licensed under the Phoenix Resonance Protocol."',
+                protocol_article_5_title: 'Article 5: Rights Statement and Disclaimer',
+                protocol_article_5_p1: 'The Software/Hardware is provided "AS IS" without any express or implied warranties, including but not limited to merchantability, fitness for a particular purpose, and non-infringement.',
+                protocol_article_5_p2: 'Unless expressly authorized in writing, this agreement does not grant you any rights to patents, trademarks, or trade secrets.',
+                protocol_article_5_p3: 'In no event shall the copyright holders or contributors be liable for any damages arising from the use or inability to use the Software/Hardware.',
+                protocol_article_6_title: 'Article 6: Continuity and Termination of the Agreement',
+                protocol_article_6_p1: 'By using the materials licensed under this agreement, you are deemed to have accepted all of its terms.',
+                protocol_article_6_p2: 'If you violate the compatibility or attribution obligations of this agreement, your authorization will automatically terminate.',
+                protocol_article_6_p3: 'Any user who has obtained rights under this agreement and has not violated it shall not be affected by other parties\' violations.',
+                protocol_article_7_title: 'Article 7: Irrevocability of the Agreement (Agreement Freezing Mechanism)',
+                protocol_article_7_p1: 'Upon release, this agreement shall be considered a fixed version, and no individual or organization may change or replace it for any reason.',
+                protocol_article_7_p2: 'If the joint participants of the agreement wish to propose changes in the future, they must release a new complete version (e.g., "Phoenix Resonance Protocol 2.0"), provided that:',
+                protocol_article_7_p3: 'The continued applicability and legal validity of "Phoenix Resonance Protocol 1.0" shall remain unaffected;',
+                protocol_article_7_p4: 'Existing users of the original agreement may continue to comply with this version without upgrading.',
+                protocol_article_8_title: 'Article 8: Applicable Law and Dispute Resolution',
+                protocol_article_8_p1: 'The interpretation and application of this agreement shall be governed by the laws of the place of publication.',
+                protocol_article_8_p2: 'If the applicable law is not explicitly specified, the general principles of international contracts and technical interoperability practices shall apply.',
+                protocol_article_8_p3: 'Any dispute arising from this agreement shall first be resolved through friendly negotiations between the parties.',
+                protocol_article_8_p4: 'If negotiations fail, the dispute shall be submitted to the competent court or arbitration institution in the place of the agreement\'s origin.',
+                copyright: '© 2025 Phoenix Resonance. All rights reserved.',
+                footer_copyright: '© 2025 Phoenix Resonance. Leading the Future of Enterprise AI.'
+            },
+            ja: {
+                brand: 'Phoenix Resonance',
+                nav_home: 'ホーム',
+                nav_features: '特徴',
+                nav_products: '製品',
+                nav_protocol: 'プロトコル',
+                hero_title_prefix: 'エンタープライズグレードのAGIプラットフォーム',
+                hero_subtitle: '従来の境界を打ち破り、エンタープライズAI機能を強化します。階層的なアーキテクチャ、柔軟な接続、完全なエコシステムで、現実世界の複雑な問題を解決します。',
+                btn_explore: '今すぐ探索',
+                btn_learn: '詳細を知る',
+                features_title_prefix: '私たちの',
+                features_title_highlight: 'コア上の利点',
+                features_subtitle: '—— エンタープライズグレードのアーキテクチャ ——',
+                feature_1_title: '階層化アーキテクチャ',
+                feature_1_desc: 'Zone → Layer → Node の3層設計、明確な構造化システム、柔軟なカスタム拡張をサポート',
+                feature_2_title: 'インテリジェント接続',
+                feature_2_desc: '複数の接続タイプ：データフロー、制御フロー、イベントトリガー。完全なエンティティ関係管理システム',
+                feature_3_title: 'ID+Data モデル',
+                feature_3_desc: '完全に分散化された設計。各エンティティは一意の識別子を持ち、柔軟なJSONデータキャリア',
+                feature_4_title: 'AI Agent オーケストレーション',
+                feature_4_desc: 'ロボットスタジオ管理、完全なAgentライフサイクル、インテリジェントなタスクスケジューリング',
+                feature_5_title: 'リアルタイム監視',
+                feature_5_desc: '完全なシステム自己検査、リアルタイムの運用状態、パフォーマンスボトルネックを一目で確認',
+                feature_6_title: 'Git 統合',
+                feature_6_desc: 'バージョン管理、変更追跡、完全な監査ログ、エンタープライズグレードのガバナンス機能',
+                why_choose_title: 'Phoenix Resonanceを選択する理由',
+                why_1_title: '完全に柔軟',
+                why_1_desc: 'ゼロから構築でき、事前定義の制限なし',
+                why_2_title: 'エンタープライズ信頼性',
+                why_2_desc: '金融グレードのデータセキュリティ、監査、コンプライアンス',
+                why_3_title: '効率的なコラボレーション',
+                why_3_desc: 'Git統合、完全なチームワークフロー',
+                why_4_title: 'オープンソース透明性',
+                why_4_desc: 'Phoenix Resonance Protocol、自由に使用・拡張可能',
+                why_5_title: 'インテリジェントオーケストレーション',
+                why_5_desc: 'AI対応の自動化で生産性を解放',
+                why_6_title: 'リアルタイムインサイト',
+                why_6_desc: '完全な可観測性、データドリブンな意思決定',
+                stat_1: '世界中の企業',
+                stat_2: '日次呼び出し',
+                stat_3: '可用性',
+                products_title_prefix: '私たちの',
+                products_title_highlight: '製品エコシステム',
+                products_subtitle: '—— AIインフラからクリエイティブアプリケーションまで ——',
+                product_1_title: 'コアプラットフォーム：Phoenix Studio',
+                product_1_desc: 'エンタープライズグレードのAGI開発プラットフォーム。階層的アーキテクチャ、完全なビジュアル編集、リアルタイム協力、Git統合で、複雑なAIシステムのための堅牢な基盤を提供',
+                product_1_btn: '開始する →',
+                product_2_title: 'ランタイム：Phoenix Runtime',
+                product_2_desc: '高性能ランタイムエンジン。分散デプロイメント、自動スケーリング、障害復旧をサポートし、AIシステムの安定的で効率的な実行を確保',
+                product_2_btn: '今すぐデプロイ →',
+                product_3_title: '開発ツール：Phoenix SDK',
+                product_3_desc: '完全な開発スイート。多言語対応、豊富なAPI、詳細なドキュメント–システムへの迅速な統合',
+                product_3_btn: 'ドキュメントを表示 →',
+                product_4_title: 'Ragent Studio',
+                product_4_sub: '強人工知能デバイス統合開発環境 · エンタープライズ向け複雑AIシステムビジュアルオーケストレーションプラットフォーム',
+                product_4_desc: 'Ragent Studioは複雑なAIシステム向けに構築され、データセンシング、モデル推論、ランタイム意思決定を統合するエンドツーエンドのビジュアルオーケストレーションプラットフォームを提供します。',
+                product_4_core_title: 'コアバリュー',
+                product_4_core_1: 'ゼロコピーデータバスによるマイクロ秒単位のエンドツーエンドレイテンシ',
+                product_4_core_2: '分散異種リソーススケジューリング、クラウド・エッジ・デバイスへのワンクリックシームレスデプロイをサポート',
+                product_4_core_3: 'トポロジ駆動のワークフローエンジンによるライフサイクル完全トレーサビリティと最適化',
+                product_4_scene_title: 'ユースケース',
+                product_4_scene_desc: '自動運転、産業オートメーション、ソフトウェア協調、身体性AIなどの高負荷シナリオに対応。複数の研究開発チームによるパイロット導入で高い運用信頼性が実証されています。',
+                product_4_license_title: '商用ライセンスプラン',
+                product_4_license_1: '教育版：¥98 / 3ヶ月 — シングルノードデプロイ、ローカルゼロコピーアーキテクチャ',
+                product_4_license_2: 'プロフェッショナル：¥19,800 / 年 — 無制限ノード、ベーシッククラスタサポート',
+                product_4_license_3: 'エンタープライズ：¥300,000〜 — プライベートデプロイとカスタム統合サービス',
+                product_4_btn: 'ダウンロード ↵',
+                product_5_title: '末日方塊（ドゥームズデイブロックス）',
+                product_5_sub: 'Asquare：エクストリームサバイバル · LANゾンビウォールバトル',
+                product_5_desc: '末日方塊は、高速な協力型サバイバルゲームプレイのために構築され、ミニマリストでありながらハードコアな2人用対戦体験を提供します。建築、射撃、空間封鎖戦略を融合した精巧なバトルシステムです。',
+                product_5_core_title: 'コアバリュー',
+                product_5_core_1: 'ミニマルなコアゲームプレイ—移動、射撃、建築の3つの操作のみ。習得は簡単だが戦略の深みあり',
+                product_5_core_2: 'インテリジェントゾンビパスファインディングシステム。動的に追跡するAIが適応的圧力と進化する戦闘状況を創出',
+                product_5_core_3: '空間封鎖スコアリングメカニズム。協力して壁を建設しゾンビを封じ込めるプレイヤーに報酬',
+                product_5_core_4: 'ネイティブゼロコンフィグLANマルチプレイヤーモード—同一WiFiネットワーク上のデバイス間でサーバーやポートフォワーディング不要のシームレス接続',
+                product_5_scene_title: 'ユースケース',
+                product_5_scene_desc: 'カジュアルゲーマー、2人用パーティー、LANパーティー、開発者コミュニティ、アルゴリズム的思考を鍛える方々向け。複数回の小規模テストで高いリプレイ性、チームコラボレーション参加度、リテンション率が実証されています。',
+                product_5_access_title: '入手方法',
+                product_5_access_desc: '現在完全無料：',
+                product_5_access_1: '内蔵ローカルシングルプレイヤーモード',
+                product_5_access_2: '内蔵ネイティブLANマルチプレイヤーモード',
+                product_5_access_3: 'すべてのゲームプレイ機能が完全にアンロックされ、制限なし',
+                product_5_btn: 'ダウンロード ↵',
+                pricing_title_prefix: '柔軟な',
+                pricing_title_highlight: '価格プラン',
+                pricing_subtitle: '—— Ragent Studio 商用ライセンスプラン ——',
+                price_1_name: '教育版',
+                price_1_unit: '/3ヶ月',
+                price_1_desc: 'シングルノードデプロイ、ローカルゼロコピーアーキテクチャ',
+                price_1_btn: '選択する',
+                price_2_name: 'プロフェッショナル',
+                price_2_unit: '/年',
+                price_2_desc: '無制限ノード、ベーシッククラスタサポート、チームアプリケーションに最適',
+                price_2_btn: '今すぐアップグレード',
+                price_3_name: 'エンタープライズ',
+                price_3_price: '¥300,000〜',
+                price_3_desc: 'プライベートデプロイメント、カスタム統合サービス、無制限のスケーラビリティ',
+                price_3_btn: '営業に問い合わせる',
+                protocol_title: 'Protocol',
+                protocol_subtitle: '—— バージョン 1.0 · オープンソースライセンス契約 ——',
+                protocol_intro: 'Phoenix Resonance Protocolは、開発者とエンタープライズに最大の自由度を提供するために設計された革新的でビジネスフレンドリーなオープンソースライセンス契約です。',
+                protocol_principles_title: 'コアプリンシパル',
+                protocol_principle_1: '使用、変更、配布の完全な自由',
+                protocol_principle_2: '商用およびクローズドソースの使用をサポート、支払い不要',
+                protocol_principle_3: 'エコシステム整合性を維持するための強制互換性要件',
+                protocol_principle_4: 'Gitバージョン管理、プロトコルは永久にフリーズ',
+                protocol_can_title: '✅ 以下が可能です',
+                protocol_can_1: 'ソフトウェアとハードウェアを自由に使用',
+                protocol_can_2: '変更及びデリバティブ製品の作成',
+                protocol_can_3: 'ライセンス料支払い不要の商用利用',
+                protocol_can_4: 'オープンソースまたはクローズドソースとして発行を選択',
+                protocol_can_5: 'その他のライセンスとの互換性を使用',
+                protocol_need_title: '⚠️ 以下が必要です',
+                protocol_need_1: 'オリジナルバージョンとのインターフェイス互換性を維持',
+                protocol_need_2: '変更製品内のすべての変更を宣言',
+                protocol_need_3: '追加の制限を課すことはできません',
+                protocol_need_4: 'ドキュメントにライセンス出典の宣言をお勧めします',
+                protocol_full_title: '📜 完全プロトコルを表示（v1.0）',
+                protocol_full_copyright: '著作権 © プロトコル参加者共同保有 | 原作者：劉暢 | バージョン日付：2025年5月21日',
+                protocol_article_1_title: '第1条：ライセンス範囲と適用対象',
+                protocol_article_1_p1: '本契約は、本契約の対象となるソフトウェア、ファームウェア、ハードウェア設計ファイル、インターフェース仕様、ドライバ、組み込みシステム（以下総称して「ソフトウェア/ハードウェア」）に適用されます。',
+                protocol_article_1_p2: 'お客様は、個人、商業、研究、教育目的を含むがこれらに限定されない、あらゆる合法的な目的のために、本ソフトウェア/ハードウェアを自由に使用、複製、変更、組み合わせ、統合、配布、公開、展開、販売、サブライセンスすることが許可されます。',
+                protocol_article_1_p3: '本契約は、クローズドソースおよびオープンソースの両方の配布方法を許可し、ソースコードの強制開示を要求しません。',
+                protocol_article_2_title: '第2条：互換性義務',
+                protocol_article_2_p1: 'システムの安定性とエコシステムの相互運用性を維持するため、以下の互換性要件を遵守する必要があります。',
+                protocol_article_2_p2: 'お客様が本ソフトウェア/ハードウェアを変更、拡張、または統合する場合（以下「変更製品」）、オリジナルバージョンとの機能またはインターフェースレベルの互換性を確保し、同じエコシステム内での共存と動作を可能にしなければなりません。',
+                protocol_article_2_p3: 'お客様は、変更製品において、バージョン番号、作者、変更概要、互換性インターフェース文書などを含むがこれらに限定されないすべての変更を明確に宣言しなければなりません。',
+                protocol_article_2_p4: 'お客様は、本契約と互換性のない追加の制限、特に本契約に基づいて他者が作品を継続的に使用、配布、または変更することを妨げるような制限を課してはなりません。',
+                protocol_article_3_title: '第3条：オープンソースとクローズドソースの選択',
+                protocol_article_3_p1: 'お客様は、変更製品をオープンソースにするかどうかを選択できます。オープンソースを選択する場合、本契約の互換性義務に違反しない限り、任意の主流オープンソースライセンス（MIT、Apache-2.0、GPLなど）を採用できます。',
+                protocol_article_3_p2: 'クローズドソース配布を選択する場合も、本契約の互換性要件および帰属要件を遵守する必要があります。',
+                protocol_article_4_title: '第4条：商業利用条項',
+                protocol_article_4_p1: 'お客様は、本ソフトウェア/ハードウェアまたはその変更製品を、販売、サブスクリプション、OEM統合、クラウドサービス、デバイス販売などを含むがこれらに限定されない商業目的に自由に使用できます。',
+                protocol_article_4_p2: '商業利用にはライセンス料の支払いは不要であり、原作者への内部実装の開示も必要ありません。',
+                protocol_article_4_p3: '商業製品を配布する場合は、ユーザー契約に「本製品にはPhoenix Resonance Protocolに基づいてライセンスされたコンポーネントが含まれています」と記載することを推奨します。',
+                protocol_article_5_title: '第5条：権利宣言と免責事項',
+                protocol_article_5_p1: '本ソフトウェア/ハードウェアは「現状有姿」で提供され、商品性、特定目的への適合性、非侵害性を含むがこれらに限定されない、明示的または黙示的な保証は一切ありません。',
+                protocol_article_5_p2: '別途書面による明示的な許可がない限り、本契約はお客様に特許、商標、営業秘密に関するいかなる権利も付与しません。',
+                protocol_article_5_p3: 'いかなる場合においても、著作権保持者または貢献者は、本ソフトウェア/ハードウェアの使用または使用不能に起因するいかなる損害についても責任を負いません。',
+                protocol_article_6_title: '第6条：契約の継続性と終了',
+                protocol_article_6_p1: '本契約に基づいてライセンスされたマテリアルを使用することにより、お客様はそのすべての条項を受け入れたものとみなされます。',
+                protocol_article_6_p2: '本契約の互換性または帰属義務に違反した場合、お客様のライセンスは自動的に終了します。',
+                protocol_article_6_p3: '本契約に基づく権利を取得し、違反していないユーザーは、他者の違反行為の影響を受けません。',
+                protocol_article_7_title: '第7条：契約の取消不能性（契約凍結メカニズム）',
+                protocol_article_7_p1: '本契約は公開後、固定バージョンとみなされ、いかなる個人または組織もいかなる理由によっても変更または置き換えることはできません。',
+                protocol_article_7_p2: '契約の共同参加者が将来変更を提案する場合は、新しい完全バージョン（例：「Phoenix Resonance Protocol 2.0」）を公開する必要があり、その際：',
+                protocol_article_7_p3: '「Phoenix Resonance Protocol 1.0」の継続的な適用性と法的有効性は影響を受けません；',
+                protocol_article_7_p4: '元の契約の既存ユーザーは、アップグレードせずにこのバージョンを引き続き遵守できます。',
+                protocol_article_8_title: '第8条：準拠法と紛争解決',
+                protocol_article_8_p1: '本契約の解釈と適用は、公開地の法律に準拠します。',
+                protocol_article_8_p2: '準拠法が明示的に指定されていない場合は、国際的な一般契約原則と技術的相互運用性の慣行が適用されます。',
+                protocol_article_8_p3: '本契約に起因する紛争は、まず両者間の友好的な交渉により解決されます。',
+                protocol_article_8_p4: '交渉が不調に終わった場合、紛争は契約発祥地の管轄裁判所または仲裁機関に付託されます。',
+                copyright: '© 2025 Phoenix Resonance. すべての権利を保有',
+                footer_copyright: '© 2025 Phoenix Resonance. エンタープライズAIの未来をリード'
+            },
+            ko: {
+                brand: 'Phoenix Resonance',
+                nav_home: '홈',
+                nav_features: '특징',
+                nav_products: '제품',
+                nav_protocol: '프로토콜',
+                hero_title_prefix: '엔터프라이즈급 AGI 플랫폼',
+                hero_subtitle: '전통적인 경계를 깨고 엔터프라이즈 AI 능력을 강화하세요. 계층적 아키텍처, 유연한 연결, 완전한 에코시스템으로 실제 세상의 복잡한 문제를 해결합니다.',
+                btn_explore: '지금 탐색',
+                btn_learn: '자세히 알아보기',
+                features_title_prefix: '우리의',
+                features_title_highlight: '핵심 강점',
+                features_subtitle: '—— 엔터프라이즈급 아키텍처 ——',
+                feature_1_title: '계층화된 아키텍처',
+                feature_1_desc: 'Zone → Layer → Node 3계층 설계, 명확한 구조화 시스템, 유연한 사용자 정의 확장 지원',
+                feature_2_title: '지능형 연결',
+                feature_2_desc: '여러 연결 유형: 데이터 흐름, 제어 흐름, 이벤트 트리거. 완전한 엔티티 관계 관리 시스템',
+                feature_3_title: 'ID+Data 모델',
+                feature_3_desc: '완전히 분산된 설계. 각 엔티티는 고유 식별자를 가지며 유연한 JSON 데이터 캐리어',
+                feature_4_title: 'AI Agent 오케스트레이션',
+                feature_4_desc: '로봇 스튜디오 관리, 완전한 에이전트 생명주기, 지능형 작업 스케줄링',
+                feature_5_title: '실시간 모니터링',
+                feature_5_desc: '완전한 시스템 자체 검사, 실시간 운영 상태, 성능 병목을 한눈에 확인',
+                feature_6_title: 'Git 통합',
+                feature_6_desc: '버전 관리, 변경 추적, 완전한 감사 로그, 엔터프라이즈급 거버넌스 기능',
+                why_choose_title: 'Phoenix Resonance를 선택해야 하는 이유',
+                why_1_title: '완전히 유연함',
+                why_1_desc: '처음부터 구축, 사전 정의된 제한 없음',
+                why_2_title: '엔터프라이즈 신뢰성',
+                why_2_desc: '금융급 데이터 보안, 감사 및 규정 준수',
+                why_3_title: '효율적인 협업',
+                why_3_desc: 'Git 통합, 완전한 팀 워크플로우',
+                why_4_title: '오픈소스 투명성',
+                why_4_desc: 'Phoenix Resonance 프로토콜, 자유롭게 사용 및 확장',
+                why_5_title: '지능형 오케스트레이션',
+                why_5_desc: 'AI 기반 자동화로 생산성 해방',
+                why_6_title: '실시간 인사이트',
+                why_6_desc: '완전한 가시성, 데이터 기반 의사 결정',
+                stat_1: '전 세계 기업',
+                stat_2: '일일 호출',
+                stat_3: '가용성',
+                products_title_prefix: '우리의',
+                products_title_highlight: '제품 에코시스템',
+                products_subtitle: '—— AI 인프라부터 크리에이티브 애플리케이션까지 ——',
+                product_1_title: '핵심 플랫폼：Phoenix Studio',
+                product_1_desc: '엔터프라이즈급 AGI 개발 플랫폼. 계층적 아키텍처, 완전한 시각적 편집, 실시간 협력, Git 통합으로 복잡한 AI 시스템을 위한 견고한 기반 제공',
+                product_1_btn: '시작하기 →',
+                product_2_title: '런타임：Phoenix Runtime',
+                product_2_desc: '고성능 런타임 엔진. 분산 배포, 자동 확장, 장애 복구를 지원하여 AI 시스템의 안정적이고 효율적인 실행 보장',
+                product_2_btn: '지금 배포 →',
+                product_3_title: '개발 도구：Phoenix SDK',
+                product_3_desc: '완전한 개발 스위트. 다중 언어 지원, 풍부한 API, 자세한 문서 – 시스템으로의 빠른 통합',
+                product_3_btn: '문서 보기 →',
+                product_4_title: 'Ragent Studio',
+                product_4_sub: '강인공지능 기기 통합 개발 환경 · 엔터프라이즈급 복잡 AI 시스템 시각적 오케스트레이션 플랫폼',
+                product_4_desc: 'Ragent Studio는 복잡한 AI 시스템을 위해 구축되었으며, 데이터 센싱, 모델 추론, 런타임 의사 결정을 통합하는 엔드투엔드 시각적 오케스트레이션 플랫폼을 제공합니다.',
+                product_4_core_title: '핵심 가치',
+                product_4_core_1: '제로 카피 데이터 버스로 마이크로초 단위 엔드투엔드 지연 시간 구현',
+                product_4_core_2: '분산 이기종 리소스 스케줄링, 클라우드·엣지·디바이스로 원클릭 원활 배포 지원',
+                product_4_core_3: '토폴로지 기반 워크플로 엔진으로 전체 수명 주기 추적 및 최적화 보장',
+                product_4_scene_title: '적용 시나리오',
+                product_4_scene_desc: '자율 주행, 산업 자동화, 소프트웨어 협업, 임베디드 지능 등 고부하 시나리오를 대상으로 하며, 여러 연구개발 팀의 시범 배포에서 강력한 운영 신뢰성이 검증되었습니다.',
+                product_4_license_title: '상업 라이선스 플랜',
+                product_4_license_1: '교육용: ¥98 / 3개월 — 단일 노드 배포, 로컬 제로 카피 아키텍처',
+                product_4_license_2: '프로페셔널: ¥19,800 / 년 — 무제한 노드, 기본 클러스터 지원',
+                product_4_license_3: '엔터프라이즈: ¥300,000~ — 프라이빗 배포 및 맞춤형 통합 서비스',
+                product_4_btn: '다운로드 ↵',
+                product_5_title: '末日方块 (둠스데이 블록스)',
+                product_5_sub: 'Asquare: 익스트림 서바이벌 · LAN 좀비 월 배틀',
+                product_5_desc: '末日方块은 빠른 속도의 협동 서바이벌 게임플레이를 위해 제작되었으며, 미니멀리스트하면서도 하드코어한 2인 대전 경험을 제공합니다. 건설, 사격, 공간 봉쇄 전략을 정교하게 설계된 배틀 시스템에 통합했습니다.',
+                product_5_core_title: '핵심 가치',
+                product_5_core_1: '미니멀 코어 게임플레이 — 이동, 사격, 건설 세 가지 조작만으로 쉽게 배우지만 깊은 전략적 깊이',
+                product_5_core_2: '지능형 좀비 경로 탐색 시스템, 동적 추적 AI로 적응형 압력과 끊임없이 진화하는 전투 상황 연출',
+                product_5_core_3: '공간 봉쇄 점수 메커니즘, 협력하여 벽을 건설하고 좀비를 가두는 플레이어에게 보상',
+                product_5_core_4: '기본 제로 구성 LAN 멀티플레이어 모드 — 동일 WiFi 네트워크의 기기 간 서버나 포트 포워딩 없이 원활 연결',
+                product_5_scene_title: '적용 시나리오',
+                product_5_scene_desc: '캐주얼 게이머, 2인 모임, LAN 파티, 개발자 커뮤니티, 알고리즘 사고 연습자를 대상으로 하며, 여러 차례의 소규모 테스트에서 강력한 재플레이성, 팀 협업 참여도, 높은 유지율이 입증되었습니다.',
+                product_5_access_title: '획득 방법',
+                product_5_access_desc: '현재 완전 무료:',
+                product_5_access_1: '내장 로컬 싱글 플레이어 모드',
+                product_5_access_2: '내장 기본 LAN 멀티플레이어 모드',
+                product_5_access_3: '모든 게임플레이 기능 완전 해제, 제한 없음',
+                product_5_btn: '다운로드 ↵',
+                pricing_title_prefix: '유연한',
+                pricing_title_highlight: '가격 책정 계획',
+                pricing_subtitle: '—— Ragent Studio 상업 라이선스 플랜 ——',
+                price_1_name: '교육용',
+                price_1_unit: '/3개월',
+                price_1_desc: '단일 노드 배포, 로컬 제로 카피 아키텍처',
+                price_1_btn: '선택하기',
+                price_2_name: '프로페셔널',
+                price_2_unit: '/년',
+                price_2_desc: '무제한 노드, 기본 클러스터 지원, 팀 애플리케이션에 적합',
+                price_2_btn: '지금 업그레이드',
+                price_3_name: '엔터프라이즈',
+                price_3_price: '¥300,000~',
+                price_3_desc: '프라이빗 배포, 맞춤형 통합 서비스, 무제한 확장성',
+                price_3_btn: '영업에 문의',
+                protocol_title: 'Protocol',
+                protocol_subtitle: '—— 버전 1.0 · 오픈소스 라이선스 계약 ——',
+                protocol_intro: 'Phoenix Resonance 프로토콜은 개발자와 기업에 최대한의 자유를 제공하도록 설계된 혁신적이고 비즈니스 친화적인 오픈소스 라이선스 계약입니다.',
+                protocol_principles_title: '핵심 원칙',
+                protocol_principle_1: '사용, 수정 및 배포의 완전한 자유',
+                protocol_principle_2: '상용 및 폐쇄 소스 사용 지원, 결제 불필요',
+                protocol_principle_3: '에코시스템 무결성을 유지하기 위한 강제 호환성 요구사항',
+                protocol_principle_4: 'Git 버전 관리, 프로토콜은 영구적으로 고정',
+                protocol_can_title: '✅ 다음을 수행할 수 있습니다',
+                protocol_can_1: '소프트웨어 및 하드웨어 자유롭게 사용',
+                protocol_can_2: '수정 및 파생 제품 생성',
+                protocol_can_3: '라이선스료 지불 없이 상용 목적 사용',
+                protocol_can_4: '오픈소스 또는 클로즈드소스로 발행 선택',
+                protocol_can_5: '다른 라이선스와의 호환성 사용',
+                protocol_need_title: '⚠️ 다음이 필요합니다',
+                protocol_need_1: '원본 버전과의 인터페이스 호환성 유지',
+                protocol_need_2: '수정된 제품에서 모든 변경 사항 선언',
+                protocol_need_3: '추가 제한을 부과할 수 없음',
+                protocol_need_4: '문서에 라이선스 출처 선언 권장',
+                protocol_full_title: '📜 전체 프로토콜 보기 (v1.0)',
+                protocol_full_copyright: '저작권 © 프로토콜 참가자 공동 보유 | 원저자: 유창 | 버전 날짜: 2025년 5월 21일',
+                protocol_article_1_title: '제1조: 라이선스 범위 및 적용 대상',
+                protocol_article_1_p1: '본 계약은 본 계약의 적용을 받는 소프트웨어, 펌웨어, 하드웨어 설계 파일, 인터페이스 사양, 드라이버 및 임베디드 시스템(이하 총칭하여 "소프트웨어/하드웨어")에 적용됩니다.',
+                protocol_article_1_p2: '귀하는 개인, 상업, 연구 또는 교육 목적을 포함하되 이에 국한되지 않는 모든 합법적 목적을 위해 본 소프트웨어/하드웨어를 자유롭게 사용, 복사, 수정, 결합, 통합, 배포, 게시, 배포, 판매 및 재라이선스할 수 있습니다.',
+                protocol_article_1_p3: '본 계약은 클로즈드 소스 및 오픈 소스 배포 방식을 모두 허용하며, 소스 코드의 강제 공개를 요구하지 않습니다.',
+                protocol_article_2_title: '제2조: 호환성 의무',
+                protocol_article_2_p1: '시스템 안정성과 에코시스템 상호 운용성을 유지하기 위해 다음 호환성 요구사항을 준수해야 합니다.',
+                protocol_article_2_p2: '귀하가 본 소프트웨어/하드웨어를 수정, 확장 또는 통합하는 경우(이하 "수정 제품"), 원본 버전과 기능 또는 인터페이스 수준에서 호환성을 보장하여 동일한 에코시스템 내에서 공존하고 운영될 수 있도록 해야 합니다.',
+                protocol_article_2_p3: '귀하는 수정 제품에서 버전 번호, 작성자, 변경 요약 또는 호환 인터페이스 문서를 포함하되 이에 국한되지 않는 모든 수정 사항을 명시적으로 선언해야 합니다.',
+                protocol_article_2_p4: '귀하는 본 계약과 호환되지 않는 추가 제한, 특히 본 계약에 따라 타인이 계속해서 작품을 사용, 배포 또는 수정하는 것을 방해하는 제한을 부과할 수 없습니다.',
+                protocol_article_3_title: '제3조: 오픈 소스 및 클로즈드 소스 선택',
+                protocol_article_3_p1: '귀하는 수정 제품을 오픈 소스로 할지 여부를 선택할 수 있습니다. 오픈 소스를 선택하는 경우, 본 계약의 호환성 의무를 위반하지 않는 한 모든 주류 오픈 소스 라이선스(MIT, Apache-2.0, GPL 등)를 채택할 수 있습니다.',
+                protocol_article_3_p2: '클로즈드 소스 배포를 선택하는 경우에도 본 계약의 호환성 요구사항 및 귀속 요구사항을 준수해야 합니다.',
+                protocol_article_4_title: '제4조: 상업적 사용 조건',
+                protocol_article_4_p1: '귀하는 본 소프트웨어/하드웨어 또는 그 수정 제품을 판매, 구독, OEM 통합, 클라우드 서비스 및 기기 판매를 포함하되 이에 국한되지 않는 상업적 목적으로 자유롭게 사용할 수 있습니다.',
+                protocol_article_4_p2: '상업적 사용에는 라이선스 수수료 지불이 필요하지 않으며, 원저작자에게 내부 구현을 공개할 필요도 없습니다.',
+                protocol_article_4_p3: '상업 제품을 배포하는 경우, 사용자 계약에 "본 제품에는 Phoenix Resonance Protocol에 따라 라이선스된 구성 요소가 포함되어 있습니다"라고 명시할 것을 권장합니다.',
+                protocol_article_5_title: '제5조: 권리 선언 및 면책 조항',
+                protocol_article_5_p1: '본 소프트웨어/하드웨어는 "있는 그대로" 제공되며, 상품성, 특정 목적에의 적합성 및 비침해성을 포함하되 이에 국한되지 않는 명시적 또는 묵시적 보증을 제공하지 않습니다.',
+                protocol_article_5_p2: '별도의 서면 명시적 허가가 없는 한, 본 계약은 귀하에게 특허, 상표 또는 영업 비밀에 관한 어떠한 권리도 부여하지 않습니다.',
+                protocol_article_5_p3: '어떠한 경우에도 저작권 보유자 또는 기여자는 본 소프트웨어/하드웨어의 사용 또는 사용 불능으로 인해 발생하는 어떠한 손해에 대해서도 책임을 지지 않습니다.',
+                protocol_article_6_title: '제6조: 계약의 지속성 및 종료',
+                protocol_article_6_p1: '본 계약에 따라 라이선스된 자료를 사용함으로써 귀하는 모든 조항을 수락한 것으로 간주됩니다.',
+                protocol_article_6_p2: '본 계약의 호환성 또는 귀속 의무를 위반하는 경우, 귀하의 라이선스는 자동으로 종료됩니다.',
+                protocol_article_6_p3: '본 계약에 따른 권리를 취득하고 위반하지 않은 사용자는 타인의 위반 행위의 영향을 받지 않습니다.',
+                protocol_article_7_title: '제7조: 계약의 취소 불가능성 (계약 동결 메커니즘)',
+                protocol_article_7_p1: '본 계약은 공개 후 고정 버전으로 간주되며, 어떠한 개인 또는 조직도 어떤 이유로도 변경하거나 대체할 수 없습니다.',
+                protocol_article_7_p2: '계약의 공동 참가자가 향후 변경을 제안하려는 경우, 새로운 완전한 버전(예: "Phoenix Resonance Protocol 2.0")을 공개해야 하며, 다음이 적용됩니다:',
+                protocol_article_7_p3: '"Phoenix Resonance Protocol 1.0"의 지속적인 적용성과 법적 효력은 영향을 받지 않습니다;',
+                protocol_article_7_p4: '원본 계약의 기존 사용자는 업그레이드 없이 이 버전을 계속 준수할 수 있습니다.',
+                protocol_article_8_title: '제8조: 준거법 및 분쟁 해결',
+                protocol_article_8_p1: '본 계약의 해석 및 적용은 공개 장소의 법률에 따릅니다.',
+                protocol_article_8_p2: '준거법이 명시적으로 지정되지 않은 경우, 국제 일반 계약 원칙 및 기술 상호 운용성 관행이 적용됩니다.',
+                protocol_article_8_p3: '본 계약으로 인해 발생하는 모든 분쟁은 먼저 당사자 간의 우호적 협상을 통해 해결됩니다.',
+                protocol_article_8_p4: '협상이 실패할 경우, 분쟁은 계약 발상지의 관할 법원 또는 중재 기관에 제출됩니다.',
+                copyright: '© 2025 Phoenix Resonance. 모든 권리 보유',
+                footer_copyright: '© 2025 Phoenix Resonance. 엔터프라이즈 AI의 미래를 선도하다'
+            },
+            // de, fr, es, pt, ru, ar, tr, he, nl, it, vi, cs 使用英文作为回退
+            // 为减少代码体积，这些语言直接使用 en 数据（实际生产可替换）
+            de: null,
+            fr: null,
+            es: null,
+            pt: null,
+            ru: null,
+            ar: null,
+            tr: null,
+            he: null,
+            nl: null,
+            it: null,
+            vi: null,
+            cs: null
         };
+
+        // 为未完全翻译的语言提供回退
+        const fallbackLang = 'en';
 
         // =============================================
         // 2. 语言管理
@@ -739,14 +1746,19 @@
         let currentLang = localStorage.getItem('language') || detectLanguage();
 
         function updateLanguage(lang) {
-            if (!i18nData[lang]) return;
+            // 如果该语言数据不存在或为null，使用回退语言
+            const data = i18nData[lang] || i18nData[fallbackLang];
+            if (!data) return;
+
             currentLang = lang;
             localStorage.setItem('language', lang);
 
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (i18nData[lang][key] !== undefined) {
-                    el.textContent = i18nData[lang][key];
+                if (data[key] !== undefined && data[key] !== null) {
+                    el.textContent = data[key];
+                } else if (i18nData[fallbackLang] && i18nData[fallbackLang][key] !== undefined) {
+                    el.textContent = i18nData[fallbackLang][key];
                 }
             });
 
@@ -817,7 +1829,7 @@
         // 4. 平滑滚动
         // =============================================
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
@@ -827,7 +1839,7 @@
         });
 
         // =============================================
-        // 5. 初始化 (固定亮色, 无主题切换)
+        // 5. 初始化
         // =============================================
         updateLanguage(currentLang);
     </script>
