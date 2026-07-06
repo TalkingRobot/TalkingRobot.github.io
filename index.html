@@ -527,7 +527,50 @@
         footer .gradient-text { font-size: 1.2rem; font-weight: bold; }
 
         /* =========================================
-           4. 桌面适配
+           4. 特色产品卡片内部布局优化
+           ========================================= */
+        .feature-card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 14px 0;
+        }
+        .feature-card-grid .feature-item {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+        .feature-card-grid .feature-item strong {
+            color: var(--text-primary);
+            display: block;
+            font-size: 0.85rem;
+        }
+
+        .product-tag-group {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+        .product-tag-group .tag {
+            font-size: 0.7rem;
+            padding: 2px 12px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        .tag-orange {
+            background: var(--primary-glow);
+            color: var(--primary);
+        }
+        .tag-green {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        /* =========================================
+           5. 桌面适配
            ========================================= */
         @media (min-width: 640px) {
             .grid-3 { grid-template-columns: repeat(2, 1fr); }
@@ -567,6 +610,23 @@
             .card { padding: 20px 16px; }
             .protocol-box { padding: 20px 16px; }
             .lang-btn { padding: 4px 8px; font-size: 12px; }
+            .feature-card-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            .feature-card-grid .feature-item {
+                padding: 8px 10px;
+                font-size: 0.75rem;
+            }
+            .feature-card-grid .feature-item strong {
+                font-size: 0.78rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .feature-card-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .lang-dropdown::-webkit-scrollbar { width: 4px; }
@@ -723,7 +783,7 @@
                 <div class="grid-2">
 
                     <!-- Ragent Studio -->
-                    <div class="card" style="grid-column:1;">
+                    <div class="card">
                         <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
                             <span class="card-icon" style="font-size:1.8rem;margin-bottom:0;">🤖</span>
                             <div>
@@ -734,35 +794,35 @@
                         <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:10px;" data-i18n="product_4_sub">强人工智能设备集成开发环境 · 企业级复杂AI系统可视化编排平台</p>
                         <p data-i18n="product_4_desc">专为复杂AI系统打造，提供端到端的可视化编排平台，统一数据感知、模型推理与运行时决策。</p>
 
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0;">
-                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
-                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;" data-i18n="product_4_core_1_label">零拷贝总线</strong>
+                        <div class="feature-card-grid">
+                            <div class="feature-item">
+                                <strong data-i18n="product_4_core_1_label">零拷贝总线</strong>
                                 <span data-i18n="product_4_core_1_desc">微秒级端到端延迟</span>
                             </div>
-                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
-                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;" data-i18n="product_4_core_2_label">异构调度</strong>
+                            <div class="feature-item">
+                                <strong data-i18n="product_4_core_2_label">异构调度</strong>
                                 <span data-i18n="product_4_core_2_desc">云端 · 边缘 · 设备</span>
                             </div>
-                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
-                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;" data-i18n="product_4_core_3_label">拓扑引擎</strong>
+                            <div class="feature-item">
+                                <strong data-i18n="product_4_core_3_label">拓扑引擎</strong>
                                 <span data-i18n="product_4_core_3_desc">全生命周期可追溯</span>
                             </div>
-                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
-                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;" data-i18n="product_4_core_4_label">高负载场景</strong>
+                            <div class="feature-item">
+                                <strong data-i18n="product_4_core_4_label">高负载场景</strong>
                                 <span data-i18n="product_4_core_4_desc">自动驾驶 · 工业自动化 · 具身智能</span>
                             </div>
                         </div>
 
-                        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
-                            <span style="font-size:0.7rem;background:var(--primary-glow);color:var(--primary);padding:2px 12px;border-radius:12px;" data-i18n="product_4_price_1">教育 ¥98/3月</span>
-                            <span style="font-size:0.7rem;background:var(--primary-glow);color:var(--primary);padding:2px 12px;border-radius:12px;" data-i18n="product_4_price_2">专业 ¥19,800/年</span>
-                            <span style="font-size:0.7rem;background:var(--primary-glow);color:var(--primary);padding:2px 12px;border-radius:12px;" data-i18n="product_4_price_3">企业 ¥300,000起</span>
+                        <div class="product-tag-group">
+                            <span class="tag tag-orange" data-i18n="product_4_price_1">教育 ¥98/3月</span>
+                            <span class="tag tag-orange" data-i18n="product_4_price_2">专业 ¥19,800/年</span>
+                            <span class="tag tag-orange" data-i18n="product_4_price_3">企业 ¥300,000起</span>
                         </div>
                         <a href="#" class="card-link" data-i18n="product_4_btn">下载 →</a>
                     </div>
 
                     <!-- 末日方块 -->
-                    <div class="card" style="grid-column:2;">
+                    <div class="card">
                         <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
                             <span class="card-icon" style="font-size:1.8rem;margin-bottom:0;">🧟</span>
                             <div>
@@ -776,31 +836,32 @@
                         <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:10px;" data-i18n="product_5_sub">Asquare：极限生存 · 局域网僵尸围墙之战</p>
                         <p data-i18n="product_5_desc">快节奏合作生存玩法，极简却硬核的双人对战体验，融合建造、射击与空间围困策略。</p>
 
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0;">
-                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
-                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;" data-i18n="product_5_core_1_label">极简操作</strong>
+                        <div class="feature-card-grid">
+                            <div class="feature-item">
+                                <strong data-i18n="product_5_core_1_label">极简操作</strong>
                                 <span data-i18n="product_5_core_1_desc">移动 · 射击 · 建造</span>
                             </div>
-                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
-                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;" data-i18n="product_5_core_2_label">智能AI</strong>
+                            <div class="feature-item">
+                                <strong data-i18n="product_5_core_2_label">智能AI</strong>
                                 <span data-i18n="product_5_core_2_desc">动态追击 · 自适应压力</span>
                             </div>
-                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
-                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;" data-i18n="product_5_core_3_label">局域网联机</strong>
+                            <div class="feature-item">
+                                <strong data-i18n="product_5_core_3_label">局域网联机</strong>
                                 <span data-i18n="product_5_core_3_desc">零配置 · 无缝连接</span>
                             </div>
-                            <div style="background:var(--bg-primary);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:var(--text-secondary);">
-                                <strong style="color:var(--text-primary);display:block;font-size:0.85rem;" data-i18n="product_5_core_4_label">适用场景</strong>
+                            <div class="feature-item">
+                                <strong data-i18n="product_5_core_4_label">适用场景</strong>
                                 <span data-i18n="product_5_core_4_desc">双人聚会 · 社群 · 休闲</span>
                             </div>
                         </div>
 
-                        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
-                            <span style="font-size:0.7rem;background:#dcfce7;color:#16a34a;padding:2px 12px;border-radius:12px;" data-i18n="product_5_badge_1">✓ 单人模式</span>
-                            <span style="font-size:0.7rem;background:#dcfce7;color:#16a34a;padding:2px 12px;border-radius:12px;" data-i18n="product_5_badge_2">✓ 局域网多人</span>
-                            <span style="font-size:0.7rem;background:#dcfce7;color:#16a34a;padding:2px 12px;border-radius:12px;" data-i18n="product_5_badge_3">✓ 全部解锁</span>
+                        <div class="product-tag-group">
+                            <span class="tag tag-green" data-i18n="product_5_badge_1">✓ 单人模式</span>
+                            <span class="tag tag-green" data-i18n="product_5_badge_2">✓ 局域网多人</span>
+                            <span class="tag tag-green" data-i18n="product_5_badge_3">✓ 全部解锁</span>
                         </div>
-<a href="https://raw.githubusercontent.com/TalkingRobot/TalkingRobot.github.io/main/downloads/Asquare/Asquare.zip" class="card-link" download data-i18n="product_5_btn">下载 ↵</a>                    </div>
+                        <a href="https://raw.githubusercontent.com/TalkingRobot/TalkingRobot.github.io/main/downloads/Asquare/Asquare.zip" class="card-link" download data-i18n="product_5_btn">下载 ↵</a>
+                    </div>
 
                 </div>
             </div>
