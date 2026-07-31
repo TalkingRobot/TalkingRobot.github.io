@@ -385,12 +385,13 @@
         }
         .card ul li { margin-bottom: 2px; }
 
-        .grid-3, .grid-2 {
+        .grid-3, .grid-2, .grid-4 {
             display: grid;
             gap: 20px;
         }
         .grid-3 { grid-template-columns: 1fr; }
         .grid-2 { grid-template-columns: 1fr; }
+        .grid-4 { grid-template-columns: 1fr; }
 
         .benefits-list {
             display: grid;
@@ -575,6 +576,7 @@
         @media (min-width: 640px) {
             .grid-3 { grid-template-columns: repeat(2, 1fr); }
             .grid-2 { grid-template-columns: repeat(2, 1fr); }
+            .grid-4 { grid-template-columns: repeat(2, 1fr); }
             .benefits-list { grid-template-columns: repeat(2, 1fr); }
             .lang-grid { grid-template-columns: repeat(3, 1fr); }
             .lang-dropdown {
@@ -596,6 +598,7 @@
             .hamburger { display: none; }
             .mobile-nav { display: none !important; }
             .grid-3 { grid-template-columns: repeat(3, 1fr); }
+            .grid-4 { grid-template-columns: repeat(4, 1fr); }
             .benefits-list { grid-template-columns: repeat(3, 1fr); }
             .hero h1 { font-size: 4.2rem; }
             section { padding: 100px 0; }
@@ -814,9 +817,10 @@
                         </div>
 
                         <div class="product-tag-group">
-                            <span class="tag tag-orange" data-i18n="product_4_price_1">教育 ¥98/3月</span>
-                            <span class="tag tag-orange" data-i18n="product_4_price_2">专业 ¥19,800/年</span>
-                            <span class="tag tag-orange" data-i18n="product_4_price_3">企业 ¥300,000起</span>
+                            <span class="tag tag-orange" data-i18n="product_4_price_1">教育 免费</span>
+                            <span class="tag tag-orange" data-i18n="product_4_price_2">个人 单次付费</span>
+                            <span class="tag tag-orange" data-i18n="product_4_price_3">团队 月租</span>
+                            <span class="tag tag-orange" data-i18n="product_4_price_4">企业 年费</span>
                         </div>
                         <a href="#" class="card-link" data-i18n="product_4_btn">下载 →</a>
                     </div>
@@ -873,28 +877,36 @@
         <div class="container">
             <h2 class="section-title"><span data-i18n="pricing_title_prefix">灵活的</span><span class="gradient-text" data-i18n="pricing_title_highlight">定价方案</span></h2>
             <p class="section-subtitle" data-i18n="pricing_subtitle">—— Ragent Studio 商业授权方案 ——</p>
-            <div class="grid-3">
+            <div class="grid-4">
                 <div class="card pricing-card">
                     <h3 data-i18n="price_1_name">教育版</h3>
-                    <div class="price">¥98<span style="font-size:0.9rem;color:var(--text-secondary);font-weight:400;" data-i18n="price_1_unit">/3个月</span></div>
-                    <p data-i18n="price_1_desc">单节点部署，本地零拷贝架构</p>
-                    <button class="btn btn-secondary" style="width:100%;margin-top:20px;" data-i18n="price_1_btn">选择方案</button>
+                    <div class="price" data-i18n="price_1_price">免费</div>
+                    <p data-i18n="price_1_desc">单节点部署，本地零拷贝架构，适合学习与研究</p>
+                    <button class="btn btn-secondary" style="width:100%;margin-top:20px;" data-i18n="price_1_btn">立即下载</button>
+                </div>
+
+                <div class="card pricing-card">
+                    <h3 data-i18n="price_2_name">个人版</h3>
+                    <div class="price">¥980<span style="font-size:0.9rem;color:var(--text-secondary);font-weight:400;" data-i18n="price_2_unit"> 单次付费</span></div>
+                    <p data-i18n="price_2_desc">终身授权，单节点，适合个人开发者</p>
+                    <button class="btn btn-secondary" style="width:100%;margin-top:20px;" data-i18n="price_2_btn">Toss 支付</button>
                 </div>
 
                 <div class="card pricing-card featured">
-                    <h3 data-i18n="price_2_name">专业版</h3>
-                    <div class="price">¥19,800<span style="font-size:0.9rem;color:var(--text-secondary);font-weight:400;" data-i18n="price_2_unit">/年</span></div>
-                    <p data-i18n="price_2_desc">无限节点，基础集群支持，适合团队应用</p>
-                    <button class="btn btn-primary" style="width:100%;margin-top:20px;" data-i18n="price_2_btn">立即升级</button>
+                    <h3 data-i18n="price_3_name">团队版</h3>
+                    <div class="price">¥1,980<span style="font-size:0.9rem;color:var(--text-secondary);font-weight:400;" data-i18n="price_3_unit">/月</span></div>
+                    <p data-i18n="price_3_desc">无限节点，基础集群支持，适合小团队协作</p>
+                    <button class="btn btn-primary" style="width:100%;margin-top:20px;" data-i18n="price_3_btn">Toss 订阅</button>
                 </div>
 
                 <div class="card pricing-card">
-                    <h3 data-i18n="price_3_name">企业版</h3>
-                    <div class="price" data-i18n="price_3_price">¥300,000 起</div>
-                    <p data-i18n="price_3_desc">私有化部署、定制集成服务、无限扩展</p>
-                    <button class="btn btn-secondary" style="width:100%;margin-top:20px;" data-i18n="price_3_btn">联系销售</button>
+                    <h3 data-i18n="price_4_name">企业版</h3>
+                    <div class="price" data-i18n="price_4_price">¥300,000/年起</div>
+                    <p data-i18n="price_4_desc">私有化部署、定制集成服务、无限扩展与专属支持</p>
+                    <button class="btn btn-secondary" style="width:100%;margin-top:20px;" data-i18n="price_4_btn">联系销售</button>
                 </div>
             </div>
+            <p style="text-align:center;margin-top:24px;color:var(--text-secondary);font-size:0.9rem;" data-i18n="pricing_toss_note">支持 Toss Payments 安全支付 · 韩国本地支付渠道</p>
         </div>
     </section>
 
@@ -1051,9 +1063,10 @@
                 product_4_core_3_desc: '全生命周期可追溯',
                 product_4_core_4_label: '高负载场景',
                 product_4_core_4_desc: '自动驾驶 · 工业自动化 · 具身智能',
-                product_4_price_1: '教育 ¥98/3月',
-                product_4_price_2: '专业 ¥19,800/年',
-                product_4_price_3: '企业 ¥300,000起',
+                product_4_price_1: '教育 免费',
+                product_4_price_2: '个人 单次付费',
+                product_4_price_3: '团队 月租',
+                product_4_price_4: '企业 年费',
                 product_4_btn: '下载 →',
                 product_5_title: '末日方块',
                 product_5_tag: '创意应用',
@@ -1076,17 +1089,22 @@
                 pricing_title_highlight: '定价方案',
                 pricing_subtitle: '—— Ragent Studio 商业授权方案 ——',
                 price_1_name: '教育版',
-                price_1_unit: '/3个月',
-                price_1_desc: '单节点部署，本地零拷贝架构',
-                price_1_btn: '选择方案',
-                price_2_name: '专业版',
-                price_2_unit: '/年',
-                price_2_desc: '无限节点，基础集群支持，适合团队应用',
-                price_2_btn: '立即升级',
-                price_3_name: '企业版',
-                price_3_price: '¥300,000 起',
-                price_3_desc: '私有化部署、定制集成服务、无限扩展',
-                price_3_btn: '联系销售',
+                price_1_price: '免费',
+                price_1_desc: '单节点部署，本地零拷贝架构，适合学习与研究',
+                price_1_btn: '立即下载',
+                price_2_name: '个人版',
+                price_2_unit: ' 单次付费',
+                price_2_desc: '终身授权，单节点，适合个人开发者',
+                price_2_btn: 'Toss 支付',
+                price_3_name: '团队版',
+                price_3_unit: '/月',
+                price_3_desc: '无限节点，基础集群支持，适合小团队协作',
+                price_3_btn: 'Toss 订阅',
+                price_4_name: '企业版',
+                price_4_price: '¥300,000/年起',
+                price_4_desc: '私有化部署、定制集成服务、无限扩展与专属支持',
+                price_4_btn: '联系销售',
+                pricing_toss_note: '支持 Toss Payments 安全支付 · 韩国本地支付渠道',
                 protocol_title: 'Protocol',
                 protocol_subtitle: '—— 版本 1.0 · 开源许可协议 ——',
                 protocol_intro: 'Phoenix Resonance Protocol 是一个创新的、对商业友好的开源许可协议，旨在为开发者和企业提供最大的自由度。',
@@ -1212,9 +1230,10 @@
                 product_4_core_3_desc: '全生命週期可追溯',
                 product_4_core_4_label: '高負載場景',
                 product_4_core_4_desc: '自動駕駛 · 工業自動化 · 具身智能',
-                product_4_price_1: '教育 ¥98/3月',
-                product_4_price_2: '專業 ¥19,800/年',
-                product_4_price_3: '企業 ¥300,000起',
+                product_4_price_1: '教育 免費',
+                product_4_price_2: '個人 單次付費',
+                product_4_price_3: '團隊 月租',
+                product_4_price_4: '企業 年費',
                 product_4_btn: '下載 →',
                 product_5_title: '末日方塊',
                 product_5_tag: '創意應用',
@@ -1237,17 +1256,22 @@
                 pricing_title_highlight: '定價方案',
                 pricing_subtitle: '—— Ragent Studio 商業授權方案 ——',
                 price_1_name: '教育版',
-                price_1_unit: '/3個月',
-                price_1_desc: '單節點部署，本地零拷貝架構',
-                price_1_btn: '選擇方案',
-                price_2_name: '專業版',
-                price_2_unit: '/年',
-                price_2_desc: '無限節點，基礎集群支持，適合團隊應用',
-                price_2_btn: '立即升級',
-                price_3_name: '企業版',
-                price_3_price: '¥300,000 起',
-                price_3_desc: '私有化部署、定制集成服務、無限擴展',
-                price_3_btn: '聯繫銷售',
+                price_1_price: '免費',
+                price_1_desc: '單節點部署，本地零拷貝架構，適合學習與研究',
+                price_1_btn: '立即下載',
+                price_2_name: '個人版',
+                price_2_unit: ' 單次付費',
+                price_2_desc: '終身授權，單節點，適合個人開發者',
+                price_2_btn: 'Toss 支付',
+                price_3_name: '團隊版',
+                price_3_unit: '/月',
+                price_3_desc: '無限節點，基礎集群支持，適合小團隊協作',
+                price_3_btn: 'Toss 訂閱',
+                price_4_name: '企業版',
+                price_4_price: '¥300,000/年起',
+                price_4_desc: '私有化部署、定制集成服務、無限擴展與專屬支持',
+                price_4_btn: '聯繫銷售',
+                pricing_toss_note: '支持 Toss Payments 安全支付 · 韓國本地支付渠道',
                 protocol_title: 'Protocol',
                 protocol_subtitle: '—— 版本 1.0 · 開源許可協議 ——',
                 protocol_intro: 'Phoenix Resonance Protocol 是一個創新的、對商業友好的開源許可協議，旨在為開發者和企業提供最大的自由度。',
@@ -1373,9 +1397,10 @@
                 product_4_core_3_desc: 'Full lifecycle traceability',
                 product_4_core_4_label: 'High-load Scenarios',
                 product_4_core_4_desc: 'Autonomous Driving · Industrial Automation · Embodied AI',
-                product_4_price_1: 'Education ¥98/3mo',
-                product_4_price_2: 'Professional ¥19,800/yr',
-                product_4_price_3: 'Enterprise ¥300,000+',
+                product_4_price_1: 'Education Free',
+                product_4_price_2: 'Personal One-time',
+                product_4_price_3: 'Team Monthly',
+                product_4_price_4: 'Enterprise Annual',
                 product_4_btn: 'Download →',
                 product_5_title: 'Doomsday Blocks',
                 product_5_tag: 'Creative App',
@@ -1398,17 +1423,22 @@
                 pricing_title_highlight: 'Pricing Plans',
                 pricing_subtitle: '—— Ragent Studio Commercial License Plans ——',
                 price_1_name: 'Education',
-                price_1_unit: '/3 months',
-                price_1_desc: 'Single-node deployment, local zero-copy architecture',
-                price_1_btn: 'Choose Plan',
-                price_2_name: 'Professional',
-                price_2_unit: '/year',
-                price_2_desc: 'Unlimited nodes, basic cluster support, suitable for team applications.',
-                price_2_btn: 'Upgrade Now',
-                price_3_name: 'Enterprise',
-                price_3_price: '¥300,000+',
-                price_3_desc: 'Private deployment, custom integration services, unlimited scalability.',
-                price_3_btn: 'Contact Sales',
+                price_1_price: 'Free',
+                price_1_desc: 'Single-node deployment, local zero-copy architecture, ideal for learning and research',
+                price_1_btn: 'Download Now',
+                price_2_name: 'Personal',
+                price_2_unit: ' One-time',
+                price_2_desc: 'Lifetime license, single node, suitable for individual developers',
+                price_2_btn: 'Pay with Toss',
+                price_3_name: 'Team',
+                price_3_unit: '/mo',
+                price_3_desc: 'Unlimited nodes, basic cluster support, suitable for small teams',
+                price_3_btn: 'Subscribe with Toss',
+                price_4_name: 'Enterprise',
+                price_4_price: '¥300,000+/yr',
+                price_4_desc: 'Private deployment, custom integration, unlimited scale and dedicated support',
+                price_4_btn: 'Contact Sales',
+                pricing_toss_note: 'Secure payments via Toss Payments · Korea local payment channel',
                 protocol_title: 'Protocol',
                 protocol_subtitle: '—— Version 1.0 · Open Source License Agreement ——',
                 protocol_intro: 'Phoenix Resonance Protocol is an innovative, business-friendly open source license agreement designed to provide maximum freedom for developers and enterprises.',
@@ -1534,9 +1564,10 @@
                 product_4_core_3_desc: 'ライフサイクル完全トレーサビリティ',
                 product_4_core_4_label: '高負荷シナリオ',
                 product_4_core_4_desc: '自動運転・産業オートメーション・身体性AI',
-                product_4_price_1: '教育 ¥98/3ヶ月',
-                product_4_price_2: 'プロフェッショナル ¥19,800/年',
-                product_4_price_3: 'エンタープライズ ¥300,000〜',
+                product_4_price_1: '教育 無料',
+                product_4_price_2: '個人 一括払い',
+                product_4_price_3: 'チーム 月額',
+                product_4_price_4: '企業 年額',
                 product_4_btn: 'ダウンロード →',
                 product_5_title: '末日方塊（ドゥームズデイブロックス）',
                 product_5_tag: 'クリエイティブアプリ',
@@ -1559,17 +1590,22 @@
                 pricing_title_highlight: '価格プラン',
                 pricing_subtitle: '—— Ragent Studio 商用ライセンスプラン ——',
                 price_1_name: '教育版',
-                price_1_unit: '/3ヶ月',
-                price_1_desc: 'シングルノードデプロイ、ローカルゼロコピーアーキテクチャ',
-                price_1_btn: '選択する',
-                price_2_name: 'プロフェッショナル',
-                price_2_unit: '/年',
-                price_2_desc: '無制限ノード、ベーシッククラスタサポート、チームアプリケーションに最適',
-                price_2_btn: '今すぐアップグレード',
-                price_3_name: 'エンタープライズ',
-                price_3_price: '¥300,000〜',
-                price_3_desc: 'プライベートデプロイメント、カスタム統合サービス、無制限のスケーラビリティ',
-                price_3_btn: '営業に問い合わせる',
+                price_1_price: '無料',
+                price_1_desc: 'シングルノードデプロイ、ローカルゼロコピーアーキテクチャ、学習・研究に最適',
+                price_1_btn: '今すぐダウンロード',
+                price_2_name: '個人版',
+                price_2_unit: ' 一括払い',
+                price_2_desc: '永久ライセンス、シングルノード、個人開発者向け',
+                price_2_btn: 'Tossで支払う',
+                price_3_name: 'チーム版',
+                price_3_unit: '/月',
+                price_3_desc: '無制限ノード、ベーシッククラスタサポート、小規模チーム向け',
+                price_3_btn: 'Tossで購読',
+                price_4_name: 'エンタープライズ',
+                price_4_price: '¥300,000/年〜',
+                price_4_desc: 'プライベートデプロイ、カスタム統合、無制限拡張と専属サポート',
+                price_4_btn: '営業に問い合わせる',
+                pricing_toss_note: 'Toss Payments による安全な支払い · 韓国現地決済チャネル',
                 protocol_title: 'Protocol',
                 protocol_subtitle: '—— バージョン 1.0 · オープンソースライセンス契約 ——',
                 protocol_intro: 'Phoenix Resonance Protocolは、開発者とエンタープライズに最大の自由度を提供するために設計された革新的でビジネスフレンドリーなオープンソースライセンス契約です。',
@@ -1695,9 +1731,10 @@
                 product_4_core_3_desc: '전체 수명 주기 추적 가능',
                 product_4_core_4_label: '고부하 시나리오',
                 product_4_core_4_desc: '자율 주행 · 산업 자동화 · 임베디드 지능',
-                product_4_price_1: '교육 ¥98/3개월',
-                product_4_price_2: '프로페셔널 ¥19,800/년',
-                product_4_price_3: '엔터프라이즈 ¥300,000~',
+                product_4_price_1: '교육 무료',
+                product_4_price_2: '개인 일시불',
+                product_4_price_3: '팀 월간',
+                product_4_price_4: '기업 연간',
                 product_4_btn: '다운로드 →',
                 product_5_title: '末日方块 (둠스데이 블록스)',
                 product_5_tag: '크리에이티브 앱',
@@ -1720,17 +1757,22 @@
                 pricing_title_highlight: '가격 책정 계획',
                 pricing_subtitle: '—— Ragent Studio 상업 라이선스 플랜 ——',
                 price_1_name: '교육용',
-                price_1_unit: '/3개월',
-                price_1_desc: '단일 노드 배포, 로컬 제로 카피 아키텍처',
-                price_1_btn: '선택하기',
-                price_2_name: '프로페셔널',
-                price_2_unit: '/년',
-                price_2_desc: '무제한 노드, 기본 클러스터 지원, 팀 애플리케이션에 적합',
-                price_2_btn: '지금 업그레이드',
-                price_3_name: '엔터프라이즈',
-                price_3_price: '¥300,000~',
-                price_3_desc: '프라이빗 배포, 맞춤형 통합 서비스, 무제한 확장성',
-                price_3_btn: '영업에 문의',
+                price_1_price: '무료',
+                price_1_desc: '단일 노드 배포, 로컬 제로 카피 아키텍처, 학습 및 연구에 적합',
+                price_1_btn: '지금 다운로드',
+                price_2_name: '개인용',
+                price_2_unit: ' 일시불',
+                price_2_desc: '평생 라이선스, 단일 노드, 개인 개발자에게 적합',
+                price_2_btn: 'Toss로 결제',
+                price_3_name: '팀용',
+                price_3_unit: '/월',
+                price_3_desc: '무제한 노드, 기본 클러스터 지원, 소규모 팀에 적합',
+                price_3_btn: 'Toss로 구독',
+                price_4_name: '기업용',
+                price_4_price: '¥300,000/년~',
+                price_4_desc: '프라이빗 배포, 맞춤형 통합 서비스, 무제한 확장 및 전담 지원',
+                price_4_btn: '영업에 문의',
+                pricing_toss_note: 'Toss Payments 안전 결제 지원 · 한국 현지 결제 채널',
                 protocol_title: 'Protocol',
                 protocol_subtitle: '—— 버전 1.0 · 오픈소스 라이선스 계약 ——',
                 protocol_intro: 'Phoenix Resonance 프로토콜은 개발자와 기업에 최대한의 자유를 제공하도록 설계된 혁신적이고 비즈니스 친화적인 오픈소스 라이선스 계약입니다.',
