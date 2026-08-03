@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
+<!-- saved from url=(0033)https://www.phoenixresonance.com/ -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>Phoenix Resonance · 企业级AGI平台</title>
-    <link rel="icon" href="unnamed.png" />
+    <link rel="icon" href="./Phoenix Resonance · 企业级AGI平台_files/unnamed.png">
 
     <style>
         /* =========================================
@@ -385,13 +385,14 @@
         }
         .card ul li { margin-bottom: 2px; }
 
-        .grid-3, .grid-2, .grid-4 {
+        .grid-3, .grid-2, .grid-4, .grid-5 {
             display: grid;
             gap: 20px;
         }
         .grid-3 { grid-template-columns: 1fr; }
         .grid-2 { grid-template-columns: 1fr; }
         .grid-4 { grid-template-columns: 1fr; }
+        .grid-5 { grid-template-columns: 1fr; }
 
         .benefits-list {
             display: grid;
@@ -577,6 +578,7 @@
             .grid-3 { grid-template-columns: repeat(2, 1fr); }
             .grid-2 { grid-template-columns: repeat(2, 1fr); }
             .grid-4 { grid-template-columns: repeat(2, 1fr); }
+            .grid-5 { grid-template-columns: repeat(2, 1fr); }
             .benefits-list { grid-template-columns: repeat(2, 1fr); }
             .lang-grid { grid-template-columns: repeat(3, 1fr); }
             .lang-dropdown {
@@ -599,6 +601,7 @@
             .mobile-nav { display: none !important; }
             .grid-3 { grid-template-columns: repeat(3, 1fr); }
             .grid-4 { grid-template-columns: repeat(4, 1fr); }
+            .grid-5 { grid-template-columns: repeat(5, 1fr); }
             .benefits-list { grid-template-columns: repeat(3, 1fr); }
             .hero h1 { font-size: 4.2rem; }
             section { padding: 100px 0; }
@@ -635,6 +638,243 @@
         .lang-dropdown::-webkit-scrollbar { width: 4px; }
         .lang-dropdown::-webkit-scrollbar-track { background: var(--bg-primary); border-radius: 4px; }
         .lang-dropdown::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+
+        /* =========================================
+           6. 结算弹窗 (通用支付 UI · 无真实支付逻辑，仅接口占位)
+           ========================================= */
+        .checkout-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .checkout-overlay.open {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .checkout-modal {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 440px;
+            margin: 3vh auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            animation: checkoutRise 0.22s ease;
+        }
+        @keyframes checkoutRise {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .checkout-head {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .checkout-head-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+        .checkout-close {
+            background: transparent;
+            border: none;
+            font-size: 1.2rem;
+            line-height: 1;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 6px;
+        }
+        .checkout-close:hover { background: var(--bg-primary); }
+
+        .checkout-summary {
+            padding: 20px 24px;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            background: var(--bg-primary);
+        }
+        .checkout-summary-plan { font-size: 1.05rem; font-weight: 800; }
+        .checkout-summary-cycle { font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px; }
+        .checkout-summary-price { font-size: 1.3rem; font-weight: 800; color: var(--primary); white-space: nowrap; }
+
+        .checkout-options { padding: 18px 24px 4px; border-bottom: 1px solid var(--border-color); }
+        .checkout-options-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .checkout-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .checkout-option:hover { border-color: var(--primary); }
+        .checkout-option.active {
+            border-color: var(--primary);
+            background: var(--primary-glow);
+        }
+        .checkout-option-left { display: flex; align-items: center; gap: 10px; }
+        .checkout-option-left input[type="radio"] { accent-color: var(--primary); width: 16px; height: 16px; }
+        .checkout-option-name { font-size: 0.88rem; font-weight: 700; }
+        .checkout-option-sub { font-size: 0.74rem; color: var(--text-secondary); margin-top: 1px; }
+        .checkout-option-price { font-size: 0.88rem; font-weight: 800; color: var(--primary); white-space: nowrap; }
+
+        .checkout-addon {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            border: 1.5px dashed var(--border-color);
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 14px;
+        }
+        .checkout-addon-name { font-size: 0.85rem; font-weight: 700; }
+        .checkout-addon-sub { font-size: 0.74rem; color: var(--text-secondary); margin-top: 1px; }
+        .checkout-stepper { display: flex; align-items: center; gap: 8px; }
+        .checkout-stepper button {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            border: 1.5px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-weight: 800;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .checkout-stepper button:hover { border-color: var(--primary); color: var(--primary); }
+        .checkout-stepper-val { min-width: 22px; text-align: center; font-weight: 800; font-size: 0.9rem; }
+
+        .checkout-total-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            padding: 12px 0 16px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4px;
+        }
+        .checkout-total-label { font-size: 0.85rem; color: var(--text-secondary); font-weight: 600; }
+        .checkout-total-value { font-size: 1.15rem; font-weight: 800; color: var(--primary); }
+        .checkout-total-note { font-size: 0.72rem; color: var(--text-secondary); margin-top: -10px; margin-bottom: 14px; }
+
+        .checkout-body { padding: 22px 24px 26px; }
+
+        .checkout-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        .checkout-method {
+            border: 1.5px solid var(--border-color);
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 10px 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            text-align: center;
+            transition: 0.2s;
+        }
+        .checkout-method.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-glow);
+        }
+
+        .checkout-field { margin-bottom: 14px; }
+        .checkout-field label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .checkout-field input,
+        .checkout-field select {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            transition: 0.2s;
+        }
+        .checkout-field input:focus,
+        .checkout-field select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+        .checkout-row { display: flex; gap: 10px; }
+        .checkout-row .checkout-field { flex: 1; }
+
+        .checkout-submit { width: 100%; margin-top: 6px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+        .checkout-note {
+            margin-top: 14px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .checkout-spinner {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-top-color: #fff;
+            animation: checkoutSpin 0.7s linear infinite;
+            display: none;
+        }
+        @keyframes checkoutSpin { to { transform: rotate(360deg); } }
+
+        .checkout-success { display: none; padding: 36px 24px 30px; text-align: center; }
+        .checkout-success-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #dcfce7;
+            color: #16a34a;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+        .checkout-success-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; }
+        .checkout-success-desc { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 22px; line-height: 1.6; }
+
+        .checkout-form.processing .checkout-body,
+        .checkout-form.processing .checkout-summary { opacity: 0.5; pointer-events: none; }
     </style>
 </head>
 <body>
@@ -642,16 +882,16 @@
     <!-- 导航 -->
     <header>
         <div class="nav-wrapper">
-            <a href="#home" class="logo" style="cursor:pointer;">
-                <img src="unnamed.png" alt="Logo">
+            <a href="https://www.phoenixresonance.com/#home" class="logo" style="cursor:pointer;">
+                <img src="./Phoenix Resonance · 企业级AGI平台_files/unnamed.png" alt="Logo">
                 <span style="color: #475569;" data-i18n="brand">Phoenix Resonance</span>
             </a>
 
             <nav class="nav-links">
-                <a href="#home" data-i18n="nav_home">首页</a>
-                <a href="#features" data-i18n="nav_features">特性</a>
-                <a href="#products" data-i18n="nav_products">产品</a>
-                <a href="#protocol" data-i18n="nav_protocol">协议</a>
+                <a href="https://www.phoenixresonance.com/#home" data-i18n="nav_home">首页</a>
+                <a href="https://www.phoenixresonance.com/#features" data-i18n="nav_features">特性</a>
+                <a href="https://www.phoenixresonance.com/#products" data-i18n="nav_products">产品</a>
+                <a href="https://www.phoenixresonance.com/#protocol" data-i18n="nav_protocol">协议</a>
             </nav>
 
             <div class="header-actions">
@@ -661,23 +901,23 @@
                     </button>
                     <div class="lang-dropdown" id="langMenu">
                         <div class="lang-grid">
-                            <button class="lang-item" data-lang="zh" onclick="changeLang('zh')">🇨🇳 中文</button>
-                            <button class="lang-item" data-lang="zh-tw" onclick="changeLang('zh-tw')">🇹🇼 繁體中文</button>
-                            <button class="lang-item" data-lang="en" onclick="changeLang('en')">🇺🇸 English</button>
-                            <button class="lang-item" data-lang="ja" onclick="changeLang('ja')">🇯🇵 日本語</button>
-                            <button class="lang-item" data-lang="ko" onclick="changeLang('ko')">🇰🇷 한국어</button>
-                            <button class="lang-item" data-lang="de" onclick="changeLang('de')">🇩🇪 Deutsch</button>
-                            <button class="lang-item" data-lang="fr" onclick="changeLang('fr')">🇫🇷 Français</button>
-                            <button class="lang-item" data-lang="es" onclick="changeLang('es')">🇪🇸 Español</button>
-                            <button class="lang-item" data-lang="pt" onclick="changeLang('pt')">🇵🇹 Português</button>
-                            <button class="lang-item" data-lang="ru" onclick="changeLang('ru')">🇷🇺 Русский</button>
-                            <button class="lang-item" data-lang="ar" onclick="changeLang('ar')">🇸🇦 العربية</button>
-                            <button class="lang-item" data-lang="tr" onclick="changeLang('tr')">🇹🇷 Türkçe</button>
-                            <button class="lang-item" data-lang="he" onclick="changeLang('he')">🇮🇱 עברית</button>
-                            <button class="lang-item" data-lang="nl" onclick="changeLang('nl')">🇳🇱 Nederlands</button>
-                            <button class="lang-item" data-lang="it" onclick="changeLang('it')">🇮🇹 Italiano</button>
-                            <button class="lang-item" data-lang="vi" onclick="changeLang('vi')">🇻🇳 Tiếng Việt</button>
-                            <button class="lang-item" data-lang="cs" onclick="changeLang('cs')">🇨🇿 Čeština</button>
+                            <button class="lang-item active" data-lang="zh" onclick="changeLang(&#39;zh&#39;)">🇨🇳 中文</button>
+                            <button class="lang-item" data-lang="zh-tw" onclick="changeLang(&#39;zh-tw&#39;)">🇹🇼 繁體中文</button>
+                            <button class="lang-item" data-lang="en" onclick="changeLang(&#39;en&#39;)">🇺🇸 English</button>
+                            <button class="lang-item" data-lang="ja" onclick="changeLang(&#39;ja&#39;)">🇯🇵 日本語</button>
+                            <button class="lang-item" data-lang="ko" onclick="changeLang(&#39;ko&#39;)">🇰🇷 한국어</button>
+                            <button class="lang-item" data-lang="de" onclick="changeLang(&#39;de&#39;)">🇩🇪 Deutsch</button>
+                            <button class="lang-item" data-lang="fr" onclick="changeLang(&#39;fr&#39;)">🇫🇷 Français</button>
+                            <button class="lang-item" data-lang="es" onclick="changeLang(&#39;es&#39;)">🇪🇸 Español</button>
+                            <button class="lang-item" data-lang="pt" onclick="changeLang(&#39;pt&#39;)">🇵🇹 Português</button>
+                            <button class="lang-item" data-lang="ru" onclick="changeLang(&#39;ru&#39;)">🇷🇺 Русский</button>
+                            <button class="lang-item" data-lang="ar" onclick="changeLang(&#39;ar&#39;)">🇸🇦 العربية</button>
+                            <button class="lang-item" data-lang="tr" onclick="changeLang(&#39;tr&#39;)">🇹🇷 Türkçe</button>
+                            <button class="lang-item" data-lang="he" onclick="changeLang(&#39;he&#39;)">🇮🇱 עברית</button>
+                            <button class="lang-item" data-lang="nl" onclick="changeLang(&#39;nl&#39;)">🇳🇱 Nederlands</button>
+                            <button class="lang-item" data-lang="it" onclick="changeLang(&#39;it&#39;)">🇮🇹 Italiano</button>
+                            <button class="lang-item" data-lang="vi" onclick="changeLang(&#39;vi&#39;)">🇻🇳 Tiếng Việt</button>
+                            <button class="lang-item" data-lang="cs" onclick="changeLang(&#39;cs&#39;)">🇨🇿 Čeština</button>
                         </div>
                     </div>
                 </div>
@@ -688,10 +928,10 @@
         </div>
 
         <div class="mobile-nav" id="mobileNav">
-            <a href="#home" data-i18n="nav_home" onclick="closeMobileNav()">首页</a>
-            <a href="#features" data-i18n="nav_features" onclick="closeMobileNav()">特性</a>
-            <a href="#products" data-i18n="nav_products" onclick="closeMobileNav()">产品</a>
-            <a href="#protocol" data-i18n="nav_protocol" onclick="closeMobileNav()">协议</a>
+            <a href="https://www.phoenixresonance.com/#home" data-i18n="nav_home" onclick="closeMobileNav()">首页</a>
+            <a href="https://www.phoenixresonance.com/#features" data-i18n="nav_features" onclick="closeMobileNav()">特性</a>
+            <a href="https://www.phoenixresonance.com/#products" data-i18n="nav_products" onclick="closeMobileNav()">产品</a>
+            <a href="https://www.phoenixresonance.com/#protocol" data-i18n="nav_protocol" onclick="closeMobileNav()">协议</a>
         </div>
     </header>
 
@@ -760,19 +1000,19 @@
                         <div class="card-icon">🧠</div>
                         <h3 data-i18n="product_1_title">Phoenix Studio</h3>
                         <p data-i18n="product_1_desc">企业级AGI开发平台。分层架构、完整的可视化编辑、实时协作、Git集成，为复杂的AI系统提供坚实的基础。</p>
-                        <a href="#" class="card-link" data-i18n="product_1_btn">开始使用 →</a>
+                        <a href="https://www.phoenixresonance.com/#" class="card-link" data-i18n="product_1_btn">开始使用 →</a>
                     </div>
                     <div class="card">
                         <div class="card-icon">⚡</div>
                         <h3 data-i18n="product_2_title">Phoenix Runtime</h3>
                         <p data-i18n="product_2_desc">高性能运行时引擎。支持分布式部署、自动扩展、故障恢复，确保您的AI系统稳定高效运行。</p>
-                        <a href="#" class="card-link" data-i18n="product_2_btn">部署现在 →</a>
+                        <a href="https://www.phoenixresonance.com/#" class="card-link" data-i18n="product_2_btn">部署现在 →</a>
                     </div>
                     <div class="card">
                         <div class="card-icon">📚</div>
                         <h3 data-i18n="product_3_title">Phoenix SDK</h3>
                         <p data-i18n="product_3_desc">完整的开发套件。多语言支持、丰富的API、详细的文档，快速集成到您的系统。</p>
-                        <a href="#" class="card-link" data-i18n="product_3_btn">查看文档 →</a>
+                        <a href="https://www.phoenixresonance.com/#" class="card-link" data-i18n="product_3_btn">查看文档 →</a>
                     </div>
                 </div>
             </div>
@@ -822,7 +1062,7 @@
                             <span class="tag tag-orange" data-i18n="product_4_price_3">团队 月租</span>
                             <span class="tag tag-orange" data-i18n="product_4_price_4">企业 年费</span>
                         </div>
-                        <a href="#" class="card-link" data-i18n="product_4_btn">下载 →</a>
+                        <a href="https://www.phoenixresonance.com/#" class="card-link" data-i18n="product_4_btn">下载 →</a>
                     </div>
 
                     <!-- 末日方块 -->
@@ -864,7 +1104,7 @@
                             <span class="tag tag-green" data-i18n="product_5_badge_2">✓ 局域网多人</span>
                             <span class="tag tag-green" data-i18n="product_5_badge_3">✓ 全部解锁</span>
                         </div>
-                        <a href="https://raw.githubusercontent.com/TalkingRobot/TalkingRobot.github.io/main/downloads/Asquare/Asquare.zip" class="card-link" download data-i18n="product_5_btn">下载 ↵</a>
+                        <a href="https://raw.githubusercontent.com/TalkingRobot/TalkingRobot.github.io/main/downloads/Asquare/Asquare.zip" class="card-link" download="" data-i18n="product_5_btn">下载 ↵</a>
                     </div>
 
                 </div>
@@ -879,34 +1119,34 @@
             <p class="section-subtitle" data-i18n="pricing_subtitle">—— Ragent Studio 商业授权方案 ——</p>
             <div class="grid-4">
                 <div class="card pricing-card">
-                    <h3 data-i18n="price_1_name">教育版</h3>
-                    <div class="price" data-i18n="price_1_price">免费</div>
-                    <p data-i18n="price_1_desc">单节点部署，本地零拷贝架构，适合学习与研究</p>
-                    <button class="btn btn-secondary" style="width:100%;margin-top:20px;" data-i18n="price_1_btn">立即下载</button>
+                    <h3 data-i18n="price_1_name">免费版</h3>
+                    <div class="price" data-i18n="price_1_price">¥0</div>
+                    <p data-i18n="price_1_desc">破冰体验，可完整开发与调试，赠送 3 次 Agent 免费导出</p>
+                    <button type="button" class="btn btn-secondary" style="width:100%;margin-top:20px;" data-i18n="price_1_btn">立即下载</button>
                 </div>
 
                 <div class="card pricing-card">
                     <h3 data-i18n="price_2_name">个人版</h3>
-                    <div class="price">¥980<span style="font-size:0.9rem;color:var(--text-secondary);font-weight:400;" data-i18n="price_2_unit"> 单次付费</span></div>
-                    <p data-i18n="price_2_desc">终身授权，单节点，适合个人开发者</p>
-                    <button class="btn btn-secondary" style="width:100%;margin-top:20px;" data-i18n="price_2_btn">Toss 支付</button>
+                    <div class="price">¥19<span style="font-size:0.9rem;color:var(--text-secondary);font-weight:400;" data-i18n="price_2_unit"> 起 / 按次导出</span></div>
+                    <p data-i18n="price_2_desc">按交付物（Agent）导出次数计费：¥19 / ¥79 / ¥259 / ¥499，导出数量越多单价越低，低门槛按需试用</p>
+                    <button type="button" class="btn btn-secondary" style="width:100%;margin-top:20px;" onclick="openCheckout(this, 'personal')" data-i18n="price_2_btn">选择导出套餐</button>
                 </div>
 
                 <div class="card pricing-card featured">
                     <h3 data-i18n="price_3_name">团队版</h3>
-                    <div class="price">¥1,980<span style="font-size:0.9rem;color:var(--text-secondary);font-weight:400;" data-i18n="price_3_unit">/月</span></div>
-                    <p data-i18n="price_3_desc">无限节点，基础集群支持，适合小团队协作</p>
-                    <button class="btn btn-primary" style="width:100%;margin-top:20px;" data-i18n="price_3_btn">Toss 订阅</button>
+                    <div class="price">¥1,980<span style="font-size:0.9rem;color:var(--text-secondary);font-weight:400;" data-i18n="price_3_unit">/年起</span></div>
+                    <p data-i18n="price_3_desc">支持团队协作开发，单模型接入 + 单实例订阅，适合小团队与个人重度用户</p>
+                    <button type="button" class="btn btn-primary" style="width:100%;margin-top:20px;" onclick="openCheckout(this, 'team')" data-i18n="price_3_btn">订阅团队版</button>
                 </div>
 
                 <div class="card pricing-card">
                     <h3 data-i18n="price_4_name">企业版</h3>
-                    <div class="price" data-i18n="price_4_price">¥300,000/年起</div>
-                    <p data-i18n="price_4_desc">私有化部署、定制集成服务、无限扩展与专属支持</p>
-                    <button class="btn btn-secondary" style="width:100%;margin-top:20px;" data-i18n="price_4_btn">联系销售</button>
+                    <div class="price">¥7,800<span style="font-size:0.9rem;color:var(--text-secondary);font-weight:400;" data-i18n="price_4_unit">/年起</span></div>
+                    <p data-i18n="price_4_desc">固定价格，最多 5 个实例 + 最多 3 个模型接入；如需私有化部署、多集群或系统对接，可在结算时追加定制人月</p>
+                    <button type="button" class="btn btn-secondary" style="width:100%;margin-top:20px;" onclick="openCheckout(this, 'enterprise')" data-i18n="price_4_btn">购买企业版</button>
                 </div>
             </div>
-            <p style="text-align:center;margin-top:24px;color:var(--text-secondary);font-size:0.9rem;" data-i18n="pricing_toss_note">支持 Toss Payments 安全支付 · 韩国本地支付渠道</p>
+            <p style="text-align:center;margin-top:24px;color:var(--text-secondary);font-size:0.9rem;" data-i18n="pricing_toss_note">支持信用卡、借记卡与主流数字钱包 · 全球通用安全结算</p>
         </div>
     </section>
 
@@ -990,6 +1230,113 @@
             <p style="margin-top:12px;font-size:0.8rem;" data-i18n="copyright">© 2025 Phoenix Resonance. 保留所有权利。</p>
         </div>
     </footer>
+
+    <!-- 结算弹窗：通用支付 UI（仅前端交互占位，未接入任何真实支付渠道） -->
+    <div class="checkout-overlay" id="checkoutOverlay" onclick="if(event.target===this) closeCheckout()">
+        <div class="checkout-modal">
+            <form class="checkout-form" id="checkoutForm" onsubmit="return submitPayment(event)">
+                <div class="checkout-head">
+                    <span class="checkout-head-title" data-i18n="checkout_title">安全结算</span>
+                    <button type="button" class="checkout-close" aria-label="Close" onclick="closeCheckout()">✕</button>
+                </div>
+
+                <div class="checkout-summary">
+                    <div>
+                        <div class="checkout-summary-plan" id="checkoutPlanName">—</div>
+                        <div class="checkout-summary-cycle" id="checkoutPlanCycle">—</div>
+                    </div>
+                    <div class="checkout-summary-price" id="checkoutPlanPrice">—</div>
+                </div>
+
+                <div class="checkout-options" id="checkoutOptions" style="display:none;">
+                    <div class="checkout-options-title" id="checkoutOptionsTitle" data-i18n="checkout_options_title">选择价格选项</div>
+                    <div id="checkoutOptionsList"></div>
+
+                    <div class="checkout-addon" id="checkoutAddon" style="display:none;">
+                        <div>
+                            <div class="checkout-addon-name" id="checkoutAddonName" data-i18n="checkout_addon_pm_name">追加定制人月</div>
+                            <div class="checkout-addon-sub" id="checkoutAddonSub" data-i18n="checkout_addon_pm_sub">私有化部署 / 多集群 / 系统对接，价格面议</div>
+                        </div>
+                        <div class="checkout-stepper">
+                            <button type="button" onclick="adjustPersonMonths(-1)">−</button>
+                            <span class="checkout-stepper-val" id="checkoutPmVal">0</span>
+                            <button type="button" onclick="adjustPersonMonths(1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="checkout-total-row">
+                        <span class="checkout-total-label" data-i18n="checkout_total_label">合计</span>
+                        <span class="checkout-total-value" id="checkoutTotalValue">—</span>
+                    </div>
+                    <p class="checkout-total-note" id="checkoutTotalNote" data-i18n="checkout_total_note">定制人月费用面议，将由专属顾问在支付前与您确认最终报价</p>
+                </div>
+
+                <div class="checkout-body">
+                    <div class="checkout-methods">
+                        <div class="checkout-method active" data-method="card" onclick="selectPaymentMethod('card')" data-i18n="checkout_method_card">💳 信用卡 / 借记卡</div>
+                        <div class="checkout-method" data-method="wallet" onclick="selectPaymentMethod('wallet')" data-i18n="checkout_method_wallet">📱 数字钱包</div>
+                    </div>
+
+                    <div id="checkoutCardFields">
+                        <div class="checkout-field">
+                            <label data-i18n="checkout_label_email">邮箱地址</label>
+                            <input type="email" placeholder="you@company.com" required="">
+                        </div>
+                        <div class="checkout-field">
+                            <label data-i18n="checkout_label_cardnum">卡号</label>
+                            <input type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" required="" maxlength="19">
+                        </div>
+                        <div class="checkout-row">
+                            <div class="checkout-field">
+                                <label data-i18n="checkout_label_expiry">有效期</label>
+                                <input type="text" placeholder="MM / YY" required="" maxlength="7">
+                            </div>
+                            <div class="checkout-field">
+                                <label data-i18n="checkout_label_cvc">安全码</label>
+                                <input type="text" inputmode="numeric" placeholder="CVC" required="" maxlength="4">
+                            </div>
+                        </div>
+                        <div class="checkout-field">
+                            <label data-i18n="checkout_label_name">持卡人姓名</label>
+                            <input type="text" placeholder="LIU CHANG" required="">
+                        </div>
+                    </div>
+
+                    <div id="checkoutWalletFields" style="display:none;">
+                        <div class="checkout-field">
+                            <label data-i18n="checkout_label_email">邮箱地址</label>
+                            <input type="email" placeholder="you@company.com" required="">
+                        </div>
+                        <div class="checkout-field">
+                            <select>
+                                <option data-i18n="checkout_wallet_option_1">选择数字钱包</option>
+                                <option data-i18n="checkout_wallet_option_2">钱包 A</option>
+                                <option data-i18n="checkout_wallet_option_3">钱包 B</option>
+                                <option data-i18n="checkout_wallet_option_4">钱包 C</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary checkout-submit">
+                        <span class="checkout-spinner" id="checkoutSpinner"></span>
+                        <span id="checkoutSubmitLabel" data-i18n="checkout_submit">确认支付</span>
+                    </button>
+
+                    <p class="checkout-note">
+                        <span>🔒</span>
+                        <span data-i18n="checkout_secure_note">由通用安全支付通道加密处理，支持全球主流信用卡</span>
+                    </p>
+                </div>
+            </form>
+
+            <div class="checkout-success" id="checkoutSuccess">
+                <div class="checkout-success-icon">✓</div>
+                <div class="checkout-success-title" data-i18n="checkout_success_title">支付成功</div>
+                <div class="checkout-success-desc" id="checkoutSuccessDesc" data-i18n="checkout_success_desc">您的订阅已激活，确认邮件将发送至您的邮箱。</div>
+                <button type="button" class="btn btn-secondary" style="width:100%;" onclick="closeCheckout()" data-i18n="checkout_done">完成</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // =============================================
@@ -1088,23 +1435,55 @@
                 pricing_title_prefix: '灵活的',
                 pricing_title_highlight: '定价方案',
                 pricing_subtitle: '—— Ragent Studio 商业授权方案 ——',
-                price_1_name: '教育版',
-                price_1_price: '免费',
-                price_1_desc: '单节点部署，本地零拷贝架构，适合学习与研究',
+                price_1_name: '免费版',
+                price_1_price: '¥0',
+                price_1_desc: '破冰体验，可完整开发与调试，赠送 3 次 Agent 免费导出',
                 price_1_btn: '立即下载',
                 price_2_name: '个人版',
-                price_2_unit: ' 单次付费',
-                price_2_desc: '终身授权，单节点，适合个人开发者',
-                price_2_btn: 'Toss 支付',
+                price_2_unit: ' 起 / 按次导出',
+                price_2_desc: '按交付物（Agent）导出次数计费：¥19 / ¥79 / ¥259 / ¥499，导出数量越多单价越低，低门槛按需试用',
+                price_2_btn: '选择导出套餐',
                 price_3_name: '团队版',
-                price_3_unit: '/月',
-                price_3_desc: '无限节点，基础集群支持，适合小团队协作',
-                price_3_btn: 'Toss 订阅',
+                price_3_unit: '/年',
+                price_3_desc: '支持团队协作开发，单模型接入 + 单实例订阅，适合小团队与个人重度用户',
+                price_3_btn: '订阅团队版',
                 price_4_name: '企业版',
-                price_4_price: '¥300,000/年起',
-                price_4_desc: '私有化部署、定制集成服务、无限扩展与专属支持',
-                price_4_btn: '联系销售',
-                pricing_toss_note: '支持 Toss Payments 安全支付 · 韩国本地支付渠道',
+                price_4_unit: '/年',
+                price_4_desc: '固定价格，最多 5 个实例 + 最多 3 个模型接入，覆盖大多数企业团队的固定需求',
+                price_4_btn: '购买企业版',
+                price_5_name: '企业定制',
+                price_5_price: '面议',
+                price_5_desc: '私有化部署、多模型多集群 Agent、系统对接等超出标准版范围的需求，按人月计价',
+                price_5_btn: '联系销售',
+                pricing_toss_note: '支持信用卡、借记卡与主流数字钱包 · 全球通用安全结算',
+                checkout_title: '安全结算',
+                checkout_method_card: '💳 信用卡 / 借记卡',
+                checkout_method_wallet: '📱 数字钱包',
+                checkout_label_email: '邮箱地址',
+                checkout_label_cardnum: '卡号',
+                checkout_label_expiry: '有效期',
+                checkout_label_cvc: '安全码',
+                checkout_label_name: '持卡人姓名',
+                checkout_wallet_option_1: '选择数字钱包',
+                checkout_wallet_option_2: '钱包 A',
+                checkout_wallet_option_3: '钱包 B',
+                checkout_wallet_option_4: '钱包 C',
+                checkout_submit: '确认支付',
+                checkout_secure_note: '由通用安全支付通道加密处理，支持全球主流信用卡',
+                checkout_success_title: '支付成功',
+                checkout_success_desc: '您的订阅已激活，确认邮件将发送至您的邮箱。',
+                checkout_done: '完成',
+                checkout_options_title: '选择价格选项',
+                checkout_opt_label: '{n} 年',
+                checkout_opt_label_export: '{n} 次导出',
+                checkout_opt_personal_sub: '按次导出 Agent 交付物',
+                checkout_opt_team_sub: '单模型 + 单实例',
+                checkout_opt_enterprise_sub: '≤5 实例 · ≤3 模型',
+                checkout_addon_pm_name: '追加定制人月',
+                checkout_addon_pm_sub: '私有化部署 / 多集群 / 系统对接，价格面议',
+                checkout_total_label: '合计',
+                checkout_total_note: '定制人月费用面议，将由专属顾问在支付前与您确认最终报价',
+                checkout_total_note_addon: '另加定制 {n} 人月，价格面议，将由专属顾问在支付前与您确认最终报价',
                 protocol_title: 'Protocol',
                 protocol_subtitle: '—— 版本 1.0 · 开源许可协议 ——',
                 protocol_intro: 'Phoenix Resonance Protocol 是一个创新的、对商业友好的开源许可协议，旨在为开发者和企业提供最大的自由度。',
@@ -1255,23 +1634,55 @@
                 pricing_title_prefix: '靈活的',
                 pricing_title_highlight: '定價方案',
                 pricing_subtitle: '—— Ragent Studio 商業授權方案 ——',
-                price_1_name: '教育版',
-                price_1_price: '免費',
-                price_1_desc: '單節點部署，本地零拷貝架構，適合學習與研究',
+                price_1_name: '免費版',
+                price_1_price: '¥0',
+                price_1_desc: '破冰體驗，可完整開發與調試，贈送 3 次 Agent 免費導出',
                 price_1_btn: '立即下載',
                 price_2_name: '個人版',
-                price_2_unit: ' 單次付費',
-                price_2_desc: '終身授權，單節點，適合個人開發者',
-                price_2_btn: 'Toss 支付',
+                price_2_unit: ' 起 / 按次導出',
+                price_2_desc: '按交付物（Agent）導出次數計費：¥19 / ¥79 / ¥259 / ¥499，導出數量越多單價越低，低門檻按需試用',
+                price_2_btn: '選擇導出套餐',
                 price_3_name: '團隊版',
-                price_3_unit: '/月',
-                price_3_desc: '無限節點，基礎集群支持，適合小團隊協作',
-                price_3_btn: 'Toss 訂閱',
+                price_3_unit: '/年',
+                price_3_desc: '支持團隊協作開發，單模型接入 + 單實例訂閱，適合小團隊與個人重度用戶',
+                price_3_btn: '訂閱團隊版',
                 price_4_name: '企業版',
-                price_4_price: '¥300,000/年起',
-                price_4_desc: '私有化部署、定制集成服務、無限擴展與專屬支持',
-                price_4_btn: '聯繫銷售',
-                pricing_toss_note: '支持 Toss Payments 安全支付 · 韓國本地支付渠道',
+                price_4_unit: '/年',
+                price_4_desc: '固定價格，最多 5 個實例 + 最多 3 個模型接入，覆蓋大多數企業團隊的固定需求',
+                price_4_btn: '購買企業版',
+                price_5_name: '企業定制',
+                price_5_price: '面議',
+                price_5_desc: '私有化部署、多模型多集群 Agent、系統對接等超出標準版範圍的需求，按人月計價',
+                price_5_btn: '聯繫銷售',
+                pricing_toss_note: '支持信用卡、簽帳卡與主流數位錢包 · 全球通用安全結算',
+                checkout_title: '安全結算',
+                checkout_method_card: '💳 信用卡 / 簽帳卡',
+                checkout_method_wallet: '📱 數位錢包',
+                checkout_label_email: '電子郵件地址',
+                checkout_label_cardnum: '卡號',
+                checkout_label_expiry: '有效期限',
+                checkout_label_cvc: '安全碼',
+                checkout_label_name: '持卡人姓名',
+                checkout_wallet_option_1: '選擇數位錢包',
+                checkout_wallet_option_2: '錢包 A',
+                checkout_wallet_option_3: '錢包 B',
+                checkout_wallet_option_4: '錢包 C',
+                checkout_submit: '確認付款',
+                checkout_secure_note: '由通用安全支付通道加密處理，支援全球主流信用卡',
+                checkout_success_title: '付款成功',
+                checkout_success_desc: '您的訂閱已啟用，確認郵件將寄送至您的信箱。',
+                checkout_done: '完成',
+                checkout_options_title: '選擇價格選項',
+                checkout_opt_label: '{n} 年',
+                checkout_opt_label_export: '{n} 次導出',
+                checkout_opt_personal_sub: '按次導出 Agent 交付物',
+                checkout_opt_team_sub: '單模型 + 單實例',
+                checkout_opt_enterprise_sub: '≤5 實例 · ≤3 模型',
+                checkout_addon_pm_name: '追加定制人月',
+                checkout_addon_pm_sub: '私有化部署 / 多集群 / 系統對接，價格面議',
+                checkout_total_label: '合計',
+                checkout_total_note: '定制人月費用面議，將由專屬顧問在支付前與您確認最終報價',
+                checkout_total_note_addon: '另加定制 {n} 人月，價格面議，將由專屬顧問在支付前與您確認最終報價',
                 protocol_title: 'Protocol',
                 protocol_subtitle: '—— 版本 1.0 · 開源許可協議 ——',
                 protocol_intro: 'Phoenix Resonance Protocol 是一個創新的、對商業友好的開源許可協議，旨在為開發者和企業提供最大的自由度。',
@@ -1422,23 +1833,55 @@
                 pricing_title_prefix: 'Flexible',
                 pricing_title_highlight: 'Pricing Plans',
                 pricing_subtitle: '—— Ragent Studio Commercial License Plans ——',
-                price_1_name: 'Education',
-                price_1_price: 'Free',
-                price_1_desc: 'Single-node deployment, local zero-copy architecture, ideal for learning and research',
+                price_1_name: 'Free',
+                price_1_price: '¥0',
+                price_1_desc: 'Break the ice — full build & test access, plus 3 free Agent exports',
                 price_1_btn: 'Download Now',
                 price_2_name: 'Personal',
-                price_2_unit: ' One-time',
-                price_2_desc: 'Lifetime license, single node, suitable for individual developers',
-                price_2_btn: 'Pay with Toss',
+                price_2_unit: ' from / per export',
+                price_2_desc: 'Pay per exported Agent: ¥19 / ¥79 / ¥259 / ¥499 — larger packs cost less per export, low barrier to try',
+                price_2_btn: 'Choose Export Pack',
                 price_3_name: 'Team',
-                price_3_unit: '/mo',
-                price_3_desc: 'Unlimited nodes, basic cluster support, suitable for small teams',
-                price_3_btn: 'Subscribe with Toss',
+                price_3_unit: '/yr',
+                price_3_desc: 'Team collaboration, single model + single instance subscription, ideal for small teams and power users',
+                price_3_btn: 'Subscribe to Team',
                 price_4_name: 'Enterprise',
-                price_4_price: '¥300,000+/yr',
-                price_4_desc: 'Private deployment, custom integration, unlimited scale and dedicated support',
-                price_4_btn: 'Contact Sales',
-                pricing_toss_note: 'Secure payments via Toss Payments · Korea local payment channel',
+                price_4_unit: '/yr',
+                price_4_desc: 'Flat rate covering up to 5 instances + up to 3 models, fits most enterprise teams\' fixed needs',
+                price_4_btn: 'Buy Enterprise',
+                price_5_name: 'Enterprise Custom',
+                price_5_price: 'Contact Us',
+                price_5_desc: 'Private deployment, multi-model multi-cluster Agents, system integration and anything beyond the Standard plan — priced per person-month',
+                price_5_btn: 'Contact Sales',
+                pricing_toss_note: 'Secure checkout via major credit cards, debit cards, and digital wallets · Available worldwide',
+                checkout_title: 'Secure Checkout',
+                checkout_method_card: '💳 Credit / Debit Card',
+                checkout_method_wallet: '📱 Digital Wallet',
+                checkout_label_email: 'Email address',
+                checkout_label_cardnum: 'Card number',
+                checkout_label_expiry: 'Expiry',
+                checkout_label_cvc: 'CVC',
+                checkout_label_name: 'Cardholder name',
+                checkout_wallet_option_1: 'Select a digital wallet',
+                checkout_wallet_option_2: 'Wallet A',
+                checkout_wallet_option_3: 'Wallet B',
+                checkout_wallet_option_4: 'Wallet C',
+                checkout_submit: 'Confirm payment',
+                checkout_secure_note: 'Encrypted by a universal secure payment gateway · Major cards accepted worldwide',
+                checkout_success_title: 'Payment successful',
+                checkout_success_desc: 'Your subscription is now active. A confirmation email is on its way.',
+                checkout_done: 'Done',
+                checkout_options_title: 'Choose a price option',
+                checkout_opt_label: '{n}-Year',
+                checkout_opt_label_export: '{n} export(s)',
+                checkout_opt_personal_sub: 'Per exported Agent deliverable',
+                checkout_opt_team_sub: 'Single model + single instance',
+                checkout_opt_enterprise_sub: '≤5 instances · ≤3 models',
+                checkout_addon_pm_name: 'Add custom person-months',
+                checkout_addon_pm_sub: 'Private deployment / multi-cluster / integrations — priced on request',
+                checkout_total_label: 'Total',
+                checkout_total_note: 'Custom person-month pricing is quoted separately; a dedicated advisor will confirm the final price before payment',
+                checkout_total_note_addon: 'Plus {n} custom person-month(s), priced on request — a dedicated advisor will confirm the final price before payment',
                 protocol_title: 'Protocol',
                 protocol_subtitle: '—— Version 1.0 · Open Source License Agreement ——',
                 protocol_intro: 'Phoenix Resonance Protocol is an innovative, business-friendly open source license agreement designed to provide maximum freedom for developers and enterprises.',
@@ -1589,23 +2032,55 @@
                 pricing_title_prefix: '柔軟な',
                 pricing_title_highlight: '価格プラン',
                 pricing_subtitle: '—— Ragent Studio 商用ライセンスプラン ——',
-                price_1_name: '教育版',
-                price_1_price: '無料',
-                price_1_desc: 'シングルノードデプロイ、ローカルゼロコピーアーキテクチャ、学習・研究に最適',
+                price_1_name: '無料版',
+                price_1_price: '¥0',
+                price_1_desc: 'まずはお試し——開発・テストはフル機能、Agentエクスポート3回まで無料',
                 price_1_btn: '今すぐダウンロード',
                 price_2_name: '個人版',
-                price_2_unit: ' 一括払い',
-                price_2_desc: '永久ライセンス、シングルノード、個人開発者向け',
-                price_2_btn: 'Tossで支払う',
+                price_2_unit: ' 〜 / エクスポート単位',
+                price_2_desc: 'Agentのエクスポート回数課金：¥19 / ¥79 / ¥259 / ¥499、まとめ買いほどお得、低コストで試せます',
+                price_2_btn: 'エクスポートパックを選択',
                 price_3_name: 'チーム版',
-                price_3_unit: '/月',
-                price_3_desc: '無制限ノード、ベーシッククラスタサポート、小規模チーム向け',
-                price_3_btn: 'Tossで購読',
+                price_3_unit: '/年',
+                price_3_desc: 'チーム開発対応、単一モデル + 単一インスタンスのサブスクリプション、小規模チーム・ヘビーユーザー向け',
+                price_3_btn: 'チームプランに登録',
                 price_4_name: 'エンタープライズ',
-                price_4_price: '¥300,000/年〜',
-                price_4_desc: 'プライベートデプロイ、カスタム統合、無制限拡張と専属サポート',
-                price_4_btn: '営業に問い合わせる',
-                pricing_toss_note: 'Toss Payments による安全な支払い · 韓国現地決済チャネル',
+                price_4_unit: '/年',
+                price_4_desc: '定額料金、最大5インスタンス + 最大3モデル接続、多くの企業チームの固定ニーズに対応',
+                price_4_btn: 'エンタープライズを購入',
+                price_5_name: 'エンタープライズカスタム',
+                price_5_price: '応相談',
+                price_5_desc: 'プライベートデプロイ、マルチモデル・マルチクラスタAgent、システム連携など標準版を超える要件は人月単位で見積もり',
+                price_5_btn: '営業に問い合わせる',
+                pricing_toss_note: 'クレジットカード・デビットカード・主要デジタルウォレットに対応 · 世界中で安全に決済',
+                checkout_title: '安全な決済',
+                checkout_method_card: '💳 クレジット / デビットカード',
+                checkout_method_wallet: '📱 デジタルウォレット',
+                checkout_label_email: 'メールアドレス',
+                checkout_label_cardnum: 'カード番号',
+                checkout_label_expiry: '有効期限',
+                checkout_label_cvc: 'セキュリティコード',
+                checkout_label_name: 'カード名義人',
+                checkout_wallet_option_1: 'デジタルウォレットを選択',
+                checkout_wallet_option_2: 'ウォレット A',
+                checkout_wallet_option_3: 'ウォレット B',
+                checkout_wallet_option_4: 'ウォレット C',
+                checkout_submit: '支払いを確定',
+                checkout_secure_note: '汎用の安全決済ゲートウェイにより暗号化 · 世界中の主要カードに対応',
+                checkout_success_title: '支払いが完了しました',
+                checkout_success_desc: 'ご契約が有効になりました。確認メールをお送りします。',
+                checkout_done: '完了',
+                checkout_options_title: '価格オプションを選択',
+                checkout_opt_label: '{n} 年',
+                checkout_opt_label_export: '{n} 回エクスポート',
+                checkout_opt_personal_sub: 'Agent 成果物のエクスポート単位',
+                checkout_opt_team_sub: 'シングルモデル + シングルインスタンス',
+                checkout_opt_enterprise_sub: '最大5インスタンス · 最大3モデル',
+                checkout_addon_pm_name: 'カスタム人月を追加',
+                checkout_addon_pm_sub: 'プライベートデプロイ／マルチクラスタ／システム連携、価格は応相談',
+                checkout_total_label: '合計',
+                checkout_total_note: 'カスタム人月の費用は別途見積り。専属アドバイザーがお支払い前に最終価格を確認します',
+                checkout_total_note_addon: 'カスタム {n} 人月を追加、価格は応相談。専属アドバイザーがお支払い前に最終価格を確認します',
                 protocol_title: 'Protocol',
                 protocol_subtitle: '—— バージョン 1.0 · オープンソースライセンス契約 ——',
                 protocol_intro: 'Phoenix Resonance Protocolは、開発者とエンタープライズに最大の自由度を提供するために設計された革新的でビジネスフレンドリーなオープンソースライセンス契約です。',
@@ -1756,23 +2231,55 @@
                 pricing_title_prefix: '유연한',
                 pricing_title_highlight: '가격 책정 계획',
                 pricing_subtitle: '—— Ragent Studio 상업 라이선스 플랜 ——',
-                price_1_name: '교육용',
-                price_1_price: '무료',
-                price_1_desc: '단일 노드 배포, 로컬 제로 카피 아키텍처, 학습 및 연구에 적합',
+                price_1_name: '무료 버전',
+                price_1_price: '¥0',
+                price_1_desc: '가볍게 시작하기 — 개발·테스트는 전체 기능 제공, Agent 무료 내보내기 3회',
                 price_1_btn: '지금 다운로드',
                 price_2_name: '개인용',
-                price_2_unit: ' 일시불',
-                price_2_desc: '평생 라이선스, 단일 노드, 개인 개발자에게 적합',
-                price_2_btn: 'Toss로 결제',
+                price_2_unit: ' 부터 / 내보내기당',
+                price_2_desc: 'Agent 내보내기 횟수별 과금: ¥19 / ¥79 / ¥259 / ¥499, 많이 구매할수록 단가 인하, 낮은 진입장벽',
+                price_2_btn: '내보내기 패키지 선택',
                 price_3_name: '팀용',
-                price_3_unit: '/월',
-                price_3_desc: '무제한 노드, 기본 클러스터 지원, 소규모 팀에 적합',
-                price_3_btn: 'Toss로 구독',
+                price_3_unit: '/년',
+                price_3_desc: '팀 협업 개발 지원, 단일 모델 + 단일 인스턴스 구독, 소규모 팀·헤비 유저에게 적합',
+                price_3_btn: '팀 플랜 구독',
                 price_4_name: '기업용',
-                price_4_price: '¥300,000/년~',
-                price_4_desc: '프라이빗 배포, 맞춤형 통합 서비스, 무제한 확장 및 전담 지원',
-                price_4_btn: '영업에 문의',
-                pricing_toss_note: 'Toss Payments 안전 결제 지원 · 한국 현지 결제 채널',
+                price_4_unit: '/년',
+                price_4_desc: '고정 가격, 최대 5개 인스턴스 + 최대 3개 모델 연동, 대부분의 기업 팀 요구사항 충족',
+                price_4_btn: '기업용 구매',
+                price_5_name: '기업 맞춤형',
+                price_5_price: '협의',
+                price_5_desc: '프라이빗 배포, 멀티 모델·멀티 클러스터 Agent, 시스템 연동 등 표준판 범위를 넘는 요구사항은 인월 단위로 견적',
+                price_5_btn: '영업에 문의',
+                pricing_toss_note: '신용카드, 체크카드 및 주요 디지털 지갑 지원 · 전 세계 어디서나 안전한 결제',
+                checkout_title: '안전 결제',
+                checkout_method_card: '💳 신용카드 / 체크카드',
+                checkout_method_wallet: '📱 디지털 지갑',
+                checkout_label_email: '이메일 주소',
+                checkout_label_cardnum: '카드 번호',
+                checkout_label_expiry: '유효 기간',
+                checkout_label_cvc: '보안 코드',
+                checkout_label_name: '카드 소유자 이름',
+                checkout_wallet_option_1: '디지털 지갑 선택',
+                checkout_wallet_option_2: '지갑 A',
+                checkout_wallet_option_3: '지갑 B',
+                checkout_wallet_option_4: '지갑 C',
+                checkout_submit: '결제 확인',
+                checkout_secure_note: '범용 보안 결제 게이트웨이로 암호화 · 전 세계 주요 카드 지원',
+                checkout_success_title: '결제 성공',
+                checkout_success_desc: '구독이 활성화되었습니다. 확인 이메일이 곧 발송됩니다.',
+                checkout_done: '완료',
+                checkout_options_title: '가격 옵션 선택',
+                checkout_opt_label: '{n}년',
+                checkout_opt_label_export: '{n}회 내보내기',
+                checkout_opt_personal_sub: 'Agent 결과물 내보내기당',
+                checkout_opt_team_sub: '단일 모델 + 단일 인스턴스',
+                checkout_opt_enterprise_sub: '최대 5개 인스턴스 · 최대 3개 모델',
+                checkout_addon_pm_name: '맞춤형 인월 추가',
+                checkout_addon_pm_sub: '프라이빗 배포 / 멀티 클러스터 / 시스템 연동, 가격 협의',
+                checkout_total_label: '합계',
+                checkout_total_note: '맞춤형 인월 비용은 별도 견적이며, 결제 전 전담 어드바이저가 최종 가격을 확인해 드립니다',
+                checkout_total_note_addon: '맞춤형 {n}인월 추가, 가격 협의 — 결제 전 전담 어드바이저가 최종 가격을 확인해 드립니다',
                 protocol_title: 'Protocol',
                 protocol_subtitle: '—— 버전 1.0 · 오픈소스 라이선스 계약 ——',
                 protocol_intro: 'Phoenix Resonance 프로토콜은 개발자와 기업에 최대한의 자유를 제공하도록 설계된 혁신적이고 비즈니스 친화적인 오픈소스 라이선스 계약입니다.',
@@ -3854,7 +4361,216 @@
         }
 
         // =============================================
-        // 4. 平滑滚动
+        // 4. 结算弹窗（通用支付 UI）
+        // -----------------------------------------------
+        // 说明：以下逻辑仅实现前端交互（打开/关闭弹窗、切换支付方式、
+        // 提交后的加载态与成功态），不包含任何真实支付网关的对接。
+        // 如需接入真实支付服务商，请在 submitPayment() 内标注的
+        // TODO 位置替换为实际的下单/支付确认请求。
+        //
+        // 价格选项配置：团队版 / 企业版 结算时可选择不同订阅时长；
+        // 企业版额外支持"追加定制人月"（私有化部署/多集群/系统对接等
+        // 超出固定套餐范围的需求），人月单价面议，不计入自动合计，
+        // 仅作为报价意向记录，由销售在支付前与客户确认最终金额。
+        // =============================================
+        const PLAN_CONFIGS = {
+            personal: {
+                nameKey: 'price_2_name',
+                subKey: 'checkout_opt_personal_sub',
+                unit: 'export',
+                addon: false,
+                options: [
+                    { n: 1, price: 19 },
+                    { n: 5, price: 79 },
+                    { n: 20, price: 259 },
+                    { n: 50, price: 499 },
+                ],
+            },
+            team: {
+                nameKey: 'price_3_name',
+                subKey: 'checkout_opt_team_sub',
+                unit: 'year',
+                addon: false,
+                options: [
+                    { n: 1, price: 1980 },
+                    { n: 2, price: 3960 },
+                    { n: 3, price: 5940 },
+                ],
+            },
+            enterprise: {
+                nameKey: 'price_4_name',
+                subKey: 'checkout_opt_enterprise_sub',
+                unit: 'year',
+                addon: true,
+                options: [
+                    { n: 1, price: 7800 },
+                    { n: 2, price: 15600 },
+                    { n: 3, price: 23400 },
+                ],
+            },
+        };
+
+        let currentPlanKey = null;
+        let currentOptionIndex = 0;
+        let currentPersonMonths = 0;
+
+        function i18nText(key, fallback) {
+            const data = i18nData[currentLang] || i18nData[fallbackLang];
+            return (data && data[key]) || (i18nData[fallbackLang] && i18nData[fallbackLang][key]) || fallback || '';
+        }
+
+        function formatCny(n) {
+            return '¥' + n.toLocaleString('en-US');
+        }
+
+        function openCheckout(buttonEl, planKey) {
+            const config = PLAN_CONFIGS[planKey];
+            currentPlanKey = planKey;
+            currentOptionIndex = 0;
+            currentPersonMonths = 0;
+
+            const planName = config ? i18nText(config.nameKey, planKey) :
+                (buttonEl.closest('.pricing-card').querySelector('h3') || {}).textContent || '';
+            document.getElementById('checkoutPlanName').textContent = planName;
+
+            const optionsBlock = document.getElementById('checkoutOptions');
+            const addonBlock = document.getElementById('checkoutAddon');
+            document.getElementById('checkoutPmVal').textContent = '0';
+
+            if (config) {
+                optionsBlock.style.display = 'block';
+                document.getElementById('checkoutOptionsTitle').textContent = i18nText('checkout_options_title', '选择价格选项');
+                document.getElementById('checkoutAddonName').textContent = i18nText('checkout_addon_pm_name', '追加定制人月');
+                document.getElementById('checkoutAddonSub').textContent = i18nText('checkout_addon_pm_sub', '私有化部署 / 多集群 / 系统对接，价格面议');
+                document.getElementById('checkoutTotalNote').textContent = i18nText('checkout_total_note', '定制人月费用面议，将由专属顾问在支付前与您确认最终报价');
+                addonBlock.style.display = config.addon ? 'flex' : 'none';
+                renderCheckoutOptions(config, planKey);
+            } else {
+                optionsBlock.style.display = 'none';
+            }
+
+            const successDesc = document.getElementById('checkoutSuccessDesc');
+            successDesc.textContent = i18nText('checkout_success_desc', '');
+
+            // 重置表单到初始状态
+            const form = document.getElementById('checkoutForm');
+            form.classList.remove('processing');
+            form.reset();
+            selectPaymentMethod('card');
+            document.getElementById('checkoutSpinner').style.display = 'none';
+            document.getElementById('checkoutSuccess').style.display = 'none';
+            form.style.display = 'block';
+
+            document.getElementById('checkoutOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function optionLabel(config, n) {
+            const key = config.unit === 'export' ? 'checkout_opt_label_export' : 'checkout_opt_label';
+            const fallback = config.unit === 'export' ? '{n} 次导出' : '{n} 年';
+            return i18nText(key, fallback).replace('{n}', n);
+        }
+
+        function renderCheckoutOptions(config, planKey) {
+            const list = document.getElementById('checkoutOptionsList');
+            list.innerHTML = '';
+            const subText = i18nText(config.subKey, '');
+
+            config.options.forEach((opt, idx) => {
+                const row = document.createElement('label');
+                row.className = 'checkout-option' + (idx === currentOptionIndex ? ' active' : '');
+                row.innerHTML = `
+                    <span class="checkout-option-left">
+                        <input type="radio" name="checkoutOption" ${idx === currentOptionIndex ? 'checked' : ''}>
+                        <span>
+                            <div class="checkout-option-name">${optionLabel(config, opt.n)}</div>
+                            <div class="checkout-option-sub">${subText}</div>
+                        </span>
+                    </span>
+                    <span class="checkout-option-price">${formatCny(opt.price)}</span>
+                `;
+                row.addEventListener('click', () => {
+                    currentOptionIndex = idx;
+                    document.querySelectorAll('#checkoutOptionsList .checkout-option').forEach((el, i) => {
+                        el.classList.toggle('active', i === idx);
+                        const radio = el.querySelector('input[type="radio"]');
+                        if (radio) radio.checked = (i === idx);
+                    });
+                    updateCheckoutSummary();
+                });
+                list.appendChild(row);
+            });
+
+            updateCheckoutSummary();
+        }
+
+        function adjustPersonMonths(delta) {
+            currentPersonMonths = Math.max(0, currentPersonMonths + delta);
+            document.getElementById('checkoutPmVal').textContent = String(currentPersonMonths);
+            updateCheckoutSummary();
+        }
+
+        function updateCheckoutSummary() {
+            const config = PLAN_CONFIGS[currentPlanKey];
+            if (!config) return;
+            const opt = config.options[currentOptionIndex];
+            const label = optionLabel(config, opt.n);
+
+            document.getElementById('checkoutPlanPrice').textContent = formatCny(opt.price);
+            document.getElementById('checkoutPlanCycle').textContent = label;
+            document.getElementById('checkoutTotalValue').textContent = formatCny(opt.price);
+
+            const note = document.getElementById('checkoutTotalNote');
+            if (config.addon && currentPersonMonths > 0) {
+                const addonNote = i18nText('checkout_total_note_addon', '另加定制 {n} 人月，价格面议，将由专属顾问在支付前与您确认最终报价')
+                    .replace('{n}', currentPersonMonths);
+                note.textContent = addonNote;
+            } else {
+                note.textContent = i18nText('checkout_total_note', '定制人月费用面议，将由专属顾问在支付前与您确认最终报价');
+            }
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function selectPaymentMethod(method) {
+            document.querySelectorAll('.checkout-method').forEach(el => {
+                el.classList.toggle('active', el.dataset.method === method);
+            });
+            document.getElementById('checkoutCardFields').style.display = method === 'card' ? 'block' : 'none';
+            document.getElementById('checkoutWalletFields').style.display = method === 'wallet' ? 'block' : 'none';
+        }
+
+        function submitPayment(event) {
+            event.preventDefault();
+
+            const form = document.getElementById('checkoutForm');
+            const spinner = document.getElementById('checkoutSpinner');
+            form.classList.add('processing');
+            spinner.style.display = 'inline-block';
+
+            // TODO: 在此处接入真实支付服务商。
+            // 例如：向后端发起请求创建支付会话，await 其返回结果后
+            // 再决定展示 checkoutSuccess（成功）或错误提示（失败）。
+            // 以下 setTimeout 仅用于模拟网络延迟，便于演示结算流程。
+            setTimeout(() => {
+                form.classList.remove('processing');
+                spinner.style.display = 'none';
+                form.style.display = 'none';
+                document.getElementById('checkoutSuccess').style.display = 'block';
+            }, 1200);
+
+            return false;
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeCheckout();
+        });
+
+        // =============================================
+        // 5. 平滑滚动
         // =============================================
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
@@ -3867,5 +4583,6 @@
         });
         updateLanguage(currentLang);
     </script>
-</body>
-</html>
+
+
+</body></html>
