@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>Phoenix Resonance · 企业级AGI平台</title>
     <link rel="icon" href="./Phoenix Resonance · 企业级AGI平台_files/unnamed.png">
+    <!-- Stripe.js 必须直接从 js.stripe.com 加载（不可自托管/打包），
+         这是 Stripe 的合规要求，也是 Elements 托管 iframe 的基础 -->
+    <script src="https://js.stripe.com/v3/"></script>
 
     <style>
         /* =========================================
@@ -813,7 +816,8 @@
             margin-bottom: 6px;
         }
         .checkout-field input,
-        .checkout-field select {
+        .checkout-field select,
+        .checkout-field .stripe-element {
             width: 100%;
             padding: 11px 12px;
             border: 1.5px solid var(--border-color);
@@ -823,12 +827,31 @@
             color: var(--text-primary);
             background: var(--bg-secondary);
             transition: 0.2s;
+            box-sizing: border-box;
+        }
+        /* Stripe Element 挂载容器：与普通 input 保持完全一致的外观，
+           内部实际渲染的是 Stripe 托管的 iframe（卡号/有效期/CVC 均在 iframe 内，
+           不经过本站 DOM，本站永远拿不到明文卡号/CVC） */
+        .checkout-field .stripe-element {
+            display: block;
         }
         .checkout-field input:focus,
-        .checkout-field select:focus {
+        .checkout-field select:focus,
+        .checkout-field .stripe-element.StripeElement--focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+        .checkout-field .stripe-element.StripeElement--invalid {
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+        }
+        .checkout-field-error {
+            min-height: 16px;
+            font-size: 0.76rem;
+            color: #dc2626;
+            margin-top: 6px;
+            line-height: 1.3;
         }
         .checkout-row { display: flex; gap: 10px; }
         .checkout-row .checkout-field { flex: 1; }
@@ -886,6 +909,22 @@
                 <img src="./Phoenix Resonance · 企业级AGI平台_files/unnamed.png" alt="Logo">
                 <span style="color: #475569;" data-i18n="brand">Phoenix Resonance</span>
             </a>
+
+
+
+
+<!-- =============================================
+     顶部开发测试提示条（卡片风格 · 圆角+悬停光晕 · 高度适配导航栏）
+     ============================================= -->
+<div style="background:var(--bg-card);border:1px solid var(--border-color);text-align:center;padding:4px 14px;font-size:0.68rem;font-weight:400;color:var(--text-secondary);position:relative;z-index:1001;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);margin:4px auto 0;max-width:1200px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:all 0.3s ease;cursor:default;height:30px;overflow:hidden;" 
+     onmouseenter="this.style.borderColor='var(--primary)';this.style.boxShadow='0 4px 20px var(--primary-glow)';this.style.transform='translateY(-1px)'" 
+     onmouseleave="this.style.borderColor='var(--border-color)';this.style.boxShadow='none';this.style.transform='translateY(0)'">
+    <span style="display:inline-flex;align-items:center;justify-content:center;background:var(--primary-glow);color:var(--primary);padding:0 10px;border-radius:10px;font-size:0.6rem;font-weight:700;height:18px;line-height:18px;flex-shrink:0;">⚠ 测试</span>
+    <span data-i18n="dev_notice" style="font-size:0.65rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">本页面仅用于开发和测试，不会产生真实扣款，也不会发送短信或邮件验证码。</span>
+</div>
+
+
+
 
             <nav class="nav-links">
                 <a href="https://www.phoenixresonance.com/#home" data-i18n="nav_home">首页</a>
@@ -1284,16 +1323,19 @@
                         </div>
                         <div class="checkout-field">
                             <label data-i18n="checkout_label_cardnum">卡号</label>
-                            <input type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" required="" maxlength="19">
+                            <div id="stripeCardNumberElement" class="stripe-element"></div>
+                            <div id="stripeCardNumberErrors" class="checkout-field-error" role="alert"></div>
                         </div>
                         <div class="checkout-row">
                             <div class="checkout-field">
                                 <label data-i18n="checkout_label_expiry">有效期</label>
-                                <input type="text" placeholder="MM / YY" required="" maxlength="7">
+                                <div id="stripeCardExpiryElement" class="stripe-element"></div>
+                                <div id="stripeCardExpiryErrors" class="checkout-field-error" role="alert"></div>
                             </div>
                             <div class="checkout-field">
                                 <label data-i18n="checkout_label_cvc">安全码</label>
-                                <input type="text" inputmode="numeric" placeholder="CVC" required="" maxlength="4">
+                                <div id="stripeCardCvcElement" class="stripe-element"></div>
+                                <div id="stripeCardCvcErrors" class="checkout-field-error" role="alert"></div>
                             </div>
                         </div>
                         <div class="checkout-field">
@@ -4373,6 +4415,76 @@
         // 超出固定套餐范围的需求），人月单价面议，不计入自动合计，
         // 仅作为报价意向记录，由销售在支付前与客户确认最终金额。
         // =============================================
+        // -----------------------------------------------
+        // Stripe Elements：卡号 / 有效期 / CVC 挂载
+        // -----------------------------------------------
+        // 说明：三个字段各自是 Stripe 托管的独立 iframe，用户输入的卡号/有效期/CVC
+        // 只会进入 Stripe 的 iframe，永远不会触达本站的 DOM 或 JS，因此本站
+        // 代码里也拿不到明文卡号，天然满足 PCI-DSS SAQ A 的要求。
+        // 当前使用的是 Stripe 官方公开的演示账号测试密钥，仅用于验证前端交互
+        // （Elements 挂载、校验报错、createPaymentMethod 返回结果）。
+        // 正式上线前请换成你自己 Stripe 账户 Dashboard → Developers → API keys
+        // 里的 pk_test_xxx（联调阶段）或 pk_live_xxx（生产环境）。
+        const STRIPE_PUBLISHABLE_KEY = 'pk_test_TYooMQauvdEDq54NiTphI7jx';
+        const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+        const stripeElements = stripe.elements();
+
+        // 样式尽量对齐 .checkout-field input 的视觉效果（字号、颜色、placeholder 颜色），
+        // 由于 Stripe Element 渲染在 iframe 内部，无法用外部 CSS 直接控制内部文字样式，
+        // 必须通过 elements.create 的 style 选项传入。
+        const stripeElementStyle = {
+            base: {
+                fontSize: '14px',
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+                color: '#0f172a',              // 对应 --text-primary
+                '::placeholder': { color: '#94a3b8' },
+                iconColor: '#334155',
+            },
+            invalid: {
+                color: '#dc2626',
+                iconColor: '#dc2626',
+            },
+        };
+
+        const stripeCardNumber = stripeElements.create('cardNumber', { style: stripeElementStyle, showIcon: true });
+        const stripeCardExpiry = stripeElements.create('cardExpiry', { style: stripeElementStyle });
+        const stripeCardCvc = stripeElements.create('cardCvc', { style: stripeElementStyle });
+
+        let stripeElementsMounted = false;
+        function mountStripeElements() {
+            if (stripeElementsMounted) return;
+            stripeCardNumber.mount('#stripeCardNumberElement');
+            stripeCardExpiry.mount('#stripeCardExpiryElement');
+            stripeCardCvc.mount('#stripeCardCvcElement');
+            stripeElementsMounted = true;
+
+            // 让容器 div 复用 Stripe 内建的 focus / invalid class，
+            // 视觉上与普通 input 的 focus / 校验错误态保持一致
+            const bindElementFeedback = (element, mountId, errorId) => {
+                const container = document.getElementById(mountId);
+                element.on('change', (event) => {
+                    container.classList.toggle('StripeElement--invalid', !!event.error);
+                    document.getElementById(errorId).textContent = event.error ? event.error.message : '';
+                });
+                element.on('focus', () => container.classList.add('StripeElement--focus'));
+                element.on('blur', () => container.classList.remove('StripeElement--focus'));
+            };
+            bindElementFeedback(stripeCardNumber, 'stripeCardNumberElement', 'stripeCardNumberErrors');
+            bindElementFeedback(stripeCardExpiry, 'stripeCardExpiryElement', 'stripeCardExpiryErrors');
+            bindElementFeedback(stripeCardCvc, 'stripeCardCvcElement', 'stripeCardCvcErrors');
+        }
+
+        function clearStripeElementErrors() {
+            ['stripeCardNumberErrors', 'stripeCardExpiryErrors', 'stripeCardCvcErrors'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = '';
+            });
+            ['stripeCardNumberElement', 'stripeCardExpiryElement', 'stripeCardCvcElement'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove('StripeElement--invalid');
+            });
+        }
+
         const PLAN_CONFIGS = {
             personal: {
                 nameKey: 'price_2_name',
@@ -4452,10 +4564,19 @@
             const successDesc = document.getElementById('checkoutSuccessDesc');
             successDesc.textContent = i18nText('checkout_success_desc', '');
 
+            // 挂载 Stripe Elements（首次打开弹窗时挂载，之后复用同一实例）
+            mountStripeElements();
+
             // 重置表单到初始状态
             const form = document.getElementById('checkoutForm');
             form.classList.remove('processing');
             form.reset();
+            if (stripeElementsMounted) {
+                stripeCardNumber.clear();
+                stripeCardExpiry.clear();
+                stripeCardCvc.clear();
+            }
+            clearStripeElementErrors();
             selectPaymentMethod('card');
             document.getElementById('checkoutSpinner').style.display = 'none';
             document.getElementById('checkoutSuccess').style.display = 'none';
@@ -4543,18 +4664,57 @@
             document.getElementById('checkoutWalletFields').style.display = method === 'wallet' ? 'block' : 'none';
         }
 
-        function submitPayment(event) {
+        async function submitPayment(event) {
             event.preventDefault();
 
             const form = document.getElementById('checkoutForm');
             const spinner = document.getElementById('checkoutSpinner');
+            const activeMethod = document.querySelector('.checkout-method.active').dataset.method;
+
             form.classList.add('processing');
             spinner.style.display = 'inline-block';
+            clearStripeElementErrors();
 
-            // TODO: 在此处接入真实支付服务商。
-            // 例如：向后端发起请求创建支付会话，await 其返回结果后
-            // 再决定展示 checkoutSuccess（成功）或错误提示（失败）。
-            // 以下 setTimeout 仅用于模拟网络延迟，便于演示结算流程。
+            // 数字钱包分支未接入 Stripe，仍是占位逻辑；此处仅处理信用卡分支。
+            if (activeMethod !== 'card') {
+                // TODO: 接入对应的数字钱包支付方式（如 Stripe 的其他 Payment Method）
+                setTimeout(() => {
+                    form.classList.remove('processing');
+                    spinner.style.display = 'none';
+                    form.style.display = 'none';
+                    document.getElementById('checkoutSuccess').style.display = 'block';
+                }, 1200);
+                return false;
+            }
+
+            const cardholderName = form.querySelector('#checkoutCardFields input[type="text"]:last-of-type').value;
+            const email = form.querySelector('#checkoutCardFields input[type="email"]').value;
+
+            // 关键点：createPaymentMethod 把 cardNumber Element 作为入口，Stripe 会
+            // 自动从同一组 elements() 实例里取出 cardExpiry / cardCvc 一并组装成
+            // 一次性、不可逆的 PaymentMethod。整个过程卡号/CVC 明文只在 Stripe 的
+            // iframe 与 Stripe 服务器之间传输，不经过本站服务器。
+            const { paymentMethod, error } = await stripe.createPaymentMethod({
+                type: 'card',
+                card: stripeCardNumber,
+                billing_details: { name: cardholderName, email: email },
+            });
+
+            if (error) {
+                form.classList.remove('processing');
+                spinner.style.display = 'none';
+                // Stripe 返回的校验/卡组织错误，映射回对应字段下方提示
+                const target = error.code && error.code.includes('cvc') ? 'stripeCardCvcErrors' :
+                    (error.code && error.code.includes('expiry')) ? 'stripeCardExpiryErrors' :
+                    'stripeCardNumberErrors';
+                document.getElementById(target).textContent = error.message;
+                return false;
+            }
+
+            // TODO: 在此处将 paymentMethod.id 发送到你的后端，由后端调用
+            // Stripe 的 PaymentIntents/SetupIntents API 完成实际扣款或订阅创建，
+            // 并处理可能需要的 3D Secure 二次验证（stripe.confirmCardPayment）。
+            // 以下 setTimeout 仅用于模拟后端往返延迟，便于演示结算流程。
             setTimeout(() => {
                 form.classList.remove('processing');
                 spinner.style.display = 'none';
