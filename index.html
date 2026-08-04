@@ -710,6 +710,52 @@
         .checkout-summary-cycle { font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px; }
         .checkout-summary-price { font-size: 1.3rem; font-weight: 800; color: var(--primary); white-space: nowrap; }
 
+        /* 结算币种切换（人民币 / 美元 / 韩元 · 实时汇率换算） */
+        .checkout-currency-row {
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            background: var(--bg-primary);
+            border-top: 1px dashed var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .checkout-currency-left { display: flex; align-items: center; gap: 8px; }
+        .checkout-currency-row label {
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+        .checkout-currency-row select {
+            padding: 6px 10px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            font-family: inherit;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .checkout-currency-row select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+        .checkout-rate-note {
+            font-size: 0.68rem;
+            color: var(--text-secondary);
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .checkout-rate-note.is-live::before { content: "● "; color: #16a34a; }
+        .checkout-rate-note.is-fallback::before { content: "● "; color: #d97706; }
+
         .checkout-options { padding: 18px 24px 4px; border-bottom: 1px solid var(--border-color); }
         .checkout-options-title {
             font-size: 0.78rem;
@@ -1287,6 +1333,18 @@
                     <div class="checkout-summary-price" id="checkoutPlanPrice">—</div>
                 </div>
 
+                <div class="checkout-currency-row">
+                    <div class="checkout-currency-left">
+                        <label for="checkoutCurrency" data-i18n="checkout_currency_label">结算币种</label>
+                        <select id="checkoutCurrency" onchange="changeCurrency(this.value)">
+                            <option value="CNY">¥ CNY</option>
+                            <option value="USD">$ USD</option>
+                            <option value="KRW">₩ KRW</option>
+                        </select>
+                    </div>
+                    <span class="checkout-rate-note" id="checkoutRateNote"></span>
+                </div>
+
                 <div class="checkout-options" id="checkoutOptions" style="display:none;">
                     <div class="checkout-options-title" id="checkoutOptionsTitle" data-i18n="checkout_options_title">选择价格选项</div>
                     <div id="checkoutOptionsList"></div>
@@ -1387,6 +1445,7 @@
         const i18nData = {
             zh: {
                 brand: 'Phoenix Resonance',
+                dev_notice: '本页面仅用于开发和测试，不会产生真实扣款，也不会发送短信或邮件验证码。',
                 nav_home: '首页',
                 nav_features: '特性',
                 nav_products: '产品',
@@ -1499,6 +1558,10 @@
                 price_5_btn: '联系销售',
                 pricing_toss_note: '支持信用卡、借记卡与主流数字钱包 · 全球通用安全结算',
                 checkout_title: '安全结算',
+                checkout_currency_label: '结算币种',
+                checkout_rate_loading: '汇率获取中…',
+                checkout_rate_live: '实时汇率 · {time} 更新',
+                checkout_rate_fallback: '离线参考汇率（无法获取实时行情）',
                 checkout_method_card: '💳 信用卡 / 借记卡',
                 checkout_method_wallet: '📱 数字钱包',
                 checkout_label_email: '邮箱地址',
@@ -1586,6 +1649,7 @@
             },
             'zh-tw': {
                 brand: 'Phoenix Resonance',
+                dev_notice: '本頁面僅用於開發和測試，不會產生真實扣款，也不會發送簡訊或郵件驗證碼。',
                 nav_home: '首頁',
                 nav_features: '特性',
                 nav_products: '產品',
@@ -1698,6 +1762,10 @@
                 price_5_btn: '聯繫銷售',
                 pricing_toss_note: '支持信用卡、簽帳卡與主流數位錢包 · 全球通用安全結算',
                 checkout_title: '安全結算',
+                checkout_currency_label: '結算幣種',
+                checkout_rate_loading: '匯率取得中…',
+                checkout_rate_live: '即時匯率 · {time} 更新',
+                checkout_rate_fallback: '離線參考匯率（無法取得即時行情）',
                 checkout_method_card: '💳 信用卡 / 簽帳卡',
                 checkout_method_wallet: '📱 數位錢包',
                 checkout_label_email: '電子郵件地址',
@@ -1785,6 +1853,7 @@
             },
             en: {
                 brand: 'Phoenix Resonance',
+                dev_notice: 'This page is for development and testing only. No real charges will occur and no SMS or email verification codes will be sent.',
                 nav_home: 'Home',
                 nav_features: 'Features',
                 nav_products: 'Products',
@@ -1897,6 +1966,10 @@
                 price_5_btn: 'Contact Sales',
                 pricing_toss_note: 'Secure checkout via major credit cards, debit cards, and digital wallets · Available worldwide',
                 checkout_title: 'Secure Checkout',
+                checkout_currency_label: 'Currency',
+                checkout_rate_loading: 'Fetching rate…',
+                checkout_rate_live: 'Live rate · updated {time}',
+                checkout_rate_fallback: 'Offline reference rate (live rate unavailable)',
                 checkout_method_card: '💳 Credit / Debit Card',
                 checkout_method_wallet: '📱 Digital Wallet',
                 checkout_label_email: 'Email address',
@@ -1984,6 +2057,7 @@
             },
             ja: {
                 brand: 'Phoenix Resonance',
+                dev_notice: 'このページは開発およびテスト専用です。実際の課金は発生せず、SMSやメールの認証コードも送信されません。',
                 nav_home: 'ホーム',
                 nav_features: '特徴',
                 nav_products: '製品',
@@ -2096,6 +2170,10 @@
                 price_5_btn: '営業に問い合わせる',
                 pricing_toss_note: 'クレジットカード・デビットカード・主要デジタルウォレットに対応 · 世界中で安全に決済',
                 checkout_title: '安全な決済',
+                checkout_currency_label: '決済通貨',
+                checkout_rate_loading: '為替レート取得中…',
+                checkout_rate_live: 'リアルタイムレート · {time} 更新',
+                checkout_rate_fallback: 'オフライン参考レート（リアルタイム取得不可）',
                 checkout_method_card: '💳 クレジット / デビットカード',
                 checkout_method_wallet: '📱 デジタルウォレット',
                 checkout_label_email: 'メールアドレス',
@@ -2183,6 +2261,7 @@
             },
             ko: {
                 brand: 'Phoenix Resonance',
+                dev_notice: '이 페이지는 개발 및 테스트 전용입니다. 실제 결제가 발생하지 않으며 SMS 또는 이메일 인증 코드도 발송되지 않습니다.',
                 nav_home: '홈',
                 nav_features: '특징',
                 nav_products: '제품',
@@ -2295,6 +2374,10 @@
                 price_5_btn: '영업에 문의',
                 pricing_toss_note: '신용카드, 체크카드 및 주요 디지털 지갑 지원 · 전 세계 어디서나 안전한 결제',
                 checkout_title: '안전 결제',
+                checkout_currency_label: '결제 통화',
+                checkout_rate_loading: '환율 불러오는 중…',
+                checkout_rate_live: '실시간 환율 · {time} 업데이트',
+                checkout_rate_fallback: '오프라인 참고 환율(실시간 환율을 가져올 수 없음)',
                 checkout_method_card: '💳 신용카드 / 체크카드',
                 checkout_method_wallet: '📱 디지털 지갑',
                 checkout_label_email: '이메일 주소',
@@ -2382,6 +2465,7 @@
             },
             de: {
                 brand: 'Phoenix Resonance',
+                dev_notice: 'Diese Seite dient nur zu Entwicklungs- und Testzwecken. Es erfolgen keine echten Abbuchungen und es werden keine SMS- oder E-Mail-Verifizierungscodes gesendet.',
                 nav_home: 'Startseite',
                 nav_features: 'Funktionen',
                 nav_products: 'Produkte',
@@ -2543,6 +2627,7 @@
             },
             fr: {
                 brand: 'Phoenix Resonance',
+                dev_notice: 'Cette page est destinée uniquement au développement et aux tests. Aucun paiement réel ne sera effectué et aucun code de vérification par SMS ou e-mail ne sera envoyé.',
                 nav_home: 'Accueil',
                 nav_features: 'Fonctionnalités',
                 nav_products: 'Produits',
@@ -2704,6 +2789,7 @@
             },
             es: {
                 brand: 'Phoenix Resonance',
+                dev_notice: 'Esta página es solo para desarrollo y pruebas. No se realizarán cargos reales ni se enviarán códigos de verificación por SMS o correo electrónico.',
                 nav_home: 'Inicio',
                 nav_features: 'Características',
                 nav_products: 'Productos',
@@ -2865,6 +2951,7 @@
             },
             pt: {
                 brand: 'Phoenix Resonance',
+                dev_notice: 'Esta página é apenas para desenvolvimento e testes. Nenhuma cobrança real será feita e nenhum código de verificação por SMS ou e-mail será enviado.',
                 nav_home: 'Início',
                 nav_features: 'Funcionalidades',
                 nav_products: 'Produtos',
@@ -3026,6 +3113,7 @@
             },
             ru: {
                 brand: 'Phoenix Resonance',
+                dev_notice: 'Эта страница предназначена только для разработки и тестирования. Реальные списания не производятся, SMS- и email-коды подтверждения не отправляются.',
                 nav_home: 'Главная',
                 nav_features: 'Возможности',
                 nav_products: 'Продукты',
@@ -3187,6 +3275,7 @@
             },
             ar: {
                 brand: 'Phoenix Resonance',
+                dev_notice: 'هذه الصفحة مخصصة للتطوير والاختبار فقط. لن يتم إجراء أي رسوم حقيقية ولن يتم إرسال رموز تحقق عبر الرسائل القصيرة أو البريد الإلكتروني.',
                 nav_home: 'الرئيسية',
                 nav_features: 'الميزات',
                 nav_products: 'المنتجات',
@@ -3348,6 +3437,7 @@
             },
             tr: {
                 brand: 'Phoenix Resonance',
+                dev_notice: 'Bu sayfa yalnızca geliştirme ve test amaçlıdır. Gerçek bir ücretlendirme yapılmaz, SMS veya e-posta doğrulama kodu gönderilmez.',
                 nav_home: 'Ana Sayfa',
                 nav_features: 'Özellikler',
                 nav_products: 'Ürünler',
@@ -3509,6 +3599,7 @@
             },
             he: {
                 brand: 'Phoenix Resonance',
+                dev_notice: 'עמוד זה מיועד לפיתוח ובדיקות בלבד. לא יתבצעו חיובים אמיתיים ולא יישלחו קודי אימות ב-SMS או בדוא"ל.',
                 nav_home: 'בית',
                 nav_features: 'תכונות',
                 nav_products: 'מוצרים',
@@ -3670,6 +3761,7 @@
             },
             nl: {
                 brand: 'Phoenix Resonance',
+                dev_notice: 'Deze pagina is uitsluitend bedoeld voor ontwikkeling en testen. Er vinden geen echte afschrijvingen plaats en er worden geen sms- of e-mailverificatiecodes verzonden.',
                 nav_home: 'Home',
                 nav_features: 'Functies',
                 nav_products: 'Producten',
@@ -3831,6 +3923,7 @@
             },
             it: {
                 brand: 'Phoenix Resonance',
+                dev_notice: 'Questa pagina è solo per sviluppo e test. Non verranno effettuati addebiti reali e non verranno inviati codici di verifica via SMS o email.',
                 nav_home: 'Home',
                 nav_features: 'Caratteristiche',
                 nav_products: 'Prodotti',
@@ -3992,6 +4085,7 @@
             },
             vi: {
                 brand: 'Phoenix Resonance',
+                dev_notice: 'Trang này chỉ dùng cho mục đích phát triển và kiểm thử. Sẽ không có khoản phí thực tế nào được tính và không có mã xác minh qua SMS hoặc email nào được gửi.',
                 nav_home: 'Trang chủ',
                 nav_features: 'Tính năng',
                 nav_products: 'Sản phẩm',
@@ -4153,6 +4247,7 @@
             },
             cs: {
                 brand: 'Phoenix Resonance',
+                dev_notice: 'Tato stránka slouží pouze k vývoji a testování. Nebudou prováděny žádné skutečné platby a nebudou odesílány žádné ověřovací kódy SMS ani e-mailem.',
                 nav_home: 'Domů',
                 nav_features: 'Funkce',
                 nav_products: 'Produkty',
@@ -4345,6 +4440,10 @@
             document.querySelectorAll('.lang-item').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
+
+            // 汇率提示文案（"实时汇率 · xx:xx 更新" 等）不是静态 data-i18n 文本，
+            // 是动态拼接的，语言切换后需要单独刷新一次
+            if (typeof updateRateNote === 'function') updateRateNote();
         }
 
         function detectLanguage() {
@@ -4535,6 +4634,129 @@
             return '¥' + n.toLocaleString('en-US');
         }
 
+        // =============================================
+        // 2.5 结算币种：人民币 / 美元 / 韩元 · 实时汇率换算
+        // -----------------------------------------------
+        // 所有套餐价格在配置里始终以人民币（CNY）为基准存储，
+        // 展示时按当前选择的币种 × 实时汇率现算现付，不改动底层数据。
+        // 汇率来自公开、免费、无需 API Key 的 open.er-api.com，
+        // 结果缓存到 localStorage 一小时，避免频繁请求；
+        // 若请求失败（离线/网络受限），自动回退到内置的参考汇率，
+        // 并在界面上明确标注"离线参考汇率"，不会误导为实时行情。
+        // =============================================
+        const CURRENCY_META = {
+            CNY: { symbol: '¥', decimals: 0 },
+            USD: { symbol: '$', decimals: 2 },
+            KRW: { symbol: '₩', decimals: 0 },
+        };
+        // 回退参考汇率（基准 = 1 CNY），仅在实时接口不可用时使用
+        const FALLBACK_RATES = { CNY: 1, USD: 0.148, KRW: 212.5 };
+        const RATES_CACHE_KEY = 'fxRatesCnyBase';
+        const RATES_MAX_AGE_MS = 60 * 60 * 1000; // 1 小时
+
+        let exchangeRates = { ...FALLBACK_RATES };
+        let ratesAreLive = false;
+        let ratesUpdatedAt = null;
+        let currentCurrency = localStorage.getItem('checkoutCurrency') || 'CNY';
+
+        function convertFromCny(cnyAmount) {
+            const rate = exchangeRates[currentCurrency] || 1;
+            return cnyAmount * rate;
+        }
+
+        function formatPrice(cnyAmount) {
+            const meta = CURRENCY_META[currentCurrency] || CURRENCY_META.CNY;
+            const converted = convertFromCny(cnyAmount);
+            return meta.symbol + converted.toLocaleString('en-US', {
+                minimumFractionDigits: meta.decimals,
+                maximumFractionDigits: meta.decimals,
+            });
+        }
+
+        function updateRateNote() {
+            const note = document.getElementById('checkoutRateNote');
+            if (!note) return;
+            note.classList.remove('is-live', 'is-fallback');
+            if (currentCurrency === 'CNY') {
+                // 基准币种，无需换算，不显示汇率提示
+                note.textContent = '';
+                return;
+            }
+            if (!ratesUpdatedAt) {
+                note.textContent = i18nText('checkout_rate_loading', '汇率获取中…');
+                return;
+            }
+            const timeStr = ratesUpdatedAt.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+            if (ratesAreLive) {
+                note.classList.add('is-live');
+                note.textContent = i18nText('checkout_rate_live', '实时汇率 · {time} 更新').replace('{time}', timeStr);
+            } else {
+                note.classList.add('is-fallback');
+                note.textContent = i18nText('checkout_rate_fallback', '离线参考汇率（无法获取实时行情）');
+            }
+        }
+
+        function refreshCheckoutPricesInPlace() {
+            // 币种切换后，若结算弹窗当前是打开状态，重新渲染价格相关的文本
+            if (currentPlanKey) {
+                const config = PLAN_CONFIGS[currentPlanKey];
+                if (config) {
+                    renderCheckoutOptions(config, currentPlanKey); // 内部会再调用 updateCheckoutSummary
+                }
+            }
+            updateRateNote();
+        }
+
+        function changeCurrency(code) {
+            if (!CURRENCY_META[code]) return;
+            currentCurrency = code;
+            localStorage.setItem('checkoutCurrency', code);
+            const select = document.getElementById('checkoutCurrency');
+            if (select) select.value = code;
+            refreshCheckoutPricesInPlace();
+        }
+
+        async function fetchExchangeRates(force) {
+            // 优先使用有效缓存，减少不必要的网络请求
+            if (!force) {
+                try {
+                    const cached = JSON.parse(localStorage.getItem(RATES_CACHE_KEY) || 'null');
+                    if (cached && cached.rates && (Date.now() - cached.fetchedAt) < RATES_MAX_AGE_MS) {
+                        exchangeRates = cached.rates;
+                        ratesAreLive = true;
+                        ratesUpdatedAt = new Date(cached.fetchedAt);
+                        updateRateNote();
+                        return;
+                    }
+                } catch (e) { /* 缓存解析失败则忽略，走网络请求 */ }
+            }
+
+            try {
+                // open.er-api.com：免费、无需 API Key、支持 CORS，以 CNY 为基准返回全币种汇率
+                const resp = await fetch('https://open.er-api.com/v6/latest/CNY');
+                if (!resp.ok) throw new Error('rate api http ' + resp.status);
+                const data = await resp.json();
+                if (data.result !== 'success' || !data.rates || !data.rates.USD || !data.rates.KRW) {
+                    throw new Error('rate api bad payload');
+                }
+                exchangeRates = { CNY: 1, USD: data.rates.USD, KRW: data.rates.KRW };
+                ratesAreLive = true;
+                ratesUpdatedAt = new Date();
+                localStorage.setItem(RATES_CACHE_KEY, JSON.stringify({
+                    rates: exchangeRates,
+                    fetchedAt: ratesUpdatedAt.getTime(),
+                }));
+            } catch (err) {
+                // 实时汇率不可用时，使用内置参考汇率兜底，保证支付流程不中断
+                console.warn('实时汇率获取失败，使用离线参考汇率：', err);
+                exchangeRates = { ...FALLBACK_RATES };
+                ratesAreLive = false;
+                ratesUpdatedAt = new Date();
+            }
+            updateRateNote();
+            refreshCheckoutPricesInPlace();
+        }
+
         function openCheckout(buttonEl, planKey) {
             const config = PLAN_CONFIGS[planKey];
             currentPlanKey = planKey;
@@ -4548,6 +4770,10 @@
             const optionsBlock = document.getElementById('checkoutOptions');
             const addonBlock = document.getElementById('checkoutAddon');
             document.getElementById('checkoutPmVal').textContent = '0';
+
+            const currencySelect = document.getElementById('checkoutCurrency');
+            if (currencySelect) currencySelect.value = currentCurrency;
+            updateRateNote();
 
             if (config) {
                 optionsBlock.style.display = 'block';
@@ -4608,7 +4834,7 @@
                             <div class="checkout-option-sub">${subText}</div>
                         </span>
                     </span>
-                    <span class="checkout-option-price">${formatCny(opt.price)}</span>
+                    <span class="checkout-option-price">${formatPrice(opt.price)}</span>
                 `;
                 row.addEventListener('click', () => {
                     currentOptionIndex = idx;
@@ -4637,9 +4863,9 @@
             const opt = config.options[currentOptionIndex];
             const label = optionLabel(config, opt.n);
 
-            document.getElementById('checkoutPlanPrice').textContent = formatCny(opt.price);
+            document.getElementById('checkoutPlanPrice').textContent = formatPrice(opt.price);
             document.getElementById('checkoutPlanCycle').textContent = label;
-            document.getElementById('checkoutTotalValue').textContent = formatCny(opt.price);
+            document.getElementById('checkoutTotalValue').textContent = formatPrice(opt.price);
 
             const note = document.getElementById('checkoutTotalNote');
             if (config.addon && currentPersonMonths > 0) {
@@ -4728,6 +4954,10 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeCheckout();
         });
+
+        // 页面加载即预取一次实时汇率（有一小时内的有效缓存则直接复用缓存），
+        // 这样用户第一次打开结算弹窗时，币种切换无需等待网络请求。
+        fetchExchangeRates(false);
 
         // =============================================
         // 5. 平滑滚动
