@@ -9,6 +9,9 @@
          这是 Stripe 的合规要求，也是 Elements 托管 iframe 的基础 -->
     <script src="https://js.stripe.com/v3/"></script>
 
+    <!-- Supabase JS SDK：用于用户注册/登录/会话管理，走 CDN 加载 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
     <style>
         /* =========================================
            1. CSS 变量 · 固定橙色主题 (无深色模式)
@@ -944,6 +947,172 @@
 
         .checkout-form.processing .checkout-body,
         .checkout-form.processing .checkout-summary { opacity: 0.5; pointer-events: none; }
+        /* =========================================
+           认证（登录 / 注册）
+           ========================================= */
+        .auth-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .auth-btn:hover { border-color: var(--primary); background: var(--primary-glow); }
+
+        .user-menu { position: relative; display: none; align-items: center; }
+        .user-menu.active { display: flex; }
+        .user-avatar-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 4px 10px 4px 4px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .user-avatar-btn:hover { border-color: var(--primary); }
+        .user-avatar-circle {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            text-transform: uppercase;
+        }
+        .user-email-label {
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            max-width: 110px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 42px;
+            right: 0;
+            min-width: 200px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 10px;
+            z-index: 1100;
+        }
+        .user-dropdown.active { display: block; animation: fadeIn 0.2s ease; }
+        .user-dropdown-email {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            padding: 4px 8px 10px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 6px;
+            word-break: break-all;
+        }
+        .user-dropdown button {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .user-dropdown button:hover { background: var(--primary-glow); color: var(--primary); }
+
+        .auth-tabs { display: flex; gap: 6px; padding: 16px 24px 0; }
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            cursor: pointer;
+            background: var(--bg-primary);
+            transition: 0.2s;
+        }
+        .auth-tab.active { color: #fff; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
+
+        .auth-oauth-group { display: flex; flex-direction: column; gap: 10px; margin: 18px 0 6px; }
+        .auth-oauth-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 11px;
+            border-radius: 8px;
+            border: 1.5px solid var(--border-color);
+            background: var(--bg-secondary);
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .auth-oauth-btn:hover { border-color: var(--primary); background: var(--primary-glow); }
+        .auth-oauth-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 16px 0;
+            color: var(--text-secondary);
+            font-size: 0.74rem;
+        }
+        .auth-divider::before, .auth-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .auth-error {
+            display: none;
+            font-size: 0.8rem;
+            color: #dc2626;
+            background: rgba(220,38,38,0.08);
+            border: 1px solid rgba(220,38,38,0.25);
+            border-radius: 8px;
+            padding: 9px 12px;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .auth-info {
+            display: none;
+            font-size: 0.8rem;
+            color: #16a34a;
+            background: rgba(22,163,74,0.08);
+            border: 1px solid rgba(22,163,74,0.25);
+            border-radius: 8px;
+            padding: 9px 12px;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .auth-forgot { text-align: right; margin: -6px 0 14px; }
+        .auth-forgot a { font-size: 0.76rem; color: var(--primary); cursor: pointer; }
+        .auth-forgot a:hover { text-decoration: underline; }
+
     </style>
 </head>
 <body>
@@ -965,7 +1134,7 @@
 <div style="background:var(--bg-card);border:1px solid var(--border-color);text-align:center;padding:4px 14px;font-size:0.68rem;font-weight:400;color:var(--text-secondary);position:relative;z-index:1001;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius);margin:4px auto 0;max-width:1200px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:all 0.3s ease;cursor:default;height:30px;overflow:hidden;" 
      onmouseenter="this.style.borderColor='var(--primary)';this.style.boxShadow='0 4px 20px var(--primary-glow)';this.style.transform='translateY(-1px)'" 
      onmouseleave="this.style.borderColor='var(--border-color)';this.style.boxShadow='none';this.style.transform='translateY(0)'">
-    <span style="display:inline-flex;align-items:center;justify-content:center;background:var(--primary-glow);color:var(--primary);padding:0 10px;border-radius:10px;font-size:0.6rem;font-weight:700;height:18px;line-height:18px;flex-shrink:0;">⚠ 测试</span>
+    <span data-i18n="dev_badge" style="display:inline-flex;align-items:center;justify-content:center;background:var(--primary-glow);color:var(--primary);padding:0 10px;border-radius:10px;font-size:0.6rem;font-weight:700;height:18px;line-height:18px;flex-shrink:0;">⚠ 测试</span>
     <span data-i18n="dev_notice" style="font-size:0.65rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">本页面仅用于开发和测试，不会产生真实扣款，也不会发送短信或邮件验证码。</span>
 </div>
 
@@ -1006,6 +1175,21 @@
                         </div>
                     </div>
                 </div>
+                                <!-- 未登录：显示登录/注册按钮 -->
+                <button class="auth-btn" id="authTriggerBtn" data-i18n="auth_login_btn" onclick="openAuth('login')">登录 / 注册</button>
+
+                <!-- 已登录：显示用户头像下拉菜单 -->
+                <div class="user-menu" id="userMenu">
+                    <button class="user-avatar-btn" onclick="toggleUserDropdown()">
+                        <span class="user-avatar-circle" id="userAvatarInitial">U</span>
+                        <span class="user-email-label" id="userEmailLabel"></span>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="user-dropdown-email" id="userDropdownEmail"></div>
+                        <button type="button" data-i18n="auth_signout" onclick="handleSignOut()">退出登录</button>
+                    </div>
+                </div>
+
                 <button class="hamburger" id="hamburgerBtn" aria-label="菜单" onclick="toggleMobileNav()">
                     <span></span><span></span><span></span>
                 </button>
@@ -1438,14 +1622,334 @@
         </div>
     </div>
 
-    <script>
+        <!-- =============================================
+         认证弹窗（登录 / 注册）
+         ============================================= -->
+    <div class="checkout-overlay" id="authOverlay" onclick="if(event.target===this) closeAuth()">
+        <div class="checkout-modal" style="max-width:400px;">
+            <div class="checkout-head">
+                <span class="checkout-head-title" id="authHeadTitle">欢迎回来</span>
+                <button type="button" class="checkout-close" aria-label="Close" onclick="closeAuth()">✕</button>
+            </div>
+
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="authTabLogin" data-i18n="auth_tab_login" onclick="switchAuthTab('login')">登录</div>
+                <div class="auth-tab" id="authTabSignup" data-i18n="auth_tab_signup" onclick="switchAuthTab('signup')">注册</div>
+            </div>
+
+            <div class="checkout-body">
+                <div class="auth-error" id="authError"></div>
+                <div class="auth-info" id="authInfo"></div>
+
+                <div class="auth-oauth-group">
+                    <button type="button" class="auth-oauth-btn" onclick="signInWithOAuth('google')">
+                        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.66-.22-2.45H12v4.64h6.47a5.53 5.53 0 0 1-2.4 3.63v3h3.88c2.27-2.09 3.57-5.17 3.57-8.82z"></path><path fill="#34A853" d="M12 24c3.24 0 5.96-1.08 7.95-2.91l-3.88-3c-1.08.72-2.45 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.96H1.27v3.11A12 12 0 0 0 12 24z"></path><path fill="#FBBC05" d="M5.27 14.28A7.2 7.2 0 0 1 4.89 12c0-.79.14-1.56.38-2.28V6.61H1.27A12 12 0 0 0 0 12c0 1.94.46 3.77 1.27 5.39l4-3.11z"></path><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.44-3.44C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.69 1.27 6.61l4 3.11C6.22 6.86 8.87 4.75 12 4.75z"></path></svg>
+                        <span data-i18n="auth_oauth_google">使用 Google 继续</span>
+                    </button>
+                    <button type="button" class="auth-oauth-btn" onclick="signInWithOAuth('github')">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.79 23.4c.6.1.82-.26.82-.58v-2.02c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .3z"></path></svg>
+                        <span data-i18n="auth_oauth_github">使用 GitHub 继续</span>
+                    </button>
+                </div>
+
+                <div class="auth-divider" data-i18n="auth_divider_email">或使用邮箱</div>
+
+                <form id="authForm" onsubmit="return handleAuthSubmit(event)">
+                    <div class="checkout-field" id="authNameField" style="display:none;">
+                        <label data-i18n="auth_label_name">姓名 / 公司名</label>
+                        <input type="text" id="authName" data-i18n-placeholder="auth_placeholder_name" placeholder="张三 / 你的公司">
+                    </div>
+                    <div class="checkout-field">
+                        <label data-i18n="auth_label_email">邮箱地址</label>
+                        <input type="email" id="authEmail" placeholder="you@company.com" required>
+                    </div>
+                    <div class="checkout-field">
+                        <label data-i18n="auth_label_password">密码</label>
+                        <input type="password" id="authPassword" data-i18n-placeholder="auth_placeholder_password" placeholder="至少 6 位" minlength="6" required>
+                    </div>
+                    <div class="auth-forgot" id="authForgotRow">
+                        <a data-i18n="auth_forgot_password" onclick="handleForgotPassword()">忘记密码？</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary checkout-submit">
+                        <span class="checkout-spinner" id="authSpinner"></span>
+                        <span id="authSubmitLabel">登录</span>
+                    </button>
+                </form>
+
+                <p class="checkout-note">
+                    <span>🔒</span>
+                    <span data-i18n="auth_secure_note">你的账户信息通过 Supabase 加密存储</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+<script>
+                // =============================================
+        // 0. Supabase 用户认证（登录 / 注册 / 会话管理）
         // =============================================
+        //
+        // 接入步骤：
+        // 1. 在 https://supabase.com 创建一个项目
+        // 2. 项目后台 → Project Settings → API，复制 "Project URL" 和 "anon public" key，
+        //    替换下面的 SUPABASE_URL / SUPABASE_ANON_KEY
+        // 3. 如需 Google / GitHub 登录：项目后台 → Authentication → Providers，
+        //    分别启用 Google 和 GitHub，并按提示在 Google Cloud Console /
+        //    GitHub OAuth Apps 里配置回调地址（Supabase 会自动生成这个地址给你复制）
+        // 4. Authentication → URL Configuration 里把 Site URL 设置成
+        //    https://www.phoenixresonance.com （否则登录后跳转会失败）
+        // 5. anon public key 是设计给前端公开使用的，不是私密信息，可以放心写在这里；
+        //    真正需要保密的是 "service_role" key —— 那个绝对不能出现在前端代码里
+        const SUPABASE_URL = 'https://etodtnqylcobanenomme.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_0ilGQIHCYNOZ_sds137mnw_xJfMEclQ';
+
+        let supabaseClient = null;
+        let currentAuthMode = 'login'; // 'login' | 'signup'
+
+        function initSupabase() {
+            if (SUPABASE_URL.includes('YOUR-PROJECT-REF')) {
+                // 还没配置真实的 Supabase 项目，先不初始化，避免报错刷屏。
+                // 登录按钮点击时会提示尚未配置。
+                return;
+            }
+            supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            // 监听登录状态变化，自动更新导航栏 UI
+            supabaseClient.auth.onAuthStateChange((event, session) => {
+                renderAuthUI(session);
+            });
+
+            // 首次加载时检查是否已有会话（比如用户之前登录过、刷新页面）
+            supabaseClient.auth.getSession().then(({ data }) => {
+                renderAuthUI(data.session);
+            });
+        }
+
+        // 认证相关文案的多语言取值：优先当前语言，找不到则退回英文，再找不到则退回 key 本身
+        function authText(key) {
+            const lang = (typeof currentLang !== 'undefined' && currentLang) ? currentLang : 'zh';
+            const data = i18nData[lang] || {};
+            if (data[key] !== undefined && data[key] !== null) return data[key];
+            if (i18nData.en && i18nData.en[key] !== undefined) return i18nData.en[key];
+            return key;
+        }
+
+        // 登录/注册弹窗的标题、提交按钮文案会随"当前是登录还是注册模式"变化，
+        // 语言切换时需要按当前模式重新渲染一次（而不是简单套用 data-i18n 静态绑定）
+        function refreshAuthModalText() {
+            const titleEl = document.getElementById('authHeadTitle');
+            const submitEl = document.getElementById('authSubmitLabel');
+            if (!titleEl || !submitEl) return;
+            const isLogin = currentAuthMode === 'login';
+            titleEl.textContent = isLogin ? authText('auth_welcome_back') : authText('auth_create_account');
+            submitEl.textContent = isLogin ? authText('auth_submit_login') : authText('auth_submit_signup');
+        }
+
+        function renderAuthUI(session) {
+            const loginBtn = document.getElementById('authTriggerBtn');
+            const userMenu = document.getElementById('userMenu');
+            if (session && session.user) {
+                const email = session.user.email || '';
+                loginBtn.style.display = 'none';
+                userMenu.classList.add('active');
+                document.getElementById('userEmailLabel').textContent = email.split('@')[0];
+                document.getElementById('userDropdownEmail').textContent = email;
+                document.getElementById('userAvatarInitial').textContent = (email[0] || 'U').toUpperCase();
+            } else {
+                loginBtn.style.display = '';
+                userMenu.classList.remove('active');
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+        }
+
+        function openAuth(mode) {
+            if (SUPABASE_URL.includes('YOUR-PROJECT-REF')) {
+                alert(authText('auth_alert_not_configured'));
+                return;
+            }
+            switchAuthTab(mode || 'login');
+            document.getElementById('authOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAuth() {
+            document.getElementById('authOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+            clearAuthMessages();
+        }
+
+        function switchAuthTab(mode) {
+            currentAuthMode = mode;
+            const isLogin = mode === 'login';
+            document.getElementById('authTabLogin').classList.toggle('active', isLogin);
+            document.getElementById('authTabSignup').classList.toggle('active', !isLogin);
+            refreshAuthModalText();
+            document.getElementById('authNameField').style.display = isLogin ? 'none' : '';
+            document.getElementById('authForgotRow').style.display = isLogin ? '' : 'none';
+            clearAuthMessages();
+        }
+
+        function clearAuthMessages() {
+            const err = document.getElementById('authError');
+            const info = document.getElementById('authInfo');
+            err.style.display = 'none';
+            err.textContent = '';
+            info.style.display = 'none';
+            info.textContent = '';
+        }
+
+        function showAuthError(message) {
+            const err = document.getElementById('authError');
+            err.textContent = message;
+            err.style.display = 'block';
+        }
+
+        function showAuthInfo(message) {
+            const info = document.getElementById('authInfo');
+            info.textContent = message;
+            info.style.display = 'block';
+        }
+
+        async function handleAuthSubmit(e) {
+            e.preventDefault();
+            clearAuthMessages();
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value;
+            const submitBtn = e.target.querySelector('.checkout-submit');
+            const spinner = document.getElementById('authSpinner');
+
+            submitBtn.disabled = true;
+            spinner.style.display = 'inline-block';
+
+            try {
+                if (currentAuthMode === 'signup') {
+                    const name = document.getElementById('authName').value.trim();
+                    const { data, error } = await supabaseClient.auth.signUp({
+                        email,
+                        password,
+                        options: { data: { full_name: name } }
+                    });
+                    if (error) throw error;
+                    if (data.session) {
+                        // 项目关闭了"邮箱确认"，注册即登录
+                        closeAuth();
+                    } else {
+                        // 默认情况：Supabase 会发一封确认邮件，需要用户点击链接后才能登录
+                        showAuthInfo(authText('auth_info_signup_success'));
+                    }
+                } else {
+                    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                    if (error) throw error;
+                    closeAuth();
+                }
+            } catch (err) {
+                showAuthError(translateAuthError(err.message));
+            } finally {
+                submitBtn.disabled = false;
+                spinner.style.display = 'none';
+            }
+        }
+
+        async function signInWithOAuth(provider) {
+            if (!supabaseClient) return;
+            clearAuthMessages();
+            const { error } = await supabaseClient.auth.signInWithOAuth({
+                provider,
+                options: { redirectTo: window.location.origin }
+            });
+            if (error) showAuthError(translateAuthError(error.message));
+            // 成功的话浏览器会跳转到 Google/GitHub 授权页面，无需在这里处理后续逻辑
+        }
+
+        async function handleForgotPassword() {
+            const email = document.getElementById('authEmail').value.trim();
+            if (!email) {
+                showAuthError(authText('auth_err_enter_email_first'));
+                return;
+            }
+            clearAuthMessages();
+            const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin
+            });
+            if (error) {
+                showAuthError(translateAuthError(error.message));
+            } else {
+                showAuthInfo(authText('auth_info_reset_sent'));
+            }
+        }
+
+        function toggleUserDropdown() {
+            document.getElementById('userDropdown').classList.toggle('active');
+        }
+
+        async function handleSignOut() {
+            if (!supabaseClient) return;
+            await supabaseClient.auth.signOut();
+            document.getElementById('userDropdown').classList.remove('active');
+        }
+
+        function translateAuthError(msg) {
+            const map = {
+                'Invalid login credentials': authText('auth_err_invalid_credentials'),
+                'User already registered': authText('auth_err_already_registered'),
+                'Password should be at least 6 characters': authText('auth_err_password_length'),
+                'Email not confirmed': authText('auth_err_email_not_confirmed'),
+                'Unable to validate email address: invalid format': authText('auth_err_invalid_email')
+            };
+            return map[msg] || msg || authText('auth_err_unknown');
+        }
+
+        // 点击页面其他地方时收起用户下拉菜单
+        document.addEventListener('click', function (e) {
+            const menu = document.getElementById('userMenu');
+            if (menu && !menu.contains(e.target)) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeAuth();
+        });
+
+        initSupabase();
+
+// =============================================
         // 1. 多语言数据（完整全量版）
         // =============================================
         const i18nData = {
             zh: {
                 brand: 'Phoenix Resonance',
                 dev_notice: '本页面仅用于开发和测试，不会产生真实扣款，也不会发送短信或邮件验证码。',
+                dev_badge: '⚠ 测试',
+                auth_login_btn: '登录 / 注册',
+                auth_welcome_back: '欢迎回来',
+                auth_create_account: '创建账户',
+                auth_tab_login: '登录',
+                auth_tab_signup: '注册',
+                auth_oauth_google: '使用 Google 继续',
+                auth_oauth_github: '使用 GitHub 继续',
+                auth_divider_email: '或使用邮箱',
+                auth_label_name: '姓名 / 公司名',
+                auth_placeholder_name: '张三 / 你的公司',
+                auth_label_email: '邮箱地址',
+                auth_label_password: '密码',
+                auth_placeholder_password: '至少 6 位',
+                auth_forgot_password: '忘记密码？',
+                auth_submit_login: '登录',
+                auth_submit_signup: '注册',
+                auth_secure_note: '你的账户信息通过 Supabase 加密存储',
+                auth_signout: '退出登录',
+                auth_err_invalid_credentials: '邮箱或密码不正确',
+                auth_err_already_registered: '该邮箱已被注册，请直接登录',
+                auth_err_password_length: '密码至少需要 6 位',
+                auth_err_email_not_confirmed: '邮箱尚未验证，请查收确认邮件',
+                auth_err_invalid_email: '邮箱格式不正确',
+                auth_err_unknown: '出现未知错误，请稍后重试',
+                auth_info_signup_success: '注册成功！请查收邮箱完成验证后再登录。',
+                auth_info_reset_sent: '重置密码邮件已发送，请查收邮箱。',
+                auth_err_enter_email_first: '请先在邮箱地址栏输入你的邮箱，再点击"忘记密码"。',
+                auth_alert_not_configured: '登录/注册功能尚未配置：请先在代码里填入你的 Supabase Project URL 和 anon key。',
                 nav_home: '首页',
                 nav_features: '特性',
                 nav_products: '产品',
@@ -1650,6 +2154,35 @@
             'zh-tw': {
                 brand: 'Phoenix Resonance',
                 dev_notice: '本頁面僅用於開發和測試，不會產生真實扣款，也不會發送簡訊或郵件驗證碼。',
+                dev_badge: '⚠ 測試',
+                auth_login_btn: '登入 / 註冊',
+                auth_welcome_back: '歡迎回來',
+                auth_create_account: '建立帳戶',
+                auth_tab_login: '登入',
+                auth_tab_signup: '註冊',
+                auth_oauth_google: '使用 Google 繼續',
+                auth_oauth_github: '使用 GitHub 繼續',
+                auth_divider_email: '或使用電子郵件',
+                auth_label_name: '姓名 / 公司名稱',
+                auth_placeholder_name: '王小明 / 你的公司',
+                auth_label_email: '電子郵件地址',
+                auth_label_password: '密碼',
+                auth_placeholder_password: '至少 6 位',
+                auth_forgot_password: '忘記密碼？',
+                auth_submit_login: '登入',
+                auth_submit_signup: '註冊',
+                auth_secure_note: '你的帳戶資訊透過 Supabase 加密儲存',
+                auth_signout: '登出',
+                auth_err_invalid_credentials: '電子郵件或密碼不正確',
+                auth_err_already_registered: '此電子郵件已被註冊，請直接登入',
+                auth_err_password_length: '密碼至少需要 6 位',
+                auth_err_email_not_confirmed: '電子郵件尚未驗證，請查收確認郵件',
+                auth_err_invalid_email: '電子郵件格式不正確',
+                auth_err_unknown: '發生未知錯誤，請稍後再試',
+                auth_info_signup_success: '註冊成功！請查收郵件完成驗證後再登入。',
+                auth_info_reset_sent: '重設密碼郵件已寄出，請查收信箱。',
+                auth_err_enter_email_first: '請先在電子郵件欄輸入你的信箱，再點擊「忘記密碼」。',
+                auth_alert_not_configured: '登入/註冊功能尚未設定：請先在程式碼中填入你的 Supabase Project URL 和 anon key。',
                 nav_home: '首頁',
                 nav_features: '特性',
                 nav_products: '產品',
@@ -1854,6 +2387,35 @@
             en: {
                 brand: 'Phoenix Resonance',
                 dev_notice: 'This page is for development and testing only. No real charges will occur and no SMS or email verification codes will be sent.',
+                dev_badge: '⚠ Test',
+                auth_login_btn: 'Log in / Sign up',
+                auth_welcome_back: 'Welcome back',
+                auth_create_account: 'Create account',
+                auth_tab_login: 'Log in',
+                auth_tab_signup: 'Sign up',
+                auth_oauth_google: 'Continue with Google',
+                auth_oauth_github: 'Continue with GitHub',
+                auth_divider_email: 'Or continue with email',
+                auth_label_name: 'Name / Company',
+                auth_placeholder_name: 'Jane Doe / Your Company',
+                auth_label_email: 'Email address',
+                auth_label_password: 'Password',
+                auth_placeholder_password: 'At least 6 characters',
+                auth_forgot_password: 'Forgot password?',
+                auth_submit_login: 'Log in',
+                auth_submit_signup: 'Sign up',
+                auth_secure_note: 'Your account info is encrypted and stored via Supabase',
+                auth_signout: 'Log out',
+                auth_err_invalid_credentials: 'Incorrect email or password',
+                auth_err_already_registered: 'This email is already registered, please log in instead',
+                auth_err_password_length: 'Password must be at least 6 characters',
+                auth_err_email_not_confirmed: 'Email not yet verified, please check your inbox',
+                auth_err_invalid_email: 'Invalid email format',
+                auth_err_unknown: 'An unknown error occurred, please try again',
+                auth_info_signup_success: 'Signup successful! Please check your email to verify your account before logging in.',
+                auth_info_reset_sent: 'Password reset email sent, please check your inbox.',
+                auth_err_enter_email_first: 'Please enter your email address first, then click "Forgot password".',
+                auth_alert_not_configured: 'Login/signup is not configured yet: please fill in your Supabase Project URL and anon key in the code first.',
                 nav_home: 'Home',
                 nav_features: 'Features',
                 nav_products: 'Products',
@@ -2058,6 +2620,35 @@
             ja: {
                 brand: 'Phoenix Resonance',
                 dev_notice: 'このページは開発およびテスト専用です。実際の課金は発生せず、SMSやメールの認証コードも送信されません。',
+                dev_badge: '⚠ テスト',
+                auth_login_btn: 'ログイン / 登録',
+                auth_welcome_back: 'おかえりなさい',
+                auth_create_account: 'アカウントを作成',
+                auth_tab_login: 'ログイン',
+                auth_tab_signup: '登録',
+                auth_oauth_google: 'Google で続ける',
+                auth_oauth_github: 'GitHub で続ける',
+                auth_divider_email: 'またはメールで続ける',
+                auth_label_name: '氏名 / 会社名',
+                auth_placeholder_name: '山田太郎 / 会社名',
+                auth_label_email: 'メールアドレス',
+                auth_label_password: 'パスワード',
+                auth_placeholder_password: '6文字以上',
+                auth_forgot_password: 'パスワードをお忘れですか？',
+                auth_submit_login: 'ログイン',
+                auth_submit_signup: '登録',
+                auth_secure_note: 'アカウント情報は Supabase により暗号化されて保存されます',
+                auth_signout: 'ログアウト',
+                auth_err_invalid_credentials: 'メールアドレスまたはパスワードが正しくありません',
+                auth_err_already_registered: 'このメールアドレスは既に登録されています。ログインしてください',
+                auth_err_password_length: 'パスワードは6文字以上必要です',
+                auth_err_email_not_confirmed: 'メールアドレスが未確認です。確認メールをご確認ください',
+                auth_err_invalid_email: 'メールアドレスの形式が正しくありません',
+                auth_err_unknown: '不明なエラーが発生しました。後でもう一度お試しください',
+                auth_info_signup_success: '登録が完了しました！ログイン前にメールで認証を完了してください。',
+                auth_info_reset_sent: 'パスワードリセットメールを送信しました。メールをご確認ください。',
+                auth_err_enter_email_first: '先にメールアドレス欄にメールアドレスを入力してから「パスワードをお忘れですか？」をクリックしてください。',
+                auth_alert_not_configured: 'ログイン/登録機能はまだ設定されていません。コード内に Supabase の Project URL と anon key を入力してください。',
                 nav_home: 'ホーム',
                 nav_features: '特徴',
                 nav_products: '製品',
@@ -2262,6 +2853,35 @@
             ko: {
                 brand: 'Phoenix Resonance',
                 dev_notice: '이 페이지는 개발 및 테스트 전용입니다. 실제 결제가 발생하지 않으며 SMS 또는 이메일 인증 코드도 발송되지 않습니다.',
+                dev_badge: '⚠ 테스트',
+                auth_login_btn: '로그인 / 회원가입',
+                auth_welcome_back: '다시 오신 것을 환영합니다',
+                auth_create_account: '계정 만들기',
+                auth_tab_login: '로그인',
+                auth_tab_signup: '회원가입',
+                auth_oauth_google: 'Google로 계속하기',
+                auth_oauth_github: 'GitHub로 계속하기',
+                auth_divider_email: '또는 이메일 사용',
+                auth_label_name: '이름 / 회사명',
+                auth_placeholder_name: '홍길동 / 회사명',
+                auth_label_email: '이메일 주소',
+                auth_label_password: '비밀번호',
+                auth_placeholder_password: '6자 이상',
+                auth_forgot_password: '비밀번호를 잊으셨나요?',
+                auth_submit_login: '로그인',
+                auth_submit_signup: '회원가입',
+                auth_secure_note: '계정 정보는 Supabase를 통해 암호화되어 저장됩니다',
+                auth_signout: '로그아웃',
+                auth_err_invalid_credentials: '이메일 또는 비밀번호가 올바르지 않습니다',
+                auth_err_already_registered: '이미 등록된 이메일입니다. 로그인해 주세요',
+                auth_err_password_length: '비밀번호는 최소 6자 이상이어야 합니다',
+                auth_err_email_not_confirmed: '이메일이 아직 확인되지 않았습니다. 확인 메일을 확인해 주세요',
+                auth_err_invalid_email: '이메일 형식이 올바르지 않습니다',
+                auth_err_unknown: '알 수 없는 오류가 발생했습니다. 나중에 다시 시도해 주세요',
+                auth_info_signup_success: '가입이 완료되었습니다! 로그인하기 전에 이메일 인증을 완료해 주세요.',
+                auth_info_reset_sent: '비밀번호 재설정 이메일을 보냈습니다. 받은편지함을 확인해 주세요.',
+                auth_err_enter_email_first: '먼저 이메일 주소를 입력한 후 \'비밀번호를 잊으셨나요?\'를 클릭해 주세요.',
+                auth_alert_not_configured: '로그인/회원가입 기능이 아직 설정되지 않았습니다. 코드에 Supabase Project URL과 anon key를 먼저 입력해 주세요.',
                 nav_home: '홈',
                 nav_features: '특징',
                 nav_products: '제품',
@@ -2466,6 +3086,35 @@
             de: {
                 brand: 'Phoenix Resonance',
                 dev_notice: 'Diese Seite dient nur zu Entwicklungs- und Testzwecken. Es erfolgen keine echten Abbuchungen und es werden keine SMS- oder E-Mail-Verifizierungscodes gesendet.',
+                dev_badge: '⚠ Test',
+                auth_login_btn: 'Anmelden / Registrieren',
+                auth_welcome_back: 'Willkommen zurück',
+                auth_create_account: 'Konto erstellen',
+                auth_tab_login: 'Anmelden',
+                auth_tab_signup: 'Registrieren',
+                auth_oauth_google: 'Mit Google fortfahren',
+                auth_oauth_github: 'Mit GitHub fortfahren',
+                auth_divider_email: 'Oder per E-Mail fortfahren',
+                auth_label_name: 'Name / Firma',
+                auth_placeholder_name: 'Max Mustermann / Firma',
+                auth_label_email: 'E-Mail-Adresse',
+                auth_label_password: 'Passwort',
+                auth_placeholder_password: 'Mindestens 6 Zeichen',
+                auth_forgot_password: 'Passwort vergessen?',
+                auth_submit_login: 'Anmelden',
+                auth_submit_signup: 'Registrieren',
+                auth_secure_note: 'Deine Kontodaten werden über Supabase verschlüsselt gespeichert',
+                auth_signout: 'Abmelden',
+                auth_err_invalid_credentials: 'E-Mail oder Passwort ist falsch',
+                auth_err_already_registered: 'Diese E-Mail ist bereits registriert, bitte melde dich an',
+                auth_err_password_length: 'Passwort muss mindestens 6 Zeichen lang sein',
+                auth_err_email_not_confirmed: 'E-Mail wurde noch nicht bestätigt, bitte prüfe dein Postfach',
+                auth_err_invalid_email: 'Ungültiges E-Mail-Format',
+                auth_err_unknown: 'Ein unbekannter Fehler ist aufgetreten, bitte versuche es später erneut',
+                auth_info_signup_success: 'Registrierung erfolgreich! Bitte bestätige deine E-Mail, bevor du dich anmeldest.',
+                auth_info_reset_sent: 'E-Mail zum Zurücksetzen des Passworts wurde gesendet, bitte prüfe dein Postfach.',
+                auth_err_enter_email_first: 'Bitte gib zuerst deine E-Mail-Adresse ein und klicke dann auf "Passwort vergessen?".',
+                auth_alert_not_configured: 'Anmeldung/Registrierung ist noch nicht konfiguriert: Bitte trage zuerst deine Supabase Project URL und den anon key im Code ein.',
                 nav_home: 'Startseite',
                 nav_features: 'Funktionen',
                 nav_products: 'Produkte',
@@ -2628,6 +3277,35 @@
             fr: {
                 brand: 'Phoenix Resonance',
                 dev_notice: 'Cette page est destinée uniquement au développement et aux tests. Aucun paiement réel ne sera effectué et aucun code de vérification par SMS ou e-mail ne sera envoyé.',
+                dev_badge: '⚠ Test',
+                auth_login_btn: 'Connexion / Inscription',
+                auth_welcome_back: 'Content de vous revoir',
+                auth_create_account: 'Créer un compte',
+                auth_tab_login: 'Connexion',
+                auth_tab_signup: 'Inscription',
+                auth_oauth_google: 'Continuer avec Google',
+                auth_oauth_github: 'Continuer avec GitHub',
+                auth_divider_email: 'Ou avec votre e-mail',
+                auth_label_name: 'Nom / Société',
+                auth_placeholder_name: 'Jean Dupont / Votre société',
+                auth_label_email: 'Adresse e-mail',
+                auth_label_password: 'Mot de passe',
+                auth_placeholder_password: 'Au moins 6 caractères',
+                auth_forgot_password: 'Mot de passe oublié ?',
+                auth_submit_login: 'Connexion',
+                auth_submit_signup: 'Inscription',
+                auth_secure_note: 'Vos informations de compte sont chiffrées et stockées via Supabase',
+                auth_signout: 'Déconnexion',
+                auth_err_invalid_credentials: 'E-mail ou mot de passe incorrect',
+                auth_err_already_registered: 'Cet e-mail est déjà enregistré, veuillez vous connecter',
+                auth_err_password_length: 'Le mot de passe doit contenir au moins 6 caractères',
+                auth_err_email_not_confirmed: 'E-mail non vérifié, veuillez consulter votre boîte de réception',
+                auth_err_invalid_email: 'Format d\'e-mail invalide',
+                auth_err_unknown: 'Une erreur inconnue s\'est produite, veuillez réessayer plus tard',
+                auth_info_signup_success: 'Inscription réussie ! Vérifiez votre e-mail avant de vous connecter.',
+                auth_info_reset_sent: 'E-mail de réinitialisation envoyé, veuillez vérifier votre boîte de réception.',
+                auth_err_enter_email_first: 'Veuillez d\'abord saisir votre e-mail, puis cliquer sur « Mot de passe oublié ? ».',
+                auth_alert_not_configured: 'La connexion/inscription n\'est pas encore configurée : veuillez d\'abord renseigner votre Project URL et votre clé anon Supabase dans le code.',
                 nav_home: 'Accueil',
                 nav_features: 'Fonctionnalités',
                 nav_products: 'Produits',
@@ -2790,6 +3468,35 @@
             es: {
                 brand: 'Phoenix Resonance',
                 dev_notice: 'Esta página es solo para desarrollo y pruebas. No se realizarán cargos reales ni se enviarán códigos de verificación por SMS o correo electrónico.',
+                dev_badge: '⚠ Prueba',
+                auth_login_btn: 'Iniciar sesión / Registrarse',
+                auth_welcome_back: 'Bienvenido de nuevo',
+                auth_create_account: 'Crear cuenta',
+                auth_tab_login: 'Iniciar sesión',
+                auth_tab_signup: 'Registrarse',
+                auth_oauth_google: 'Continuar con Google',
+                auth_oauth_github: 'Continuar con GitHub',
+                auth_divider_email: 'O continuar con el correo',
+                auth_label_name: 'Nombre / Empresa',
+                auth_placeholder_name: 'Juan Pérez / Tu empresa',
+                auth_label_email: 'Correo electrónico',
+                auth_label_password: 'Contraseña',
+                auth_placeholder_password: 'Al menos 6 caracteres',
+                auth_forgot_password: '¿Olvidaste tu contraseña?',
+                auth_submit_login: 'Iniciar sesión',
+                auth_submit_signup: 'Registrarse',
+                auth_secure_note: 'Tu información de cuenta se almacena cifrada a través de Supabase',
+                auth_signout: 'Cerrar sesión',
+                auth_err_invalid_credentials: 'Correo o contraseña incorrectos',
+                auth_err_already_registered: 'Este correo ya está registrado, inicia sesión',
+                auth_err_password_length: 'La contraseña debe tener al menos 6 caracteres',
+                auth_err_email_not_confirmed: 'Correo aún no verificado, revisa tu bandeja de entrada',
+                auth_err_invalid_email: 'Formato de correo inválido',
+                auth_err_unknown: 'Ocurrió un error desconocido, inténtalo de nuevo más tarde',
+                auth_info_signup_success: '¡Registro exitoso! Verifica tu correo antes de iniciar sesión.',
+                auth_info_reset_sent: 'Correo de restablecimiento enviado, revisa tu bandeja de entrada.',
+                auth_err_enter_email_first: 'Ingresa primero tu correo y luego haz clic en "¿Olvidaste tu contraseña?".',
+                auth_alert_not_configured: 'El inicio de sesión/registro aún no está configurado: primero ingresa tu Project URL y anon key de Supabase en el código.',
                 nav_home: 'Inicio',
                 nav_features: 'Características',
                 nav_products: 'Productos',
@@ -2952,6 +3659,35 @@
             pt: {
                 brand: 'Phoenix Resonance',
                 dev_notice: 'Esta página é apenas para desenvolvimento e testes. Nenhuma cobrança real será feita e nenhum código de verificação por SMS ou e-mail será enviado.',
+                dev_badge: '⚠ Teste',
+                auth_login_btn: 'Entrar / Cadastrar-se',
+                auth_welcome_back: 'Bem-vindo de volta',
+                auth_create_account: 'Criar conta',
+                auth_tab_login: 'Entrar',
+                auth_tab_signup: 'Cadastrar-se',
+                auth_oauth_google: 'Continuar com o Google',
+                auth_oauth_github: 'Continuar com o GitHub',
+                auth_divider_email: 'Ou continue com e-mail',
+                auth_label_name: 'Nome / Empresa',
+                auth_placeholder_name: 'João Silva / Sua empresa',
+                auth_label_email: 'Endereço de e-mail',
+                auth_label_password: 'Senha',
+                auth_placeholder_password: 'Pelo menos 6 caracteres',
+                auth_forgot_password: 'Esqueceu a senha?',
+                auth_submit_login: 'Entrar',
+                auth_submit_signup: 'Cadastrar-se',
+                auth_secure_note: 'As informações da sua conta são criptografadas e armazenadas via Supabase',
+                auth_signout: 'Sair',
+                auth_err_invalid_credentials: 'E-mail ou senha incorretos',
+                auth_err_already_registered: 'Este e-mail já está cadastrado, faça login',
+                auth_err_password_length: 'A senha deve ter pelo menos 6 caracteres',
+                auth_err_email_not_confirmed: 'E-mail ainda não confirmado, verifique sua caixa de entrada',
+                auth_err_invalid_email: 'Formato de e-mail inválido',
+                auth_err_unknown: 'Ocorreu um erro desconhecido, tente novamente mais tarde',
+                auth_info_signup_success: 'Cadastro concluído! Verifique seu e-mail antes de fazer login.',
+                auth_info_reset_sent: 'E-mail de redefinição enviado, verifique sua caixa de entrada.',
+                auth_err_enter_email_first: 'Insira seu e-mail primeiro e depois clique em "Esqueceu a senha?".',
+                auth_alert_not_configured: 'O login/cadastro ainda não está configurado: primeiro preencha o Project URL e a anon key do Supabase no código.',
                 nav_home: 'Início',
                 nav_features: 'Funcionalidades',
                 nav_products: 'Produtos',
@@ -3114,6 +3850,35 @@
             ru: {
                 brand: 'Phoenix Resonance',
                 dev_notice: 'Эта страница предназначена только для разработки и тестирования. Реальные списания не производятся, SMS- и email-коды подтверждения не отправляются.',
+                dev_badge: '⚠ Тест',
+                auth_login_btn: 'Войти / Регистрация',
+                auth_welcome_back: 'С возвращением',
+                auth_create_account: 'Создать аккаунт',
+                auth_tab_login: 'Войти',
+                auth_tab_signup: 'Регистрация',
+                auth_oauth_google: 'Продолжить с Google',
+                auth_oauth_github: 'Продолжить с GitHub',
+                auth_divider_email: 'Или через email',
+                auth_label_name: 'Имя / Компания',
+                auth_placeholder_name: 'Иван Иванов / Компания',
+                auth_label_email: 'Адрес электронной почты',
+                auth_label_password: 'Пароль',
+                auth_placeholder_password: 'Не менее 6 символов',
+                auth_forgot_password: 'Забыли пароль?',
+                auth_submit_login: 'Войти',
+                auth_submit_signup: 'Регистрация',
+                auth_secure_note: 'Данные вашей учётной записи шифруются и хранятся через Supabase',
+                auth_signout: 'Выйти',
+                auth_err_invalid_credentials: 'Неверный email или пароль',
+                auth_err_already_registered: 'Этот email уже зарегистрирован, войдите в систему',
+                auth_err_password_length: 'Пароль должен содержать не менее 6 символов',
+                auth_err_email_not_confirmed: 'Email ещё не подтверждён, проверьте почту',
+                auth_err_invalid_email: 'Неверный формат email',
+                auth_err_unknown: 'Произошла неизвестная ошибка, попробуйте позже',
+                auth_info_signup_success: 'Регистрация прошла успешно! Подтвердите email перед входом.',
+                auth_info_reset_sent: 'Письмо для сброса пароля отправлено, проверьте почту.',
+                auth_err_enter_email_first: 'Сначала введите email, затем нажмите «Забыли пароль?».',
+                auth_alert_not_configured: 'Вход/регистрация ещё не настроены: сначала укажите Project URL и anon key Supabase в коде.',
                 nav_home: 'Главная',
                 nav_features: 'Возможности',
                 nav_products: 'Продукты',
@@ -3276,6 +4041,35 @@
             ar: {
                 brand: 'Phoenix Resonance',
                 dev_notice: 'هذه الصفحة مخصصة للتطوير والاختبار فقط. لن يتم إجراء أي رسوم حقيقية ولن يتم إرسال رموز تحقق عبر الرسائل القصيرة أو البريد الإلكتروني.',
+                dev_badge: '⚠ اختبار',
+                auth_login_btn: 'تسجيل الدخول / إنشاء حساب',
+                auth_welcome_back: 'مرحبًا بعودتك',
+                auth_create_account: 'إنشاء حساب',
+                auth_tab_login: 'تسجيل الدخول',
+                auth_tab_signup: 'إنشاء حساب',
+                auth_oauth_google: 'المتابعة باستخدام Google',
+                auth_oauth_github: 'المتابعة باستخدام GitHub',
+                auth_divider_email: 'أو عبر البريد الإلكتروني',
+                auth_label_name: 'الاسم / الشركة',
+                auth_placeholder_name: 'الاسم / اسم الشركة',
+                auth_label_email: 'البريد الإلكتروني',
+                auth_label_password: 'كلمة المرور',
+                auth_placeholder_password: '6 أحرف على الأقل',
+                auth_forgot_password: 'هل نسيت كلمة المرور؟',
+                auth_submit_login: 'تسجيل الدخول',
+                auth_submit_signup: 'إنشاء حساب',
+                auth_secure_note: 'يتم تشفير معلومات حسابك وتخزينها عبر Supabase',
+                auth_signout: 'تسجيل الخروج',
+                auth_err_invalid_credentials: 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
+                auth_err_already_registered: 'هذا البريد الإلكتروني مسجل بالفعل، يرجى تسجيل الدخول',
+                auth_err_password_length: 'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل',
+                auth_err_email_not_confirmed: 'لم يتم التحقق من البريد الإلكتروني بعد، يرجى مراجعة بريدك',
+                auth_err_invalid_email: 'صيغة البريد الإلكتروني غير صحيحة',
+                auth_err_unknown: 'حدث خطأ غير معروف، يرجى المحاولة لاحقًا',
+                auth_info_signup_success: 'تم التسجيل بنجاح! يرجى تأكيد بريدك الإلكتروني قبل تسجيل الدخول.',
+                auth_info_reset_sent: 'تم إرسال بريد إعادة تعيين كلمة المرور، يرجى مراجعة بريدك.',
+                auth_err_enter_email_first: 'يرجى إدخال بريدك الإلكتروني أولاً ثم النقر على "هل نسيت كلمة المرور؟".',
+                auth_alert_not_configured: 'لم يتم إعداد تسجيل الدخول/التسجيل بعد: يرجى إدخال Project URL و anon key الخاصين بـ Supabase في الكود أولاً.',
                 nav_home: 'الرئيسية',
                 nav_features: 'الميزات',
                 nav_products: 'المنتجات',
@@ -3438,6 +4232,35 @@
             tr: {
                 brand: 'Phoenix Resonance',
                 dev_notice: 'Bu sayfa yalnızca geliştirme ve test amaçlıdır. Gerçek bir ücretlendirme yapılmaz, SMS veya e-posta doğrulama kodu gönderilmez.',
+                dev_badge: '⚠ Test',
+                auth_login_btn: 'Giriş Yap / Kayıt Ol',
+                auth_welcome_back: 'Tekrar hoş geldiniz',
+                auth_create_account: 'Hesap oluştur',
+                auth_tab_login: 'Giriş Yap',
+                auth_tab_signup: 'Kayıt Ol',
+                auth_oauth_google: 'Google ile devam et',
+                auth_oauth_github: 'GitHub ile devam et',
+                auth_divider_email: 'Veya e-posta ile',
+                auth_label_name: 'Ad / Şirket',
+                auth_placeholder_name: 'Ad Soyad / Şirketiniz',
+                auth_label_email: 'E-posta adresi',
+                auth_label_password: 'Şifre',
+                auth_placeholder_password: 'En az 6 karakter',
+                auth_forgot_password: 'Şifrenizi mi unuttunuz?',
+                auth_submit_login: 'Giriş Yap',
+                auth_submit_signup: 'Kayıt Ol',
+                auth_secure_note: 'Hesap bilgileriniz Supabase üzerinden şifrelenerek saklanır',
+                auth_signout: 'Çıkış Yap',
+                auth_err_invalid_credentials: 'E-posta veya şifre hatalı',
+                auth_err_already_registered: 'Bu e-posta zaten kayıtlı, lütfen giriş yapın',
+                auth_err_password_length: 'Şifre en az 6 karakter olmalıdır',
+                auth_err_email_not_confirmed: 'E-posta henüz doğrulanmadı, lütfen gelen kutunuzu kontrol edin',
+                auth_err_invalid_email: 'Geçersiz e-posta biçimi',
+                auth_err_unknown: 'Bilinmeyen bir hata oluştu, lütfen daha sonra tekrar deneyin',
+                auth_info_signup_success: 'Kayıt başarılı! Giriş yapmadan önce lütfen e-postanızı doğrulayın.',
+                auth_info_reset_sent: 'Şifre sıfırlama e-postası gönderildi, lütfen gelen kutunuzu kontrol edin.',
+                auth_err_enter_email_first: 'Önce e-posta adresinizi girin, ardından "Şifrenizi mi unuttunuz?" bağlantısına tıklayın.',
+                auth_alert_not_configured: 'Giriş/kayıt henüz yapılandırılmadı: lütfen önce kodda Supabase Project URL ve anon key değerlerini girin.',
                 nav_home: 'Ana Sayfa',
                 nav_features: 'Özellikler',
                 nav_products: 'Ürünler',
@@ -3600,6 +4423,35 @@
             he: {
                 brand: 'Phoenix Resonance',
                 dev_notice: 'עמוד זה מיועד לפיתוח ובדיקות בלבד. לא יתבצעו חיובים אמיתיים ולא יישלחו קודי אימות ב-SMS או בדוא"ל.',
+                dev_badge: '⚠ בדיקה',
+                auth_login_btn: 'התחברות / הרשמה',
+                auth_welcome_back: 'ברוך שובך',
+                auth_create_account: 'יצירת חשבון',
+                auth_tab_login: 'התחברות',
+                auth_tab_signup: 'הרשמה',
+                auth_oauth_google: 'המשך עם Google',
+                auth_oauth_github: 'המשך עם GitHub',
+                auth_divider_email: 'או באמצעות אימייל',
+                auth_label_name: 'שם / חברה',
+                auth_placeholder_name: 'שם מלא / החברה שלך',
+                auth_label_email: 'כתובת אימייל',
+                auth_label_password: 'סיסמה',
+                auth_placeholder_password: 'לפחות 6 תווים',
+                auth_forgot_password: 'שכחת סיסמה?',
+                auth_submit_login: 'התחברות',
+                auth_submit_signup: 'הרשמה',
+                auth_secure_note: 'פרטי החשבון שלך מוצפנים ומאוחסנים דרך Supabase',
+                auth_signout: 'התנתקות',
+                auth_err_invalid_credentials: 'אימייל או סיסמה שגויים',
+                auth_err_already_registered: 'אימייל זה כבר רשום, אנא התחבר',
+                auth_err_password_length: 'הסיסמה חייבת להכיל לפחות 6 תווים',
+                auth_err_email_not_confirmed: 'האימייל טרם אומת, בדוק את תיבת הדואר שלך',
+                auth_err_invalid_email: 'פורמט אימייל שגוי',
+                auth_err_unknown: 'אירעה שגיאה לא ידועה, נסה שוב מאוחר יותר',
+                auth_info_signup_success: 'ההרשמה הצליחה! אמת את האימייל שלך לפני ההתחברות.',
+                auth_info_reset_sent: 'אימייל לאיפוס סיסמה נשלח, בדוק את תיבת הדואר שלך.',
+                auth_err_enter_email_first: 'אנא הזן קודם את כתובת האימייל שלך ואז לחץ על "שכחת סיסמה?".',
+                auth_alert_not_configured: 'ההתחברות/הרשמה עדיין לא הוגדרו: אנא הזן תחילה את ה-Project URL וה-anon key של Supabase בקוד.',
                 nav_home: 'בית',
                 nav_features: 'תכונות',
                 nav_products: 'מוצרים',
@@ -3762,6 +4614,35 @@
             nl: {
                 brand: 'Phoenix Resonance',
                 dev_notice: 'Deze pagina is uitsluitend bedoeld voor ontwikkeling en testen. Er vinden geen echte afschrijvingen plaats en er worden geen sms- of e-mailverificatiecodes verzonden.',
+                dev_badge: '⚠ Test',
+                auth_login_btn: 'Inloggen / Registreren',
+                auth_welcome_back: 'Welkom terug',
+                auth_create_account: 'Account aanmaken',
+                auth_tab_login: 'Inloggen',
+                auth_tab_signup: 'Registreren',
+                auth_oauth_google: 'Doorgaan met Google',
+                auth_oauth_github: 'Doorgaan met GitHub',
+                auth_divider_email: 'Of via e-mail',
+                auth_label_name: 'Naam / Bedrijf',
+                auth_placeholder_name: 'Naam / Uw bedrijf',
+                auth_label_email: 'E-mailadres',
+                auth_label_password: 'Wachtwoord',
+                auth_placeholder_password: 'Minstens 6 tekens',
+                auth_forgot_password: 'Wachtwoord vergeten?',
+                auth_submit_login: 'Inloggen',
+                auth_submit_signup: 'Registreren',
+                auth_secure_note: 'Je accountgegevens worden versleuteld opgeslagen via Supabase',
+                auth_signout: 'Uitloggen',
+                auth_err_invalid_credentials: 'Onjuist e-mailadres of wachtwoord',
+                auth_err_already_registered: 'Dit e-mailadres is al geregistreerd, log in',
+                auth_err_password_length: 'Wachtwoord moet minstens 6 tekens bevatten',
+                auth_err_email_not_confirmed: 'E-mail nog niet geverifieerd, controleer je inbox',
+                auth_err_invalid_email: 'Ongeldig e-mailformaat',
+                auth_err_unknown: 'Er is een onbekende fout opgetreden, probeer het later opnieuw',
+                auth_info_signup_success: 'Registratie geslaagd! Verifieer je e-mail voordat je inlogt.',
+                auth_info_reset_sent: 'E-mail voor wachtwoordherstel verzonden, controleer je inbox.',
+                auth_err_enter_email_first: 'Vul eerst je e-mailadres in en klik dan op "Wachtwoord vergeten?".',
+                auth_alert_not_configured: 'Inloggen/registreren is nog niet geconfigureerd: vul eerst je Supabase Project URL en anon key in de code in.',
                 nav_home: 'Home',
                 nav_features: 'Functies',
                 nav_products: 'Producten',
@@ -3924,6 +4805,35 @@
             it: {
                 brand: 'Phoenix Resonance',
                 dev_notice: 'Questa pagina è solo per sviluppo e test. Non verranno effettuati addebiti reali e non verranno inviati codici di verifica via SMS o email.',
+                dev_badge: '⚠ Test',
+                auth_login_btn: 'Accedi / Registrati',
+                auth_welcome_back: 'Bentornato',
+                auth_create_account: 'Crea account',
+                auth_tab_login: 'Accedi',
+                auth_tab_signup: 'Registrati',
+                auth_oauth_google: 'Continua con Google',
+                auth_oauth_github: 'Continua con GitHub',
+                auth_divider_email: 'Oppure con l\'email',
+                auth_label_name: 'Nome / Azienda',
+                auth_placeholder_name: 'Mario Rossi / La tua azienda',
+                auth_label_email: 'Indirizzo email',
+                auth_label_password: 'Password',
+                auth_placeholder_password: 'Almeno 6 caratteri',
+                auth_forgot_password: 'Password dimenticata?',
+                auth_submit_login: 'Accedi',
+                auth_submit_signup: 'Registrati',
+                auth_secure_note: 'Le informazioni del tuo account sono crittografate e archiviate tramite Supabase',
+                auth_signout: 'Esci',
+                auth_err_invalid_credentials: 'Email o password errati',
+                auth_err_already_registered: 'Questa email è già registrata, effettua il login',
+                auth_err_password_length: 'La password deve contenere almeno 6 caratteri',
+                auth_err_email_not_confirmed: 'Email non ancora verificata, controlla la tua casella di posta',
+                auth_err_invalid_email: 'Formato email non valido',
+                auth_err_unknown: 'Si è verificato un errore sconosciuto, riprova più tardi',
+                auth_info_signup_success: 'Registrazione riuscita! Verifica la tua email prima di accedere.',
+                auth_info_reset_sent: 'Email per il reset della password inviata, controlla la tua casella di posta.',
+                auth_err_enter_email_first: 'Inserisci prima la tua email, poi fai clic su "Password dimenticata?".',
+                auth_alert_not_configured: 'L\'accesso/la registrazione non sono ancora configurati: inserisci prima il Project URL e la anon key di Supabase nel codice.',
                 nav_home: 'Home',
                 nav_features: 'Caratteristiche',
                 nav_products: 'Prodotti',
@@ -4086,6 +4996,35 @@
             vi: {
                 brand: 'Phoenix Resonance',
                 dev_notice: 'Trang này chỉ dùng cho mục đích phát triển và kiểm thử. Sẽ không có khoản phí thực tế nào được tính và không có mã xác minh qua SMS hoặc email nào được gửi.',
+                dev_badge: '⚠ Thử nghiệm',
+                auth_login_btn: 'Đăng nhập / Đăng ký',
+                auth_welcome_back: 'Chào mừng trở lại',
+                auth_create_account: 'Tạo tài khoản',
+                auth_tab_login: 'Đăng nhập',
+                auth_tab_signup: 'Đăng ký',
+                auth_oauth_google: 'Tiếp tục với Google',
+                auth_oauth_github: 'Tiếp tục với GitHub',
+                auth_divider_email: 'Hoặc dùng email',
+                auth_label_name: 'Tên / Công ty',
+                auth_placeholder_name: 'Họ tên / Công ty của bạn',
+                auth_label_email: 'Địa chỉ email',
+                auth_label_password: 'Mật khẩu',
+                auth_placeholder_password: 'Ít nhất 6 ký tự',
+                auth_forgot_password: 'Quên mật khẩu?',
+                auth_submit_login: 'Đăng nhập',
+                auth_submit_signup: 'Đăng ký',
+                auth_secure_note: 'Thông tin tài khoản của bạn được mã hóa và lưu trữ qua Supabase',
+                auth_signout: 'Đăng xuất',
+                auth_err_invalid_credentials: 'Email hoặc mật khẩu không đúng',
+                auth_err_already_registered: 'Email này đã được đăng ký, vui lòng đăng nhập',
+                auth_err_password_length: 'Mật khẩu phải có ít nhất 6 ký tự',
+                auth_err_email_not_confirmed: 'Email chưa được xác minh, vui lòng kiểm tra hộp thư',
+                auth_err_invalid_email: 'Định dạng email không hợp lệ',
+                auth_err_unknown: 'Đã xảy ra lỗi không xác định, vui lòng thử lại sau',
+                auth_info_signup_success: 'Đăng ký thành công! Vui lòng xác minh email trước khi đăng nhập.',
+                auth_info_reset_sent: 'Đã gửi email đặt lại mật khẩu, vui lòng kiểm tra hộp thư.',
+                auth_err_enter_email_first: 'Vui lòng nhập email trước, sau đó nhấp vào "Quên mật khẩu?".',
+                auth_alert_not_configured: 'Chức năng đăng nhập/đăng ký chưa được cấu hình: vui lòng nhập Project URL và anon key Supabase vào mã trước.',
                 nav_home: 'Trang chủ',
                 nav_features: 'Tính năng',
                 nav_products: 'Sản phẩm',
@@ -4248,6 +5187,35 @@
             cs: {
                 brand: 'Phoenix Resonance',
                 dev_notice: 'Tato stránka slouží pouze k vývoji a testování. Nebudou prováděny žádné skutečné platby a nebudou odesílány žádné ověřovací kódy SMS ani e-mailem.',
+                dev_badge: '⚠ Test',
+                auth_login_btn: 'Přihlásit se / Registrovat',
+                auth_welcome_back: 'Vítejte zpět',
+                auth_create_account: 'Vytvořit účet',
+                auth_tab_login: 'Přihlásit se',
+                auth_tab_signup: 'Registrovat',
+                auth_oauth_google: 'Pokračovat s Google',
+                auth_oauth_github: 'Pokračovat s GitHub',
+                auth_divider_email: 'Nebo přes e-mail',
+                auth_label_name: 'Jméno / Společnost',
+                auth_placeholder_name: 'Jméno / Vaše společnost',
+                auth_label_email: 'E-mailová adresa',
+                auth_label_password: 'Heslo',
+                auth_placeholder_password: 'Alespoň 6 znaků',
+                auth_forgot_password: 'Zapomenuté heslo?',
+                auth_submit_login: 'Přihlásit se',
+                auth_submit_signup: 'Registrovat',
+                auth_secure_note: 'Informace o vašem účtu jsou šifrovány a uloženy prostřednictvím Supabase',
+                auth_signout: 'Odhlásit se',
+                auth_err_invalid_credentials: 'Nesprávný e-mail nebo heslo',
+                auth_err_already_registered: 'Tento e-mail je již registrován, přihlaste se prosím',
+                auth_err_password_length: 'Heslo musí mít alespoň 6 znaků',
+                auth_err_email_not_confirmed: 'E-mail ještě nebyl ověřen, zkontrolujte prosím schránku',
+                auth_err_invalid_email: 'Neplatný formát e-mailu',
+                auth_err_unknown: 'Došlo k neznámé chybě, zkuste to prosím později',
+                auth_info_signup_success: 'Registrace úspěšná! Před přihlášením prosím ověřte svůj e-mail.',
+                auth_info_reset_sent: 'E-mail pro obnovení hesla byl odeslán, zkontrolujte prosím schránku.',
+                auth_err_enter_email_first: 'Nejprve zadejte svůj e-mail a poté klikněte na "Zapomenuté heslo?".',
+                auth_alert_not_configured: 'Přihlášení/registrace zatím nejsou nakonfigurovány: nejprve do kódu vyplňte Supabase Project URL a anon key.',
                 nav_home: 'Domů',
                 nav_features: 'Funkce',
                 nav_products: 'Produkty',
@@ -4433,6 +5401,20 @@
                     el.textContent = i18nData[fallbackLang][key];
                 }
             });
+
+            // 处理带 placeholder 的输入框（登录/注册表单等）
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (data[key] !== undefined && data[key] !== null) {
+                    el.setAttribute('placeholder', data[key]);
+                } else if (i18nData[fallbackLang] && i18nData[fallbackLang][key] !== undefined) {
+                    el.setAttribute('placeholder', i18nData[fallbackLang][key]);
+                }
+            });
+
+            // 登录/注册弹窗标题和提交按钮文案会随"登录/注册"状态变化，
+            // 不能简单地用 data-i18n 静态绑定，语言切换时需要重新按当前模式渲染一次
+            if (typeof refreshAuthModalText === 'function') refreshAuthModalText();
 
             const langNames = { zh: '中文', 'zh-tw': '繁體中文', en: 'English', ja: '日本語', ko: '한국어', de: 'Deutsch', fr: 'Français', es: 'Español', pt: 'Português', ru: 'Русский', ar: 'العربية', tr: 'Türkçe', he: 'עברית', nl: 'Nederlands', it: 'Italiano', vi: 'Tiếng Việt', cs: 'Čeština' };
             document.getElementById('current-lang').textContent = langNames[lang] || lang;
