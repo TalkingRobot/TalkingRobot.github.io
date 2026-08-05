@@ -622,6 +622,7 @@
             .card { padding: 20px 16px; }
             .protocol-box { padding: 20px 16px; }
             .lang-btn { padding: 4px 8px; font-size: 12px; }
+            .auth-toggle-option { padding: 6px 10px; font-size: 11.5px; }
             .feature-card-grid {
                 grid-template-columns: 1fr 1fr;
                 gap: 6px;
@@ -950,19 +951,46 @@
         /* =========================================
            认证（登录 / 注册）
            ========================================= */
-        .auth-btn {
+        .auth-toggle {
+            position: relative;
+            display: flex;
+            align-items: center;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 6px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            transition: all 0.2s;
-            white-space: nowrap;
+            border-radius: 999px;
+            padding: 3px;
         }
-        .auth-btn:hover { border-color: var(--primary); background: var(--primary-glow); }
+        .auth-toggle-thumb {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: calc(50% - 3px);
+            height: calc(100% - 6px);
+            background: var(--primary);
+            border-radius: 999px;
+            transition: transform 0.28s cubic-bezier(.4, 0, .2, 1);
+            z-index: 0;
+        }
+        .auth-toggle.mode-signup .auth-toggle-thumb { transform: translateX(100%); }
+        .auth-toggle-option {
+            position: relative;
+            z-index: 1;
+            background: none;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 12.5px;
+            font-weight: 600;
+            font-family: inherit;
+            color: var(--text-secondary);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: color 0.28s;
+        }
+        .auth-toggle.mode-login .auth-toggle-option[data-mode="login"],
+        .auth-toggle.mode-signup .auth-toggle-option[data-mode="signup"] {
+            color: #fff;
+        }
 
         .user-menu { position: relative; display: none; align-items: center; }
         .user-menu.active { display: flex; }
@@ -1175,8 +1203,12 @@
                         </div>
                     </div>
                 </div>
-                                <!-- 未登录：显示登录/注册按钮 -->
-                <button class="auth-btn" id="authTriggerBtn" data-i18n="auth_login_btn" onclick="openAuth('login')">登录 / 注册</button>
+                                <!-- 未登录：显示登录/注册拨动开关 -->
+                <div class="auth-toggle mode-login" id="authTriggerBtn">
+                    <span class="auth-toggle-thumb"></span>
+                    <button type="button" class="auth-toggle-option" data-mode="login" data-i18n="auth_tab_login" onclick="handleAuthToggle('login')">登录</button>
+                    <button type="button" class="auth-toggle-option" data-mode="signup" data-i18n="auth_tab_signup" onclick="handleAuthToggle('signup')">注册</button>
+                </div>
 
                 <!-- 已登录：显示用户头像下拉菜单 -->
                 <div class="user-menu" id="userMenu">
@@ -1763,6 +1795,13 @@
             }
         }
 
+        function handleAuthToggle(mode) {
+            const toggle = document.getElementById('authTriggerBtn');
+            toggle.classList.remove('mode-login', 'mode-signup');
+            toggle.classList.add(mode === 'signup' ? 'mode-signup' : 'mode-login');
+            openAuth(mode);
+        }
+
         function openAuth(mode) {
             if (SUPABASE_URL.includes('YOUR-PROJECT-REF')) {
                 alert(authText('auth_alert_not_configured'));
@@ -1784,6 +1823,11 @@
             const isLogin = mode === 'login';
             document.getElementById('authTabLogin').classList.toggle('active', isLogin);
             document.getElementById('authTabSignup').classList.toggle('active', !isLogin);
+            const toggle = document.getElementById('authTriggerBtn');
+            if (toggle) {
+                toggle.classList.remove('mode-login', 'mode-signup');
+                toggle.classList.add(isLogin ? 'mode-login' : 'mode-signup');
+            }
             refreshAuthModalText();
             document.getElementById('authNameField').style.display = isLogin ? 'none' : '';
             document.getElementById('authForgotRow').style.display = isLogin ? '' : 'none';
